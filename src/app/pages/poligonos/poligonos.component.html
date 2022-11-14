@@ -1,0 +1,22 @@
+<dx-vector-map id="vector-map" [bounds]="[-180, 85, 180, -60]" (onClick)="click($event)">
+    <dxo-tooltip [enabled]="true" [customizeTooltip]="customizeTooltip">
+        <dxo-font color="#fff"></dxo-font>
+        <dxo-border [visible]="false"></dxo-border>
+    </dxo-tooltip>
+    <dxi-layer [dataSource]="worldMap" [customize]="customizeLayers">
+    </dxi-layer>
+</dx-vector-map>
+
+<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" (mapReady)="mapReady($event)" [mapTypeControl]="true" (mapClick)="mapClick($event)" (mapReady)="mapReady($event)">
+    <agm-polygon [strokeColor]="'green'" [strokeWeight]="1" (polyClick)="mouseOver()" [strokeWeight]="1" (polyMouseOver)="window.open()" (polyMouseOut)="window.close()" [strokeWeight]="4" [paths]="polygonPts">
+        <agm-info-window [latitude]="-1.0121831845351679" [longitude]="-69.91356853006579" #window>
+            <div class="card">
+                <div class="card-header">Andres Hola </div>
+            </div>
+        </agm-info-window>
+    </agm-polygon>
+</agm-map>
+
+<agm-map [latitude]="options.lat" [longitude]="options.lng" (mapReady)="onMapReady($event)">
+
+</agm-map>

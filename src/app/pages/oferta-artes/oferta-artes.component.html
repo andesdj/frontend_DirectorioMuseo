@@ -1,0 +1,236 @@
+<ng-template #customLoadingTemplate>
+    <div class="custom-class">
+        <h3>
+            Cargando...
+        </h3>
+
+    </div>
+</ng-template>
+<!-- <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading> -->
+<ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish, primaryColour: primaryColour, backdropBorderRadius: '3px'}" [template]="loadingTemplate"></ngx-loading>
+
+<!-- <button id="toggle-loading-button" (click)="loading = !loading">Toggle loading</button>
+<button id="toggle-colours-button" (click)="toggleColours()">Toggle colours</button>
+<button id="toggle-template-button" (click)="toggleTemplate()">Toggle template</button> -->
+
+<!-- <ng-template #customLoadingTemplate>
+    <div class="custom-class">
+        <h3>
+            Loading...
+        </h3>
+
+    </div>
+</ng-template>
+
+<div class="loading-container">
+    <div class="loading">
+        <h2>threeBounce</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish, primaryColour: primaryColour, backdropBorderRadius: '3px'}" [template]="loadingTemplate"></ngx-loading>
+    </div> -->
+
+
+
+
+<div class="row animated fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Oferta Artes</h4>
+                <div class="form-group row">
+                    <!-- <label class="col-2 col-form-label">Departamento:</label>
+                  <div class="col-2">
+                      <select class="form-control" required name="ZON_ID_DEP" [(ngModel)]="ZON_ID_DEP" (change)="cargarComisiones()">
+                                              <option value="0">-- TODOS --</option>
+                                              <option *ngFor="let item of depLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                          </select>
+                  </div>
+                  <label class="col-2 col-form-label">Municipio</label>
+                  <div class="col-2">
+                      <select class="form-control" required name="MunicipioId" [(ngModel)]="MunicipioId" (change)="cargarComisiones()">
+                          <option value="0">-- TODOS --</option>
+                                                <option *ngFor="let item of munLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                            </select>
+                  </div> -->
+
+                    <div class="col-2">
+                        <label for="exampleFormControlSelect2">Año</label>
+                        <select class="form-control" name="AnoId" [(ngModel)]="AnoId" [value]="181" (change)="cargarOferta()">
+                            
+                            <option value="0">-Seleccione-</option>
+                                   <option value="181">2019</option>
+                                   <option value="180">2018</option>
+                                   <option value="179">2017</option>
+                                   <option value="178">2016</option>
+                                   <option value="177">2015</option>
+                                   <option value="176">2014</option>
+                                   <option value="175">2013</option>
+                                   <option value="174">2012</option>
+                                   <option value="173">2011</option>
+                                   <option value="172">2010</option>
+
+                                  <!-- <option *ngFor="let item of AnosLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option> -->
+                              </select>
+                    </div>
+
+
+                    <div class="col-3">
+                        <label for="exampleFormControlSelect2">Dirección</label>
+                        <select class="form-control" name="DireccionId" [(ngModel)]="DireccionId" (change)="getAreas()">
+                                   <!-- <option value="144">Artes Visuales</option> -->
+                                   
+                                   <option value="0">-Seleccione-</option>
+                                  <option *ngFor="let item of direccionesLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                              </select>
+                    </div>
+
+                    <div class="col-3">
+                        <label for="exampleFormControlSelect2">Área</label>
+                        <select class="form-control" name="AreaId" [(ngModel)]="AreaId" (change)="cargarPrograma()">
+                                       <!-- <option value="144">Artes Visuales</option> -->
+                                       
+                                       <option value="0">TODOS</option>
+                                      <option *ngFor="let item of areasLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                  </select>
+                    </div>
+                    <!-- <label class="col-1 col-form-legend"></label> -->
+                    <div class="col-3">
+                        <label for="exampleFormControlSelect2">Programa</label>
+
+                        <select class="form-control" name="OfertaProgramaId" [(ngModel)]="OfertaProgramaId" (change)="cargarOferta()">
+                                      <option value="0">TODOS</option>
+                                      
+                                      <option *ngFor="let item of programasLista" [ngValue]="item.OfertaProgramaId">{{item.ProgramaNombre}}</option>
+                                  </select>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row">
+                    <div class="col-8">
+                        <!-- <div class="col-3">
+                            <select class="form-control" name="DireccionId" (change)="cargardatosMapa()">
+                                               
+                                               <option value="0">-- SELECCIONE --</option>
+                                               <option value="0">-- TODOS --</option>
+                                              
+                                          </select>
+                        </div> -->
+
+                        <button type="button" matTooltip="Editar" (click)="cargardatosMapa()" class="btn btn-success waves-effect waves-light m-r-10">
+                                Cargar información en Mapa<i class="fa fa-map-marker"></i> 
+                            </button>
+                        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+
+                            <agm-marker-cluster imagePath="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m">
+                                <div *ngFor="let marker of appointmentsMapaData">
+                                    <agm-marker (mouseOver)="window.open()" (mouseOut)="window.close()" [latitude]="marker.Latitud" [longitude]="marker.Longitud">
+                                        <agm-info-window #window>
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    {{marker.AREA}} - {{marker.Componente}} - {{marker.ANO}}
+                                                </div>
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item">Programa: {{marker.ProgramaNombre}}</li>
+                                                    <li class="list-group-item">Beneficiario: {{marker.OfertaProgramaRegionalizadoNombreBeneficiario}}</li>
+                                                    <li class="list-group-item">Inversión: {{marker.ProgramaInversion | currency}}</li>
+                                                    <li class="list-group-item">Cantidad Beneficiarios: {{marker.OfertaProgramaRegionalizadoCantidadBeneficiarios}}</li>
+                                                    <li class="list-group-item">Estado: {{marker.ESTADO_PROGRAMA}}</li>
+                                                    <li class="list-group-item">Zona: {{marker.DEPARTAMENTO}} - {{marker.MUNICIPIO}}</li>
+                                                </ul>
+
+                                            </div>
+                                        </agm-info-window>
+                                    </agm-marker>
+
+                                </div>
+                            </agm-marker-cluster>
+                        </agm-map>
+                    </div>
+                    <div class="col-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong> Área </strong> {{programa.AREA}}
+                            </div>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><strong>Componente: </strong> {{programa.Componente}}</li>
+                                <li class="list-group-item"><strong>Año: </strong>{{programa.ANO}}</li>
+                                <li class="list-group-item"><strong>Nombre Programa: </strong>{{programa.ProgramaNombre}}
+                                </li>
+                                <li class="list-group-item"><strong>Descripción Programa: </strong>
+                                    <textarea class="form-control" rows="3" name="AgenteExperienciaObservaciones">{{programa.ProgramaDescripcion}}</textarea>
+                                </li>
+                                <li class="list-group-item"><strong>Beneficiarios:</strong> {{programa.beneficiariosRegionalizado | number:0}}
+                                </li>
+                                <li class="list-group-item"><strong>Inversión Programa: </strong> {{programa.ProgramaInversion | currency:false:true}}
+                                    <!-- <input name="ProgramaNombre" type="currency" class="form-control" [(ngModel)]="programa.ProgramaInversion"> -->
+                                </li>
+                                <li class="list-group-item"><strong>Inversión Actividades:</strong> {{programa.InversionRegionalizado | currency:false:true}}
+                                </li>
+
+                                <li class="list-group-item"><strong>Cofinanciación Programa: </strong> {{programa.ProgramaCofinanciacion | currency:false:true}}
+                                </li>
+                                <li class="list-group-item"><strong>Cofinanciación Actividades:</strong> {{programa.CofinanciacionRegionalizado | currency:false:true}}
+                                </li>
+
+                                <li class="list-group-item"><strong>Aplazamiento Programa: </strong> {{programa.OfertaProgramaRecursoAplazado | currency:false:true}}
+                                </li>
+                                <li class="list-group-item"><strong>Aplazamiento Actividades:</strong> {{programa.AplazamientoRegionalizado | currency:false:true}}
+                                </li>
+
+
+                                <li class="list-group-item"><strong>Contrapartida Programa: </strong> {{programa.ProgramaContrapartida | currency:false:true}}
+                                </li>
+                                <li class="list-group-item"><strong>Contrapartida Actividades:</strong> {{programa.ContrapartidaRegionalizado | currency:false:true}}
+                                </li>
+                                <li class="list-group-item"><strong>Compromisos: </strong> {{programa.ProgramaCompromisos}}</li>
+                                <li class="list-group-item"><strong>Estado del proceso: </strong> {{programa.EstadoProceso}}</li>
+                                <li class="list-group-item"><strong>Estado de la información: </strong> {{programa.EstadoInformacion}}</li>
+
+
+                            </ul>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-12">
+
+
+                        <dx-pivot-grid id="pivotgrid" [allowSorting]="true" [allowSortingBySummary]="true" [allowFiltering]="true" [showBorders]="true" [showColumnGrandTotals]="true" [showRowGrandTotals]="true" [showRowTotals]="false" [showColumnTotals]="false" [dataSource]="dataSource">
+                            <dxo-header-filter [allowSearch]="true" [showRelevantValues]="true" [width]="300" [height]="400"></dxo-header-filter>
+
+                            <dxo-field-chooser [enabled]="true" [allowSearch]="true" [height]="400"></dxo-field-chooser>
+                            <dxo-scrolling mode="virtual"></dxo-scrolling>
+                            <dxo-field-panel [showDataFields]="false" [showRowFields]="true" [showColumnFields]="true" [showFilterFields]="true" [allowFieldDragging]="true" [visible]="true">
+                            </dxo-field-panel>
+                            <dxo-export [enabled]="true" fileName="OfertaArtes"></dxo-export>
+
+                        </dx-pivot-grid>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-12">
+                        <dx-chart id="sales-chart">
+                            <dxo-common-series-settings type="bar"></dxo-common-series-settings>
+                            <dxo-size [height]="200"></dxo-size>
+                            <dxo-adaptive-layout [width]="450"></dxo-adaptive-layout>
+                            <dxo-tooltip [enabled]="true" format="currency" [customizeTooltip]="customizeTooltip"></dxo-tooltip>
+                        </dx-chart>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>

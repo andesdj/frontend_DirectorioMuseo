@@ -1,0 +1,253 @@
+<ng-template #customLoadingTemplate>
+    <div class="custom-class">
+        <h3>
+            Cargando...
+        </h3>
+
+    </div>
+</ng-template>
+
+<!-- <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading> -->
+<ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish, primaryColour: primaryColour, backdropBorderRadius: '3px'}" [template]="loadingTemplate"></ngx-loading>
+
+<div class="fondo-negro animated fadeIn" [ngClass]="ocultoContrasena">
+    <div class="modal" style="display: block;" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content login-box center-block">
+                <div class="modal-header">
+                    <h5 class="textareah1 modal-title">RECUPERAR CONTRASEÑA</h5>
+                    <button (click)="ocultoContrasena='oculto'" type="button" class="close" aria-label="Close">
+                        
+              <span aria-hidden="true">&times;</span>
+            </button>
+                </div>
+                <div class=" addScroll">
+                    <div class="modal-body">
+                        <form ngNativeValidate #r="ngForm" class="form-horizontal form-material" (ngSubmit)="recuperar(r)">
+
+                            <div class="form-group m-t-20">
+
+                                <p class="text-white">
+                                    Ingrese el correo electronico registrado para recuperar la contraseña
+                                </p>
+                                <input ngModel name="emailParaRecuperar" type="email" class="form-control" placeholder="" required>
+
+
+
+                            </div>
+
+                            <div class="form-group text-center m-t-20">
+
+                                <div class="col-xs-3">
+                                    <button style="width: 200px;" class="btn btn-custom-primary">
+                                <i class="fa fa-arrow-circle-o-right"></i> Recuperar</button> <br>
+                                    <a (click)="ayudaRecuperarClave()" class="text-white"><b>
+                                        <i class="fa fa-info-circle"></i>
+                                        Ayuda</b></a>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="ocultoContrasena='oculto'">Cerrar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<body class="login">
+    <div class="wrapper full-page-wrapper page-auth ">
+        <div class="inner-page">
+            <div class="login-box center-block ">
+                <div class="logo">
+                    <a routerLink='/home'><img src="../assets/images/sia_logo.png" alt="" /></a>
+                </div>
+
+                <form ngNativeValidate #f="ngForm" class="form-horizontal form-material" (ngSubmit)="ingresar(f)">
+                    <div class="form-group">
+                        <input [ngModel]="email" type="email" name="email" class="form-control" placeholder="Correo del Usuario" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <input ngModel name="password" class="form-control" type="password" required placeholder="Contraseña">
+                    </div>
+                    <div class="col-md-6" style="float: right;">
+                        <!-- <a href="index.html">
+
+                            <button class="btn btn-custom-primary  btn-block btn-auth">
+                                                    <i class="fa fa-arrow-circle-o-right"></i> Ingresar</button>
+                        </a> -->
+                        <button class="btn btn-custom-primary  btn-block btn-auth" type="submit"><i class="fa fa-arrow-circle-o-right"></i>Iniciar sesión</button>
+                        <a (click)="ayudaIngreso()" class="text-primary m-l-5"><b><i class="fa fa-info-circle"></i>Ayuda</b></a>
+                    </div>
+                    <div class="links">
+                        <!-- <p><a href="#" style="display: inline;">Olvide mi contraseña</a></p> -->
+                        <!-- <label class="fancy-checkbox">
+                                                    <input type="checkbox">
+                                                    <span style="color: #F8F8F7; font-size: 12px;">Recordarme</span>
+                                                </label> -->
+                        <div class="checkbox checkbox-primary pull-left p-t-0">
+                            <input [(ngModel)]="recuerdame" name="recuerdame" id="checkbox-signup" type="checkbox" class="filled-in chk-col-light-blue">
+                            <label for="checkbox-signup"> Recuerdeme </label>
+                        </div>
+                        <br>
+                        <!-- <label class="fancy-checkbox" style="margin-right: 0px;">
+                                                    <input type="checkbox">
+                                                    <span style="color: #F8F8F7; font-size: 12px;">Acepto terminos y condiciones</span>
+                                                </label> -->
+
+                        <input [(ngModel)]="condiciones" name="condiciones" id="checkbox-signup-condiciones" type="checkbox">
+                        <label for="checkbox-signup-condiciones"> Acepto los <a style="color: #F8F8F7; font-size: 12px;" (click)="mostrarModal()">Terminos</a></label>
+                    </div>
+                    <div class="form-group m-b-0">
+                        <div class="col-sm-12 text-left"> No tienes una cuenta ?<a routerLink='/register' class="text-primary m-l-5"><b>Regístrate</b></a>
+
+
+                        </div>
+                        <div class="col-sm-12 text-left">
+                            Olvide mi <a (click)="ocultoContrasena = ''" class="text-primary m-l-5"><b>contraseña</b></a>
+
+
+                        </div>
+                    </div>
+
+                    <!-- produccion -->
+                    <!-- <re-captcha (resolved)="resolved($event)" formControlName="recaptchaReactive" siteKey="6Lfabc0SAAAAAPbPEdBQYyXC20nkX1F7SDu2tFgy">
+                    </re-captcha> -->
+
+                    <!-- local -->
+                    <!-- <re-captcha (resolved)="resolved($event)" formControlName="recaptchaReactive" siteKey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI">
+                    </re-captcha> -->
+
+                    <!-- Site key: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
+                        Secret key: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe -->
+                    <br>
+                    <div class="form-group m-b-0">
+                        <div class="col-sm-12 text-center">
+                            <img src="../assets/images/logo_gov.jpg" class="img-fluid">
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <footer>
+        <div class="row" style="padding-bottom: 0px;">
+
+            <div class="col-md-4 col-sm-4 col-lg-4"></div>
+
+            <div class="col-md-4 col-lg-4 col-sm-none  logo_mincultura">
+
+
+
+            </div>
+
+        </div>
+    </footer>
+
+
+</body>
+
+
+
+
+<!-- ============================================================== -->
+<!-- Main wrapper - style you can find in pages.scss -->
+<!-- ============================================================== -->
+<!-- <section id="wrapper" class="login-register login-sidebar" style="background-image:url(../assets/images/background/login-register.jpg);">
+    <div class="login-box card">
+        <div class="card-body">
+
+            <form ngNativeValidate #f="ngForm" class="form-horizontal form-material" (ngSubmit)="ingresar(f)">
+                <a href="javascript:void(0)" class="text-center db"><img src="../assets/images/logo-icon.png" alt="Home" /><br/><img src="../assets/images/logo-text.png" alt="Home" /></a>
+                <div class="form-group m-t-40">
+                    <div class="col-xs-12">
+                        <input [ngModel]="email" name="email" class="form-control" type="email" required placeholder="Correo del Usuario">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input ngModel name="password" class="form-control" type="password" required placeholder="Contraseña">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <div class="checkbox checkbox-primary pull-left p-t-0">
+                            <input [(ngModel)]="recuerdame" name="recuerdame" id="checkbox-signup" type="checkbox" class="filled-in chk-col-light-blue">
+                            <label for="checkbox-signup"> Recuerdeme </label>
+                        </div>
+                        <a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i> Olvide contraseña?</a> </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <div class="checkbox checkbox-primary p-t-0">
+                            <input [(ngModel)]="condiciones" name="condiciones" id="checkbox-signup-condiciones" type="checkbox">
+                            <label for="checkbox-signup-condiciones"> Acepto todos los <a (click)="mostrarModal()">Terminos</a></label>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group text-center m-t-20">
+                    <div class="col-xs-12">
+                        <button class="btn btn-info btn-lg btn-block text-uppercase btn-rounded" type="submit">Iniciar sesión</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
+                        <div class="social">
+                            
+                            <button type="button" id="btnGoogle" class="btn btn-googleplus" data-toggle="tooltip" title="Iniciar sesión con Google"> <i aria-hidden="true" class="fa fa-google-plus"></i> </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group m-b-0">
+                    <div class="col-sm-12 text-center">
+                        No tienes una cuenta? <a routerLink='/register' class="text-primary m-l-5"><b>Regístrate</b></a>
+                    </div>
+                </div>
+            </form>
+            <form class="form-horizontal" id="recoverform" action="index.html">
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        <h3>Recover Password</h3>
+                        <p class="text-muted">Ingrese su correo electrónico y las instrucciones serán enviadas a usted! </p>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        <input class="form-control" type="text" required="" placeholder="Correo Electrónico">
+                    </div>
+                </div>
+                <div class="form-group text-center m-t-20">
+                    <div class="col-xs-12">
+                        <button class="btn btn-primary btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Resetear</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</section> -->
+<!-- ============================================================== -->
+<!-- End Wrapper -->
+<!-- ============================================================== -->

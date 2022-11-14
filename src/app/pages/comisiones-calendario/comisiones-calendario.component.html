@@ -1,0 +1,102 @@
+<h4 class="card-title">Sabana Formación</h4>
+<div class="form-group row">
+    <label class="col-2 col-form-label">* Departamento:</label>
+    <div class="col-2">
+        <select class="form-control" required name="ZON_ID_DEP" [(ngModel)]="ZON_ID_DEP" (change)="cargarComisiones()">
+                                  <option value="0">-- TODOS --</option>
+                                  <option *ngFor="let item of depLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                              </select>
+    </div>
+
+    <label class="col-2 col-form-label">Municipio</label>
+    <div class="col-2">
+        <select class="form-control" required name="MunicipioId" [(ngModel)]="MunicipioId" (change)="cargarComisiones()">
+                            <option value="0">-- TODOS --</option>
+                                                  <option *ngFor="let item of munLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                              </select>
+    </div>
+    <label class="col-2 col-form-label">Area</label>
+    <div class="col-2">
+        <select class="form-control" required name="AreaId" [(ngModel)]="AreaId" (change)="cargarComisiones()">
+                          <option value="0">-- TODOS --</option>
+                          <option *ngFor="let item of areasLista" [ngValue]="item.DependenciaId">{{item.DependenciaNombre}}</option>
+                      </select>
+    </div>
+</div>
+
+<dx-scheduler [dataSource]="appointmentsData" [views]='["day", "week", "workWeek", "month"]' currentView="month" [currentDate]="currentDate" [startDayHour]="9" [height]="1200">
+    <dxi-resource fieldExpr="idDependencia" label="Dependencia" [dataSource]="resources"></dxi-resource>
+</dx-scheduler>
+
+<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+
+    <agm-marker-cluster imagePath="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m">
+        <div *ngFor="let marker of appointmentsData">
+            <!-- value="{{list.PublicoDirigidoId}}" -->
+
+
+            <agm-marker (mouseOver)="window.open()" (mouseOut)="window.close()" [latitude]="marker.Latitud" [longitude]="marker.Longitud">
+                <agm-info-window #window>
+                    <h5>Descripcion: {{marker.text}}</h5>
+                    <h6>{{marker.description}}</h6>
+                    <h6>{{marker.startDate}} - {{marker.endDate}}</h6>
+                    <!-- <h6>Latitude: {{marker.Descripcion}}</h6> -->
+                </agm-info-window>
+            </agm-marker>
+
+        </div>
+    </agm-marker-cluster>
+
+    <agm-polyline [polylineDraggable]="true" geodesic=true strokeColor='#FF0000'>
+        <agm-icon-sequence [fixedRotation]="true" [path]="'CIRCLE'" strokeColor='#00F'>
+        </agm-icon-sequence>
+        <agm-polyline-point [latitude]="5.61010977610329" [longitude]="-74.886816625">
+
+        </agm-polyline-point>
+
+        <agm-polyline-point [latitude]="6.15581872915" [longitude]="-75.7868378278">
+
+        </agm-polyline-point>
+    </agm-polyline>
+</agm-map>
+
+<!-- <dx-scheduler id="scheduler" [dataSource]="data" [views]="['day', 'week', 'timelineDay']" currentView="day" [firstDayOfWeek]="0" [startDayHour]="9" [endDayHour]="23" [showAllDayPanel]="false" [groups]="['theatreId']" [currentDate]="currentDate2" [crossScrollingEnabled]="true"
+    [cellDuration]="20" [height]="600" appointmentTemplate="appointment-template" appointmentTooltipTemplate="tooltip-template" (onAppointmentFormOpening)="onAppointmentFormOpening($event)">
+
+    <dxo-editing [allowAdding]="false"></dxo-editing>
+
+    <dxi-resource fieldExpr="movieId" [useColorAsDefault]="true" [dataSource]="moviesData">
+    </dxi-resource>
+
+    <dxi-resource fieldExpr="theatreId" [dataSource]="theatreData">
+    </dxi-resource>
+
+    <div *dxTemplate="let showtime of 'appointment-template'">
+        <div class='showtime-preview'>
+            <div>{{getMovieById(showtime.movieId).text}}</div>
+            <div>Ticket Price:
+                <strong>{{'$' + showtime.price}}</strong>
+            </div>
+            <div class='dropdown-appointment-dates'>
+                {{(showtime.startDate | date:'shortTime') + ' - ' + (showtime.endDate | date:'shortTime')}}
+            </div>
+        </div>
+    </div>
+
+    <div *dxTemplate="let showtime of 'tooltip-template'">
+        <div class='movie-tooltip'>
+            <img [src]="getMovieById(showtime.movieId).image" />
+            <div class='movie-info'>
+                <div class='movie-title'>
+                    {{getMovieById(showtime.movieId).text + ' (' + getMovieById(showtime.movieId).year + ')'}}
+                </div>
+                <div>
+                    {{'Director: ' + getMovieById(showtime.movieId).director}}
+                </div>
+                <div>
+                    {{'Duration: ' + getMovieById(showtime.movieId).duration + ' minutes'}}
+                </div>
+            </div>
+        </div>
+    </div>
+</dx-scheduler> -->

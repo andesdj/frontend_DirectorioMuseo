@@ -1,0 +1,294 @@
+<div class="col-2">
+    <label for="exampleFormControlSelect2">Año</label>
+    <select class="form-control" name="AnoId" [(ngModel)]="AnoId" [value]="183" (change)="getAllOfertaPrograma()">
+        
+               <option value="183">2021</option>
+               <option value="182">2020</option>
+               <option value="181">2019</option>
+               <option value="180">2018</option>
+               <option value="179">2017</option>
+               <option value="178">2016</option>
+               <option value="177">2015</option>
+               <option value="176">2014</option>
+               <option value="175">2013</option>
+               <option value="174">2012</option>
+               <option value="173">2011</option>
+               <option value="172">2010</option>
+
+              <!-- <option *ngFor="let item of AnosLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option> -->
+          </select>
+</div>
+<div class="row animated fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <dx-data-grid id="gridProgramas" (onRowUpdated)="actualizar($event)" (onRowInserted)="agregar($event)" (onRowRemoved)="borrar($event)" [allowColumnReordering]="true" [allowColumnResizing]="true" [dataSource]="programa" showBorders="true" [rowAlternationEnabled]="true"
+                    [columnAutoWidth]="true" keyExpr="OfertaProgramaId">
+                    <dxo-export [enabled]="true" fileName="Programas Registrados en el Sistema"></dxo-export>
+                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                    <dxo-header-filter [visible]="true"></dxo-header-filter>
+                    <dxo-grouping [contextMenuEnabled]="true" expandMode="rowClick"></dxo-grouping>
+                    <dxo-group-panel [visible]="true" emptyPanelText="Use el contexto de menu de los encabezados de columnas para agrupar datos"></dxo-group-panel>
+                    <dxo-search-panel [visible]="true" [width]="240" placeholder="Buscar..."></dxo-search-panel>
+                    <dxo-remote-operations [sorting]="true" [paging]="true">
+                    </dxo-remote-operations>
+                    <dxo-editing mode="batch" [allowUpdating]="true" [allowAdding]="true" [allowDeleting]="true" [selectTextOnEditStart]="selectTextOnEditStart" [startEditAction]="startEditAction">
+                    </dxo-editing>
+                    <!-- <dxo-state-storing [enabled]="true" type="localStorageAgentes" storageKey="storage"></dxo-state-storing> -->
+                    <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+                    <dxi-column caption="Acciones" cellTemplate="accionCellTemplate" alignment="center"></dxi-column>
+                    <div *dxTemplate="let d of 'accionCellTemplate'">
+
+                        <div class="internal-grid-container">
+                            <div>
+                                <button type="button" matTooltip="Consultar Regionalización" (click)="CargarRegionalizacionPrograma(d.data.OfertaProgramaId)" class="btn btn-success waves-effect waves-light m-r-10">
+                                        <i class="fa fa-edit"></i>
+                                </button>
+                                <br>
+                                <button type="button" matTooltip="Cargar Archivo Regionalización" (click)="CargarArchivoRegionalizacionPrograma(d.data.OfertaProgramaId)" class="btn btn-warning waves-effect waves-light m-r-10">
+                                    <i class="fa fa-upload"></i>
+                            </button>
+                                <br>
+                                <button type="button" matTooltip="Eliminar Regionalización" (click)="borrarRegionalizacionPorOfertaProgramaId(d.data.OfertaProgramaId)" class="btn btn-danger waves-effect waves-light m-r-10">
+                                    <i class="fa fa-trash"></i>
+                            </button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <dxi-column dataField="OfertaProgramaId" caption="Id">
+                    </dxi-column>
+                    <dxi-column dataField="ProgramaNombre" caption="Programa" [width]="170">
+                    </dxi-column>
+                    <!-- <div *dxTemplate="let d of 'cellTemplate'">
+                            <div *ngIf="d.data.Sistema === 'Simus' ">
+                                <p>Link <a [href]="cargarLink(d.data.AgenteOtoSistemaId, d.data.Sistema)" target="_blank" title="Click aqui para abrir">{{d.data.Sistema}}</a></p>
+                            </div>
+                            <div *ngIf="d.data.Sistema === 'Siartes' || d.data.Sistema === 'Sidanza' || d.data.Sistema === 'Soy Cultura'">
+                                {{d.data.Sistema}}
+                            </div>
+                        </div> -->
+                    <!-- <dxi-column dataField="TipoIdentificacionNombre" caption="Tipo TipoIdentificación">
+                        </dxi-column> -->
+
+
+                    <dxi-column dataField="AreaId" caption="AREA">
+                        <dxo-lookup [dataSource]="dataSourceAreas" displayExpr="Name" valueExpr="ID">
+                        </dxo-lookup>
+
+                    </dxi-column>
+                    <!-- <dxi-column dataField="Componente" caption="Componente">
+                    </dxi-column> -->
+                    <dxi-column dataField="AnoId" caption="ANO">
+                        <dxo-lookup [dataSource]="dataSourceAnos" displayExpr="Name" valueExpr="ID">
+                        </dxo-lookup>
+                    </dxi-column>
+                    <dxi-column dataField="ComponenteId" caption="Componente">
+                        <dxo-lookup [dataSource]="dataSourceComponentes" displayExpr="Name" valueExpr="ID">
+                        </dxo-lookup>
+                    </dxi-column>
+
+                    <dxi-column dataField="ProgramaDescripcion" caption="ProgramaDescripcion" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="ProgramaCompromisos" caption="ProgramaCompromisos" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="ProgramaInversion" caption="Inversión ($)" format="currency">
+                    </dxi-column>
+                    <dxi-column dataField="ProgramaContrapartida" caption="Contrapartida ($)" format="currency">
+                    </dxi-column>
+                    <dxi-column dataField="ProgramaCofinanciacion" caption="Cofinanciación ($)" format="currency">
+                    </dxi-column>
+                    <!-- <dxi-column dataField="OfertaProgramaRecursoAplazado" caption="Recurso Aplazado">
+                    </dxi-column> -->
+                    <dxi-column dataField="OfertaProgramaRecursoAplazado" caption="Aplazado ($)" format="currency"></dxi-column>
+                    <dxi-column dataField="EstadoProgramaId" caption="Estado Programa">
+                        <dxo-lookup [dataSource]="dataSourceEstado" displayExpr="Name" valueExpr="ID">
+                        </dxo-lookup>
+                    </dxi-column>
+
+                    <dxi-column dataField="EstadoInformacionId" caption="Estado Información">
+                        <dxo-lookup [dataSource]="estadoInformacionLista" displayExpr="nombre" valueExpr="idValorReferencia">
+                        </dxo-lookup>
+                    </dxi-column>
+
+
+
+
+
+
+                    <!-- <div *dxTemplate="let d of 'accionCellTemplate'">
+
+                        <div class="internal-grid-container">
+                            <div>
+
+                                <button type="button" matTooltip="Editar" (click)="showPanel('U', d.data.AgenteId, d.data.Sistema)" class="btn btn-success waves-effect waves-light m-r-10">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+
+
+                                <button type="button" matTooltip="Borrar" (click)="borrarAgente(d.data.AgenteId, d.data.Sistema)" class="btn btn-danger waves-effect waves-light m-r-10">
+                                            <i class="fa fa-remove"></i>  
+                                        </button>
+
+                            </div>
+                        </div>
+
+                    </div> -->
+                    <dxo-summary>
+                        <dxi-total-item column="OfertaProgramaId" summaryType="count" displayFormat="Cantidad: {0}">
+                        </dxi-total-item>
+                    </dxo-summary>
+                    <dxo-paging [pageSize]="10"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 40]" [visible]="true" [showInfo]="true" [showNavigationButtons]="true"></dxo-pager>
+
+                </dx-data-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<dx-popup [width]="500" [height]="250" [showTitle]="true" title="Information" [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="popupVisible">
+    <div *dxTemplate="let data of 'content'">
+        <p>
+            Excel Regionalización:</p>
+        <a target="_blank" href="http://siartes.mincultura.gov.co/Plantilla%20Cargue1.xlsx">Descargar Plantilla</a>
+        <a target="_blank" href="http://siartes.mincultura.gov.co/PlantillaCargue.zip">Descargar Plantilla zip</a>
+
+        <input type="file" class="form-control" (change)="uploadedFile($event)" placeholder="Upload file" accept=".xlsx">
+        <div class="col-md-2 form-group">
+            <button type="button" class="btn btn-info" (click)="readAsJson()">Cargar Excel</button>
+        </div>
+        <!-- <p>
+                Birth Date:
+                <span>{{currentEmployee.BirthDate}}</span>
+            </p>
+            <p>
+                Address:
+                <span>{{currentEmployee.Address}}</span>
+            </p>
+            <p>
+                Hire Date:
+                <span>{{currentEmployee.HireDate}}</span>
+            </p>
+            <p>
+                Position:
+                <span>{{currentEmployee.Position}}</span>
+            </p> -->
+    </div>
+</dx-popup>
+
+<div class="row animated fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <dx-data-grid id="gridProgramasRegionalizacion" (onRowRemoved)="borrarRegionalizacion($event)" [allowColumnReordering]="true" [allowColumnResizing]="true" [dataSource]="programaRegionalizacion" showBorders="true" [rowAlternationEnabled]="true" [columnAutoWidth]="true"
+                    keyExpr="OfertaProgramaRegionalizadoId">
+                    <dxo-export [enabled]="true" fileName="Regionalizacion Programas Registrados en el Sistema"></dxo-export>
+                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                    <dxo-header-filter [visible]="true"></dxo-header-filter>
+                    <dxo-grouping [contextMenuEnabled]="true" expandMode="rowClick"></dxo-grouping>
+                    <dxo-group-panel [visible]="true" emptyPanelText="Use el contexto de menu de los encabezados de columnas para agrupar datos"></dxo-group-panel>
+                    <dxo-search-panel [visible]="true" [width]="240" placeholder="Buscar..."></dxo-search-panel>
+                    <dxo-remote-operations [sorting]="true" [paging]="true">
+                    </dxo-remote-operations>
+                    <dxo-editing mode="batch" [allowDeleting]="true" [selectTextOnEditStart]="selectTextOnEditStart" [startEditAction]="startEditAction">
+                    </dxo-editing>
+                    <!-- <dxo-state-storing [enabled]="true" type="localStorageAgentes" storageKey="storage"></dxo-state-storing> -->
+                    <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+
+                    <dxi-column dataField="OfertaProgramaRegionalizadoId" caption="Id" [width]="100">
+                    </dxi-column>
+                    <dxi-column dataField="ProgramaNombre" caption="Programa" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="DepartamentoNombre" caption="Departamento" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="MunicipioNombre" caption="Municipio" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="CentroPobladoNombre" caption="Centro Poblado" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="OfertaProgramaRegionalizadoNombreBeneficiario" caption="Beneficiario" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="OfertaProgramaRegionalizadoCantidadBeneficiarios" caption="Cantidad Beneficiarios" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="OfertaProgramaRegionalizadoInversion" caption="Inversion ($)" [width]="170" format="currency">
+                    </dxi-column>
+                    <dxi-column dataField="OfertaProgramaRegionalizadoContrapartida" caption="Contrapartida ($)" [width]="170" format="currency">
+                    </dxi-column>
+                    <dxi-column dataField="OfertaProgramaRegionalizadoCofinanciacion" caption="Cofinanciación ($)" [width]="170" format="currency">
+                    </dxi-column>
+                    <dxi-column dataField="OfertaProgramaRegionalizadoRecursoAplazado" caption="Aplazamiento ($)" [width]="170" format="currency">
+                    </dxi-column>
+                    <dxi-column dataField="OfertaProgramaRegionalizadoFechaInicio" caption="Fecha Inicio" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="OfertaProgramaRegionalizadoFechaFin" caption="Fecha Fin" [width]="170">
+                    </dxi-column>
+
+                    <dxi-column dataField="OfertaProgramaRegionalizadoActividad" caption="Actividad" [width]="170">
+                    </dxi-column>
+
+
+                    <!-- <dxi-column dataField="AreaId" caption="AREA">
+                        <dxo-lookup [dataSource]="dataSourceAreas" displayExpr="Name" valueExpr="ID">
+                        </dxo-lookup>
+
+                    </dxi-column>
+                    
+                    <dxi-column dataField="AnoId" caption="ANO">
+                        <dxo-lookup [dataSource]="dataSourceAnos" displayExpr="Name" valueExpr="ID">
+                        </dxo-lookup>
+                    </dxi-column>
+                    <dxi-column dataField="ComponenteId" caption="Componente">
+                        <dxo-lookup [dataSource]="dataSourceComponentes" displayExpr="Name" valueExpr="ID">
+                        </dxo-lookup>
+                    </dxi-column>
+
+                    <dxi-column dataField="ProgramaDescripcion" caption="ProgramaDescripcion" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="ProgramaCompromisos" caption="ProgramaCompromisos" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="ProgramaInversion" caption="Inversión" format="currency">
+                    </dxi-column>
+                    <dxi-column dataField="ProgramaContrapartida" caption="Contrapartida">
+                    </dxi-column>
+                    <dxi-column dataField="ProgramaCofinanciacion" caption="Cofinanciación">
+                    </dxi-column>
+                    <dxi-column dataField="OfertaProgramaRecursoAplazado" caption="Recurso Aplazado">
+                    </dxi-column>
+
+                    <dxi-column dataField="EstadoProgramaId" caption="Estado Programa">
+                        <dxo-lookup [dataSource]="dataSourceEstado" displayExpr="Name" valueExpr="ID">
+                        </dxo-lookup>
+                    </dxi-column>
+
+                    <dxi-column dataField="EstadoInformacionId" caption="Estado Información">
+                        <dxo-lookup [dataSource]="estadoInformacionLista" displayExpr="nombre" valueExpr="idValorReferencia">
+                        </dxo-lookup>
+                    </dxi-column> -->
+                    <dxo-summary>
+                        <dxi-total-item column="OfertaProgramaRegionalizadoId" summaryType="count" displayFormat="Cantidad: {0}">
+                        </dxi-total-item>
+                    </dxo-summary>
+                    <dxo-paging [pageSize]="10"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 40]" [visible]="true" [showInfo]="true" [showNavigationButtons]="true"></dxo-pager>
+
+                </dx-data-grid>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="row animate fadeIn">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="exampleInputuname">Cargue Regionalizacion</label>
+            <div class="input-group">
+                <dx-file-uploader #fileUploader uploadUrl={{url}} [multiple]="false" accept="*" [(value)]="value" uploadMode="useButtons" labelText="o arrastrar imagen" selectButtonText="Seleccionar archivo" (onValueChanged)="addIdParameter($event)" uploadButtonText="Subir Archivo"
+                    readyToUploadMessage="Listo para subir" uploadFailedMessage="Ocurrio un error al subir el archivo" (onUploaded)="subidaCompleta($event)" [allowedFileExtensions]="['.jpg', '.jpeg', '.gif', '.png']"
+                    [maxFileSize]="4000000">
+                </dx-file-uploader>
+                <span class="note">Extensiones Permitidas: <span>.jpg, .jpeg, .gif, .png</span>.</span>
+                <span class="note">Tamaño maximo: <span>4 MB</span>.</span>
+            </div>
+        </div>
+    </div>
+</div> -->

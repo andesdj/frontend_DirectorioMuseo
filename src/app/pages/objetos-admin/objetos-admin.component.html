@@ -1,0 +1,1266 @@
+<div class="row animated fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+                <dx-data-grid id="gridCompromisosAvances" [allowColumnReordering]="true" [allowColumnResizing]="true" [dataSource]="asistentesObjetos" showBorders="true" [rowAlternationEnabled]="true" [columnAutoWidth]="true" keyExpr="AsistenciaActividadId">
+                    <dxo-export [enabled]="true" fileName="Actividades Registradas en el Sistema"></dxo-export>
+                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                    <dxo-header-filter [visible]="true"></dxo-header-filter>
+                    <dxo-grouping [contextMenuEnabled]="true" expandMode="rowClick"></dxo-grouping>
+                    <dxo-group-panel [visible]="true" emptyPanelText="Use el contexto de menu de los encabezados de columnas para agrupar datos"></dxo-group-panel>
+                    <dxo-search-panel [visible]="true" [width]="240" placeholder="Buscar..."></dxo-search-panel>
+                    <dxo-remote-operations [sorting]="true" [paging]="true">
+                    </dxo-remote-operations>
+
+                    <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+                    <dxi-column caption="Acciones" cellTemplate="accionCellTemplate" alignment="center" [width]="200"></dxi-column>
+                    <div *dxTemplate="let d of 'accionCellTemplate'">
+
+                        <div class="internal-grid-container">
+                            <div>
+
+
+                                <button type="button" matTooltip="Editar" (click)="consultaAsistentesPorAsistenciaActividadId(d.data.AsistenciaActividadId, 'U')" class="btn btn-success waves-effect waves-light m-r-10">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+
+                                <!-- <button type="button" matTooltip="Borrar" (click)="borrarAvanceCompromiso(d.data.AsistenciaActividadId, d.data.ActividadId )" class="btn btn-danger waves-effect waves-light m-r-10">
+                                    <i class="fa fa-remove"></i>
+                                </button> -->
+                                <br>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <dxi-column dataField="AsistenciaActividadId" caption="Id">
+                    </dxi-column>
+
+
+                    <dxi-column dataField="NombreCompleto" caption="Nombre Persona">
+                    </dxi-column>
+                    <dxi-column dataField="Estado" caption="Estado">
+                    </dxi-column>
+                    <dxi-column dataField="TecnicaElaboracionNombre" caption="Tecnica Elaboración">
+                    </dxi-column>
+                    
+                    <dxi-column dataField="NumeroIdentificacion" caption="Número Identificación">
+                    </dxi-column>
+
+                    <dxi-column dataField="TipoDocumento" caption="Tipo de Documento">
+                    </dxi-column>
+
+                    <dxi-column dataField="PerteneceOrganizacionVictimasNombre" caption="Pertenece Organización Víctimas">
+                    </dxi-column>
+
+                    <dxi-column dataField="NombreOrganizacionPertenece" caption="Nombre Organización">
+                    </dxi-column>
+
+                    <dxi-column dataField="OtroTipoOrganizacion" caption="Otra Organización">
+                    </dxi-column>
+
+                    <dxi-column dataField="OtrasObservaciones" caption="Otras Observaciones">
+                    </dxi-column>
+                    
+                    <dxi-column dataField="Material" caption="Material">
+                    </dxi-column>
+
+                    <dxi-column dataField="ManifestacionInmaterial" caption="Es Manifestación Inmaterial">
+                    </dxi-column>
+                    
+                    
+                    
+                    <!-- <dxi-column dataField="TipoHechoVictimizante" caption="Hecho Victimizante">
+                    </dxi-column> -->
+
+
+                    <dxi-column dataField="CorreoElectronico" caption="Correo">
+                    </dxi-column>
+
+                    <dxi-column dataField="NumeroTelefonico" caption="Teléfono de contacto (fijo)">
+                    </dxi-column>
+
+                    <dxi-column dataField="SegundoNumeroTelefonico" caption="Teléfono de contacto (móvil - celular)">
+                    </dxi-column>
+                    
+
+
+                    <dxi-column dataField="Pais" caption="País">
+                    </dxi-column>
+                    <dxi-column dataField="Departamento" caption="Departamento">
+                    </dxi-column>
+                    <dxi-column dataField="Municipio" caption="Municipio">
+                    </dxi-column>
+                    <dxi-column dataField="CentroPoblado" caption="CentroPoblado">
+                    </dxi-column>
+                    
+                    <dxi-column dataField="DireccionFisica" caption="Dirección Fisica">
+                    </dxi-column>
+
+                    <dxi-column dataField="NombreDeseaDonar" caption="Nombre de la  pieza a donar">
+                    </dxi-column>
+                    <dxi-column dataField="DescripcionDeseaDonar" width="250" caption="Descripción de la pieza a donar">
+                    </dxi-column>
+                    <dxi-column dataField="JustificacionDonacion" width="250" caption="Justificación Donación">
+                    </dxi-column>
+                    <dxi-column dataField="ConoceFechaElaboracionPieza" width="250" caption="ConoceFechaElaboración">
+                    </dxi-column>
+                    
+                    <dxi-column dataField="FechaElaboracionPieza" caption="Fecha Elaboración Pieza">
+                    </dxi-column>
+                    <dxi-column dataField="MaterialUsadoElaboracionPieza" width="250" caption="MaterialUsadoElaboracionPieza">
+                    </dxi-column>
+                    <dxi-column dataField="DescripcionTecnicaElaboracionPieza" width="250" caption="Descripción Tecnica Elaboración Pieza">
+                    </dxi-column>
+                    <dxi-column dataField="Alto" caption="Alto">
+                    </dxi-column>
+                    <dxi-column dataField="Ancho" caption="Ancho">
+                    </dxi-column>
+                    <dxi-column dataField="Largo" caption="Largo">
+                    </dxi-column>
+                    <dxi-column dataField="NombreAutorElaboroObjeto" width="250" caption="Autor Elaboro Pieza">
+                    </dxi-column>
+
+                    <dxi-column dataField="TecnicaElaboracionPieza" caption="Técnica Elaboración Pieza">
+                    </dxi-column>
+
+                    <dxi-column dataField="ObservacionesEstado" caption="Observaciones Estado">
+                    </dxi-column>
+                    
+
+
+
+
+
+
+
+
+
+
+
+                    <dxo-summary>
+                        <dxi-total-item column="AsistenciaActividadId" summaryType="count" displayFormat="Cantidad: {0}">
+                        </dxi-total-item>
+                    </dxo-summary>
+                    <dxo-paging [pageSize]="10"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 40]" [visible]="true" [showInfo]="true" [showNavigationButtons]="true"></dxo-pager>
+
+                </dx-data-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<dx-popup width="100%" height="100%" [showTitle]="true" title="Formulario Objetos" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="popupCompromisos">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Formulario Actividades</h4>
+
+                    <form ngNativeValidate #formCcObjetos="ngForm" (ngSubmit)="onSubmitCompromisoAvance(formCcObjetos.valid)" class="form p-t-20">
+
+
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+
+
+
+
+                                    <div class="activity-box m-t-34">
+                                        <div class="date-devider">
+                                            <span>Identificación</span>
+                                        </div>
+                                    </div>
+                                    <div class="row p-t-20">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Ingrese Nombres y Apellidos del Donante.</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <input name="NombreCompleto" type="text" class="form-control" [(ngModel)]="asistenciaActividad.NombreCompleto" required>
+
+                                                    <div style="color:red" *ngIf="asistenciaActividad.NombreCompleto === ''">
+
+                                                        Campo Obligatorio &nbsp; *
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Seleccione el tipo de su documento de identidad.</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                                    <select name="TipoDocumentoId" class="form-control" [(ngModel)]="asistenciaActividad.TipoDocumentoId" required>
+                                                    <option value=""></option>
+                                                    
+                                                    <option *ngFor="let item of tipoDoc" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                                                                                                            
+                                                </select>
+
+                                                    <div style="color:red" *ngIf="asistenciaActividad.NombreCompleto === ''">
+
+                                                        Campo Obligatorio &nbsp; *
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" *ngIf="asistenciaActividad.TipoDocumentoId === 9137">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Digite su número de identificación.</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <input name="NumeroIdentificacion" type="text" class="form-control" [(ngModel)]="asistenciaActividad.NumeroIdentificacion" #NumeroIdentificacion="ngModel">
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3" *ngIf="asistenciaActividad.TipoDocumentoId !== 9137">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Digite su número de identificación.</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <input name="NumeroIdentificacion" type="text" class="form-control" [(ngModel)]="asistenciaActividad.NumeroIdentificacion" #NumeroIdentificacion="ngModel" required>
+
+
+
+                                                    <div style="color:red" *ngIf="asistenciaActividad.NumeroIdentificacion === ''">
+
+                                                        Campo Obligatorio &nbsp; *
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="row p-t-20">
+
+
+                                       
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+
+
+                                                <label for="exampleInputuname">Se vió afectado por alguno, o más, de los siguientes hechos victimizantes <strong>(*Registro Único de Victimas):</strong></label>
+                                                
+                                                    <dx-list #list [searchEnabled]="true" searchExpr="text" searchMode="contains" [dataSource]="tasks" [(selectedItems)]="selectedItemsAreaPrincipal" [selectionMode]="'multiple'" [selectAllMode]="'page'" [showSelectionControls]="true" [selectedItemKeys]="datos">
+                                                </dx-list>
+                                                <!-- <div class="input-group">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions1VictimaConflicto" [(ngModel)]="asistenciaActividad.VictimaConflicto" id="inlineRadio01" [value]="1">
+                                                        <label class="form-check-label" for="inlineRadio01">Si</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions2VictimaConflicto" [(ngModel)]="asistenciaActividad.VictimaConflicto" id="inlineRadio02" [value]="0">
+                                                        <label class="form-check-label" for="inlineRadio02">No</label>
+                                                    </div>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+                                    <div class="row p-t-20">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label for="exampleInputuname">Pertenece usted a una organización de víctimas?</label>
+                                                <div class="input-group">
+
+                                                    <!-- <div class="input-group-addon"><i class="ti-android"></i></div> -->
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" [(ngModel)]="asistenciaActividad.PerteneceOrganizacionVictimas" name="inlineRadioOptions1PerteneceOrganizacionVictimas" id="inlineRadio011" [value]="1">
+                                                        <label class="form-check-label" for="inlineRadio011">Si</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" [(ngModel)]="asistenciaActividad.PerteneceOrganizacionVictimas" name="inlineRadioOptions2PerteneceOrganizacionVictimas" id="inlineRadio022" [value]="0">
+                                                        <label class="form-check-label" for="inlineRadio022">No</label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="asistenciaActividad.PerteneceOrganizacionVictimas === 1">
+                                        </div>
+                                        <div class="col-md-4" *ngIf="asistenciaActividad.PerteneceOrganizacionVictimas === 1">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Seleccione el tipo de organización a la que pertenece o representa</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                                    <select name="TipoOrganizacionPerteneceId" class="form-control" [(ngModel)]="asistenciaActividad.TipoOrganizacionPerteneceId" required>
+                                                            <option value=""></option>
+                                                            
+                                                            <option *ngFor="let item of tipoTipoOrganizacion" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                                                                                                                    
+                                                        </select>
+                                                    <h2>
+                                                        <div style="color:red" *ngIf="asistenciaActividad.TipoOrganizacionPerteneceId === ''">
+                                                            <strong>&nbsp; * </strong>
+                                                        </div>
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-2" *ngIf="asistenciaActividad.TipoOrganizacionPerteneceId === 8149">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Nombre Otro Tipo Organización</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <input name="OtroTipoOrganizacion" type="text" class="form-control" [(ngModel)]="asistenciaActividad.OtroTipoOrganizacion">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row p-t-20">
+                                        <div class="col-md-12" *ngIf="asistenciaActividad.PerteneceOrganizacionVictimas === 1">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Cual es el nombre de la organización a la que pertenece o representa</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <input name="NombreOrganizaciónAQuePertenece" type="text" [(ngModel)]="asistenciaActividad.NombreOrganizacionPertenece" class="form-control" required>
+                                                    <h2>
+                                                        <div style="color:red" *ngIf="asistenciaActividad.NombreOrganizacionPertenece === ''">
+                                                            <strong>&nbsp; * </strong>
+                                                        </div>
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                    <div class="activity-box m-t-30">
+                                        <div class="date-devider">
+                                            <span>Datos de la pieza a donar</span>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="row p-t-20">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Nombre de la  pieza a donar</label>
+
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <input name="NombreDeseaDonar" type="text" class="form-control" [(ngModel)]="objeto.NombreDeseaDonar" required>
+
+                                                    <div style="color:red" *ngIf="objeto.NombreDeseaDonar === ''">
+                                                        Campo Obligatorio &nbsp; *
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row p-t-20">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Descripción de la pieza a donar.</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <textarea onkeyup="this.value = this.value.toUpperCase();" class="form-control" rows="3" name="DescripcionDeseaDonar" maxlength="2000" [(ngModel)]="objeto.DescripcionDeseaDonar" #ObservacionesRevisionControl="ngModel" required>
+                                                    </textarea>
+
+
+                                                    <div style="color:red" *ngIf="objeto.DescripcionDeseaDonar === ''">
+                                                        Campo Obligatorio &nbsp; *
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row p-t-20">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Indique cuál es su motivación o justificación para la donación a realizar.</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+
+                                                    <textarea onkeyup="this.value = this.value.toUpperCase();" class="form-control" placeholder="Por qué es importante que esta pieza haga parte del museo?  Qué valor tiene esta pieza para usted y la sociedad colombiana?" rows="3" name="JustificacionDonacion"
+                                                        maxlength="2000" [(ngModel)]="objeto.JustificacionDonacion" #JustificacionDonacion="ngModel">
+                                                    </textarea>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row p-t-20">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Otras Observaciones</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+
+                                                    <textarea onkeyup="this.value = this.value.toUpperCase();" class="form-control" placeholder="Si desea ampliar la justificación o motivación, y agregar algo más sobre la donación, use este campo." rows="3" name="JustificacionDonacion" maxlength="2000"
+                                                        [(ngModel)]="objeto.OtrasObservaciones" #JustificacionDonacion="ngModel">
+                                                    </textarea>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row p-t-20">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Si desea agregar con sus palabras algo más sobre la donación, use este campo</label>
+
+                                                <div class="input-group">
+                                                    <dx-file-uploader #fileUploaderImagen0 uploadUrl="{{ urlDocumento4 }}" required [multiple]="false" accept="*" [(value)]="valueExperiencia4" uploadMode="useButtons" labelText="o arrastrar archivo" selectButtonText="Seleccionar archivo" (onValueChanged)="addIdParameterImagen4($event)"
+                                                        uploadButtonText="Subir Audio" readyToUploadMessage="Listo para subir" uploadFailedMessage="Ocurrio un error al subir el audio" (onUploaded)="subidaCompletaImagen4($event)" [allowedFileExtensions]="['.ogg', '.mp3', '.mp4', '.mpg4', '.wav', '.wave', '.wav', '.bwf', '.aa', '.aax', '.m4a', '.wmv', '.asf', '.avi', '.mp4', '.mov', '.m4v', '.mpg', '.mpeg', '.aiff', '.au', '.mid', '.midi', '.wma']"
+                                                        [maxFileSize]="4000000">
+                                                    </dx-file-uploader>
+                                                    <!-- <span class="note">Extensiones Permitidas:/*---
+                                                    <span>.pdf</span>.</span>
+                                                    <span class="note">Tamaño maximo: <span>4 MB</span>.</span> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="button"  (click)="descargarArchivoExperiencia()" class="btn btn-success waves-effect waves-light m-r-10">
+                                                <i class="fa fa-download"></i>
+                                                Descargar Archivo
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                    
+
+                                    <div class="row p-t-20">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+
+
+                                                <label for="exampleInputuname">Conoce la fecha de elaboración de la pieza?</label>
+                                                <div class="input-group">
+
+
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions1" [(ngModel)]="objeto.ConoceFechaElaboracionPieza" id="inlineRadio01FP" [value]="1">
+                                                        <label class="form-check-label" for="inlineRadio01FP">Si</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions2" [(ngModel)]="objeto.ConoceFechaElaboracionPieza" id="inlineRadio02FP" [value]="0">
+                                                        <label class="form-check-label" for="inlineRadio02FP">No</label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8" *ngIf="objeto.ConoceFechaElaboracionPieza === 1">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Seleccione la fecha de creación de la pieza
+                                                        Puede indicar una fecha aproximada en el formato propuesto</label>
+                                                <div class="input-group flex-wrap">
+                                                    <div class="input-group-addon">
+                                                        <i class="ti-time"></i>
+                                                    </div>
+                                                    <input required type="text" name="FechaElaboracionPieza1" readonly="true" [(ngModel)]="objeto.FechaElaboracionPieza" [minDate]="{ year: 1900, month: 1, day: 1 }" [maxDate]="maxDate" placeholder="dd/mm/aaaa" ngbDatepicker #FechaElaboracionPieza1="ngbDatepicker"
+                                                    />
+                                                    <div class="input-group-addon bg-default" (click)="FechaElaboracionPieza1.toggle()">
+                                                        <span class="ti-calendar"></span>
+                                                    </div>
+
+                                                    <div style="color:red" *ngIf="objeto.FechaElaboracionPieza === ''">
+                                                        Campo Obligatorio &nbsp; *
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+
+                                    <div class="row p-t-20">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Cuéntanos de que está hecho la pieza que quieres donar</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <textarea onkeyup="this.value = this.value.toUpperCase();" class="form-control" rows="3" name="MaterialUsadoElaboracionPieza" maxlength="2000" [(ngModel)]="objeto.MaterialUsadoElaboracionPieza" #MaterialUsadoElaboracionPieza="ngModel" required>
+                                                    </textarea>
+
+                                                    <div style="color:red" *ngIf="objeto.MaterialUsadoElaboracionPieza === ''">
+                                                        Campo Obligatorio &nbsp; *
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row p-t-20">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Que técnica de elaboración se usó para la pieza que quieres donar.</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+
+                                                    <textarea onkeyup="this.value = this.value.toUpperCase();" class="form-control" rows="3" name="TecnicaElaboracionPieza" maxlength="5000" [(ngModel)]="objeto.TecnicaElaboracionPieza" placeholder="Si no conoces la técnica escribe 'desconocida'" #JustificacionDonacion="ngModel"
+                                                        required>
+                                                    </textarea>
+                                                   
+                                                    <div style="color:red" *ngIf="objeto.TecnicaElaboracionPieza === ''">
+                                                        Campo Obligatorio &nbsp; *
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row p-t-20">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Que técnica de elaboración se usó para la pieza que quieres donar.<strong>(Administrador)</strong></label>
+                                                <select name="TecnicaElaboracionPiezaId" class="form-control" [(ngModel)]="objeto.TecnicaElaboracionPiezaId" required>
+                                                    <option value=""></option>
+                                                    
+                                                    <option *ngFor="let item of listaTecnicasElaboracion" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                                                                                                            
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="row p-t-20">
+                                        <div class="col-md-12" *ngIf="objeto.TecnicaElaboracionPiezaId !== null ">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Si desea ampliar la respuesta anterior, incluya la descripción de la técnica de elaboración <strong>(Administrador)</strong></label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <textarea onkeyup="this.value = this.value.toUpperCase();" class="form-control" rows="3" name="Tema" maxlength="2000" [(ngModel)]="objeto.DescripcionTecnicaElaboracionPieza" #DescripcionTecnicaElaboracionPieza="ngModel">
+                                                    </textarea>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div class="row p-t-20">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Material del que está elaborado la pieza.<strong>(Administrador)</strong></label>
+                                                <select name="MaterialId" class="form-control" [(ngModel)]="objeto.MaterialId" required>
+                                                    <option value=""></option>
+                                                    
+                                                    <option *ngFor="let item of listaMateriales" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                                                                                                            
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row p-t-20">
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">La donación corresponde a una manifestación material</label>
+                                                <br>
+                                                <div class="input-group">
+                                                    <input type="checkbox" id="cbox2" (click)="cambioCheckDimenciones()" [checked]="objeto.EsManifestacionInmaterial" value="{{objeto.EsManifestacionInmaterial}}">
+                                                    <label for="cbox2">(Es posible tomar medidas/dimensiones) </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="activity-box m-t-30" *ngIf="objeto.EsManifestacionInmaterial">
+                                        <div class="date-devider">
+                                            <span>Dimensiones de la pieza (en centímetros - cm)</span>
+                                        </div>
+                                    </div>
+                                    <div class="row p-t-20" *ngIf="objeto.EsManifestacionInmaterial">
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-8">
+                                            <img src="../../assets/images/Medida 5.png" alt="Nature" class="responsive">
+                                        </div>
+                                    </div>
+                                    <div class="row p-t-20" *ngIf="objeto.EsManifestacionInmaterial">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Alto (en centímetros - cm)*</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <input name="Alto" type="text" onkeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" class="form-control" [(ngModel)]="objeto.Alto" minlength="1" maxlength="4" required>
+
+                                                    <div style="color:red" *ngIf="objeto.Alto === null">
+                                                        Campo Obligatorio &nbsp; *
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Ancho (en centímetros - cm)*</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <input name="Ancho" type="text" class="form-control" [(ngModel)]="objeto.Ancho" minlength="1" maxlength="4" onkeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" required>
+
+                                                    <div style="color:red" *ngIf="objeto.Ancho === null">
+                                                        Campo Obligatorio &nbsp; *
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Largo (en centímetros - cm)*</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <input name="Largo" type="text" step="any" class="form-control" [(ngModel)]="objeto.Largo" minlength="1" maxlength="4" onkeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" required>
+
+                                                    <div style="color:red" *ngIf="objeto.Largo === null">
+                                                        Campo Obligatorio &nbsp; *
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row p-t-20">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Nombre del autor o colectivo que elaboro la pieza</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <input name="NombreAutorElaboroObjeto" type="text" class="form-control" [(ngModel)]="objeto.NombreAutorElaboroObjeto" placeholder="Si no lo conoces escribe 'desconocido'">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="activity-box m-t-30">
+                                        <div class="date-devider">
+                                            <span>Imágenes de la pieza a donar</span>
+                                        </div>
+                                    </div>
+                                    <div class="row p-t-20">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Imagen 1 pieza</label>
+
+                                                <div class="input-group">
+                                                    <dx-file-uploader #fileUploaderImagen1 uploadUrl="{{ urlDocumento }}" required [multiple]="false" accept="*" [(value)]="valueExperiencia" uploadMode="useButtons" labelText="o arrastrar archivo" selectButtonText="Seleccionar archivo" (onValueChanged)="addIdParameterImagen($event)"
+                                                        uploadButtonText="Subir Imagen" readyToUploadMessage="Listo para subir" uploadFailedMessage="Ocurrio un error al subir el archivo" (onUploaded)="subidaCompletaImagen($event)" [allowedFileExtensions]="['.jpg', '.png', '.jpeg']"
+                                                        [maxFileSize]="4000000">
+                                                    </dx-file-uploader>
+                                                    <span class="note">Extensiones Permitidas:
+                                                    <span>.jpg, .png, .jpeg</span>.</span>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <img width="520px" height="213px" [ngClass]="objeto.Archivo1Nombre == ''? ocultoDocumento: ''" src="{{ urlImagen1 }}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row p-t-20">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Imagen 2 pieza </label>
+
+                                                <div class="input-group">
+                                                    <dx-file-uploader #fileUploaderImagen2 uploadUrl="{{ urlDocumento2 }}" required [multiple]="false" accept="*" [(value)]="valueExperiencia2" uploadMode="useButtons" labelText="o arrastrar archivo" selectButtonText="Seleccionar archivo" (onValueChanged)="addIdParameterImagen2($event)"
+                                                        uploadButtonText="Subir Imagen" readyToUploadMessage="Listo para subir" uploadFailedMessage="Ocurrio un error al subir el archivo" (onUploaded)="subidaCompletaImagen2($event)" [allowedFileExtensions]="['.jpg', '.png', '.jpeg']"
+                                                        [maxFileSize]="4000000">
+                                                    </dx-file-uploader>
+                                                    <span class="note">Extensiones Permitidas:
+                                                        <span>.jpg, .png, .jpeg</span>.</span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <img width="520px" height="213px" [ngClass]="objeto.Archivo2Nombre == ''? ocultoDocumento: ''" src="{{ urlImagen2 }}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row p-t-20">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Imagen 3 pieza </label>
+
+                                                <div class="input-group">
+                                                    <dx-file-uploader #fileUploaderImagen3 uploadUrl="{{ urlDocumento3 }}" required [multiple]="false" accept="*" [(value)]="valueExperiencia3" uploadMode="useButtons" labelText="o arrastrar archivo" selectButtonText="Seleccionar archivo" (onValueChanged)="addIdParameterImagen3($event)"
+                                                        uploadButtonText="Subir Imagen" readyToUploadMessage="Listo para subir" uploadFailedMessage="Ocurrio un error al subir el archivo" (onUploaded)="subidaCompletaImagen3($event)" [allowedFileExtensions]="['.jpg', '.png', '.jpeg']"
+                                                        [maxFileSize]="4000000">
+                                                    </dx-file-uploader>
+                                                    <span class="note">Extensiones Permitidas:
+                                                        <span>.jpg, .png, .jpeg</span>.</span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <img width="520px" height="213px" [ngClass]="objeto.Archivo3Nombre == ''? ocultoDocumento: ''" src="{{ urlImagen3 }}" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="activity-box m-t-30">
+                                        <div class="date-devider">
+                                            <span>Datos de contacto</span>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="row p-t-20">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+
+                                                <div>
+                                                    <label for="exampleInputuname">País</label>
+                                                </div>
+
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-location-arrow"></i></div>
+                                                    <select class="form-control" required name="PaisIdNacimiento" [(ngModel)]="asistenciaActividad.PaisId" (change)="limpiarCamposLugarResidencia()">
+                                                                                    <option value="">-- Seleccione el País --</option>
+                                                                                    <option *ngFor="let item of paisesLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                                </select>
+
+                                                    <div style="color:red" *ngIf="asistenciaActividad.PaisId === null">
+                                                        Campo Obligatorio &nbsp; *
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-7" *ngIf="asistenciaActividad.PaisId !== 1 && asistenciaActividad.PaisId !== null">
+                                            <div class="form-group">
+
+                                                <label for="exampleInputuname">Ciudad</label>
+
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                    <input name="CiudadResidencia" type="text" class="form-control" placeholder="Ciudad de Residencia" [(ngModel)]="asistenciaActividad.CiudadResidencia" required>
+                                                    <h2>
+                                                        <div style="color:red" *ngIf="asistenciaActividad.CiudadResidencia === ''">
+                                                            <strong>&nbsp; * </strong>
+                                                        </div>
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" *ngIf="asistenciaActividad.PaisId === 1">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Departamento de Residencia</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-location-arrow"></i></div>
+                                                    <select class="form-control" required name="DepartamentoId" [(ngModel)]="asistenciaActividad.DepartamentoId" (change)="mostrarMunicipiosRecidencia()">
+                                                                                    <option value="">-- Seleccione el departamento --</option>
+                                                                                    <option *ngFor="let item of depLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                            </select>
+                                                    <h2>
+                                                        <div style="color:red" *ngIf="asistenciaActividad.DepartamentoId === null">
+                                                            <strong>&nbsp; * </strong>
+                                                        </div>
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4" *ngIf="asistenciaActividad.PaisId === 1">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Municipio de Residencia</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-location-arrow"></i></div>
+                                                    <select class="form-control" required name="MunicipioNacimientoId" [(ngModel)]="asistenciaActividad.MunicipioId" (change)="mostrarCentrosPoblados()">
+                                                                                        <option value="">-- Seleccione el municipio --</option>
+                                                                                        <option *ngFor="let item of munListaRecidencia" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                            </select>
+
+                                                    <div style="color:red" *ngIf="asistenciaActividad.MunicipioId === null">
+                                                        Campo Obligatorio &nbsp; *
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                    <div class="row p-t-20">
+
+                                        <div class="col-md-12" *ngIf="asistenciaActividad.PaisId === 1">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Centro Poblado</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-location-arrow"></i></div>
+                                                    <select class="form-control" name="CentroPobladoId" [(ngModel)]="asistenciaActividad.CentroPobladoId">
+                                                    <option value=""></option>
+                                                    <option *ngFor="let item of centroPobladoListaRecidencia" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                                </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row p-t-20" *ngIf="asistenciaActividad.PaisId === 1 && asistenciaActividad.PaisId !== null">
+                                        <div class="col-md-3">
+                                            <label for="exampleInputuname">Tipo de Dirección</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <div class="form-group">
+
+                                                    <div class="input-group">
+
+
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="inlineRadioOptionsR" [(ngModel)]="asistenciaActividad.TipoDireccionId" id="inlineRadio01R" [value]="0">
+                                                            <label class="form-check-label" for="inlineRadio01R">Rural</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="inlineRadioOptions2U" [(ngModel)]="asistenciaActividad.TipoDireccionId" id="inlineRadio02U" [value]="1">
+                                                            <label class="form-check-label" for="inlineRadio02U">Urbana</label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="row p-t-20" *ngIf="asistenciaActividad.TipoDireccionId === 1">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <strong>Ejemplo Dirección Fisica: </strong>
+                                                <label for="exampleInputuname">Calle 51 A Bis SUR # 99J-51 Este</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row p-t-20">
+                                        <div class="col-md-2" *ngIf="asistenciaActividad.TipoDireccionId === 1">
+                                            <select class="form-group form-control direcc0" (change)="armarDireccion($event)">                                
+                                                <option value="">tipo de via</option>
+                                                <option value="CL">CALLE</option>
+                                                <option value="AC">AVENIDA CALLE</option>
+                                                <option value="KR">CARRERA</option>
+                                                <option value="AK">AVENIDA CARRERA</option>
+                                                <option value="TV">TRANSVERSA</option>
+                                                <option value="DG">DIAGONAL</option>
+                                                <option value="AV">AVENIDA</option>
+                                                <option value="AU">AUTOPISTA</option>
+                                                
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-2" *ngIf="asistenciaActividad.TipoDireccionId === 1">
+                                            <input type="text" class="form-control direcc1" (keyup)="armarDireccion($event)">
+                                        </div>
+                                        <div class="col-md-2" *ngIf="asistenciaActividad.TipoDireccionId === 1">
+                                            <select class="form-group form-control direcc5" (change)="armarDireccion($event)">                                
+                                                    <option value="">Sin Letra</option>
+                                                    <option value="A">A</option>
+                                                    <option value="B">B</option>
+                                                    <option value="C">C</option>
+                                                    <option value="D">D</option>
+                                                    <option value="C">E</option>
+                                                    <option value="F">F</option>
+                                                    <option value="G">G</option>
+                                                    <option value="H">H</option>
+                                                    <option value="I">I</option>
+                                                    <option value="J">J</option>
+                                                    <option value="K">K</option>
+                                                    <option value="L">L</option>
+                                                    <option value="M">M</option>
+                                                    <option value="N">N</option>
+                                                    <option value="O">O</option>
+                                                    <option value="P">P</option>
+                                                    <option value="Q">Q</option>
+                                                    <option value="R">R</option>
+                                                    <option value="S">S</option>
+                                                    <option value="T">T</option>
+                                                    <option value="U">U</option>
+                                                    <option value="V">V</option>
+                                                    <option value="W">W</option>
+                                                    <option value="X">X</option>
+                                                    <option value="Y">Y</option>
+                                                    <option value="Z">Z</option>
+                    
+                                               
+                                            </select>
+                                        </div>
+
+
+                                        <div class="col-md-2" *ngIf="asistenciaActividad.TipoDireccionId === 1">
+                                            <select class="form-group form-control direcc2" (change)="armarDireccion($event)">                                
+                                                    <option value="">Sin prefijo</option>
+                                                    <option value="BIS">BIS</option>
+                                                    
+                                                   
+                                                </select>
+                                        </div>
+
+                                        <div class="col-md-2" *ngIf="asistenciaActividad.TipoDireccionId === 1">
+                                            <select class="form-group form-control direcc7" (change)="armarDireccion($event)">                                
+                                                    <option value="">Sin Cuadrante</option>
+                                                    <option value="S">Sur</option>
+                                                    <option value="N">Norte</option>
+                                                    <option value="E">Este - Oriente</option>
+                                                    <option value="W">Oeste - Occidente</option>
+                                
+                                                
+                                                </select>
+                                        </div>
+                                        <div *ngIf="asistenciaActividad.TipoDireccionId === 1">
+                                            <strong>#</strong>
+                                        </div>
+
+                                        <div class="col-sm-2" *ngIf="asistenciaActividad.TipoDireccionId === 1">
+                                            <input type="text" class="form-control direcc3" (keyup)="armarDireccion($event)">
+                                        </div>
+
+                                        <div class="col-md-2" *ngIf="asistenciaActividad.TipoDireccionId === 1">
+                                            <select class="form-group form-control direcc6" (change)="armarDireccion($event)">                                
+                                                    <option value="">Sin Letra</option>
+                                                    <option value="A">A</option>
+                                                    <option value="B">B</option>
+                                                    <option value="C">C</option>
+                                                    <option value="D">D</option>
+                                                    <option value="C">E</option>
+                                                    <option value="F">F</option>
+                                                    <option value="G">G</option>
+                                                    <option value="H">H</option>
+                                                    <option value="I">I</option>
+                                                    <option value="J">J</option>
+                                                    <option value="K">K</option>
+                                                    <option value="L">L</option>
+                                                    <option value="M">M</option>
+                                                    <option value="N">N</option>
+                                                    <option value="O">O</option>
+                                                    <option value="P">P</option>
+                                                    <option value="Q">Q</option>
+                                                    <option value="R">R</option>
+                                                    <option value="S">S</option>
+                                                    <option value="T">T</option>
+                                                    <option value="U">U</option>
+                                                    <option value="V">V</option>
+                                                    <option value="W">W</option>
+                                                    <option value="X">X</option>
+                                                    <option value="Y">Y</option>
+                                                    <option value="Z">Z</option>
+                    
+                                                    
+                                                </select>
+                                        </div>
+                                        <div *ngIf="asistenciaActividad.TipoDireccionId === 1">
+                                            <strong>-</strong>
+                                        </div>
+
+
+
+                                        <div class="col-sm-2" *ngIf="asistenciaActividad.TipoDireccionId === 1">
+                                            <input type="text" class="form-control direcc4" (keyup)="armarDireccion($event)">
+                                        </div>
+                                        <div class="col-md-2" *ngIf="asistenciaActividad.TipoDireccionId === 1">
+                                            <select class="form-group form-control direcc8" (change)="armarDireccion($event)">                                
+                                                    <option value="">Sin Cuadrante</option>
+                                                    <option value="S">Sur</option>
+                                                    <option value="N">Norte</option>
+                                                    <option value="E">Este - Oriente</option>
+                                                    <option value="W">Oeste - Occidente</option>
+                                
+                                               
+                                                </select>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row p-t-20" *ngIf="asistenciaActividad.TipoDireccionId === 1">
+
+                                        <div class="col-sm-2">
+                                            <strong>Complemento</strong>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select class="form-group form-control direcc9">                                
+                                                    <option value="">Sin Cuadrante</option>
+                                                    <option value="AD">Administración</option>
+                                                    <option value="AL">Altillo</option>
+                                                    <option value="AP">Apartamento</option>
+                                                    <option value="BG">Bodega</option>
+                                                    <option value="CA">Casa</option>
+                                                    <option value="CN">Consultorio</option>
+                                                    <option value="DP">Depósito</option>
+                                                    <option value="DS">Depósito Sótano</option>
+                                                    <option value="EN">Entrada</option>
+                                                    <option value="EX">Exterior</option>
+                                                    <option value="GJ">Garaje</option>
+                                                    <option value="GS">Garaje Sótano</option>
+                                                    <option value="IN">Interior</option>
+                                                    <option value="LT">Lote</option>
+                                                    <option value="LC">Local</option>
+                                                    <option value="LM">Local Mezzanine</option>
+                                                    <option value="SS">Mezzanine</option>
+                                                    <option value="OF">Oficina</option>
+                                                    <option value="PA">Parqueadero</option>
+                                                    <option value="PH">Penthouse</option>
+                                                    <option value="PI">Piso</option>
+                                                    <option value="PR">Portería</option>
+                                                    <option value="PU">Puesto</option>
+                                                    <option value="PL">Planta</option>
+                                                    <option value="SS">Semisótano</option>
+                                                    <option value="SO">Sótano</option>
+                                                    <option value="SU">Suite</option>
+                                                    <option value="SA">Salón</option>
+                                                    <option value="TZ">Terraza</option>
+                                                       
+                                                    </select>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control direcc10">
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <button type="button" (click)="armarComplemento()" class="btn waves-effect waves-light btn-success">Adicionar complemento</button>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div *ngIf="asistenciaActividad.TipoDireccionId === 1 && modificar === 0">
+                                        <div class="row p-t-20">
+                                            <div class="col-md-7">
+                                                <div class="form-group">
+                                                    <input name="DireccionFisica" [attr.disabled]="true" type="text" class="form-group form-control direcc10" placeholder="" [(ngModel)]="asistenciaActividad.DireccionFisica">
+                                                </div>
+
+
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <button type="button" (click)="modificarDireccion()" class="btn waves-effect waves-light btn-success">Modificar Dirección</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div *ngIf="asistenciaActividad.TipoDireccionId === 0 || modificar === 1">
+                                        <div class="row p-t-20">
+                                            <div class="col-md-12">
+                                                <label for="exampleInputuname">Dirección (Personal o de la Organización que representa)</label>
+                                                <div class="form-group">
+
+                                                    <input name="DireccionFisica" type="text" class="form-group form-control direcc10" placeholder="" [(ngModel)]="asistenciaActividad.DireccionFisica">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row p-t-20">
+                                        <div class="col-md-12" *ngIf="asistenciaActividad.CentroPobladoId !== null && asistenciaActividad.PaisId === 1">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">En caso de que aplique, describa datos Centro Poblado (Vereda, Localidad, Corregimiento, Resguardo, Barrio)</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <input name="VeredaLocalidadCorregimientoResguardoBarrio" type="text" class="form-control" [(ngModel)]="asistenciaActividad.VeredaLocalidadCorregimientoResguardoBarrio">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row p-t-20">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Ingrese un correo o dirección electrónica de contacto</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <input name="CorreoElectronico" type="email" class="form-control" [(ngModel)]="asistenciaActividad.CorreoElectronico">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Teléfono de contacto (fijo)</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <input name="NumeroTelefonico" type="text" class="form-control" [(ngModel)]="asistenciaActividad.NumeroTelefonico" onkeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="row p-t-20">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">Teléfono de contacto (móvil - celular)</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <input name="SegundoNumeroTelefonico" type="text" class="form-control" [(ngModel)]="asistenciaActividad.SegundoNumeroTelefonico" minlength="10" maxlength="10" onkeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" required>
+
+                                                    <div style="color:red" *ngIf="asistenciaActividad.SegundoNumeroTelefonico === ''">
+                                                        Campo Obligatorio &nbsp; *
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+                                    
+
+                                    <div class="row p-t-20">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-2" >
+                                            <button type="submit" class="btn waves-effect waves-light btn-success">
+                                            Actualizar Datos
+                                            <i class="fa fa-save"></i>
+                                        </button>
+                                        
+                                        </div>
+                                        <div class="col-md-2">
+
+                                            <button type="button" class="btn waves-effect waves-light btn-primary" (click)="mostrarListado()"><i class="fa fa-arrow-left"></i>Regresar al Listado</button>
+                                        </div>
+                                        <div class="col-md-4"></div>
+                                    </div>
+
+                                    <div class="activity-box m-t-30">
+                                        <div class="date-devider">
+                                            <span>Estado</span>
+                                        </div>
+                                    </div>
+                                    <div class="row p-t-20">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">
+                                                    <span> <strong>
+                                                    Seleccione Estado del Registro
+                                                </strong> </span>
+                                                </label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                                    <select name="EstadoId" class="form-control" [(ngModel)]="objeto.EstadoId" required>
+                                                        <option value=""></option>
+                                                        
+                                                        <option *ngFor="let item of listaEstados" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                                                                                                                
+                                                    </select>
+
+                                                    <div style="color:red" *ngIf="objeto.EstadoId === ''">
+
+                                                        Campo Obligatorio &nbsp; *
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputuname">
+                                                        
+                                                        <span> <strong>
+                                                            Observaciones Estado.
+                                                        </strong> </span></label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <textarea onkeyup="this.value = this.value.toUpperCase();" class="form-control" rows="3" name="ObservacionesEstado" maxlength="2000" [(ngModel)]="objeto.ObservacionesEstado" #ObservacionesEstados="ngModel" >
+                                                        </textarea>
+
+
+                                                    <!-- <div style="color:red" *ngIf="objeto.ObservacionesEstado === ''">
+                                                        Campo Obligatorio &nbsp; *
+                                                    </div> -->
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" *ngIf="objeto.EstadoId !== null && objeto.ObservacionesEstado !== '' && objeto.ObservacionesEstado !== null">
+                                            <br>
+                                            <button type="button" (click)="aprobarAgente(objeto.EstadoId)" class="btn waves-effect waves-light btn-info">Cambiar Estado <i class="fa fa-arrow-right"></i></button>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row p-t-20"  >
+                                       
+                                       
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </dx-scroll-view>
+    </div>
+</dx-popup>

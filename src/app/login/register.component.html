@@ -1,0 +1,131 @@
+<!-- ============================================================== -->
+<!-- Main wrapper - style you can find in pages.scss -->
+<!-- ============================================================== -->
+
+<ng-template #customLoadingTemplate>
+    <div class="custom-class">
+        <h3>
+            Cargando...
+        </h3>
+
+    </div>
+</ng-template>
+<!-- <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading> -->
+<ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish, primaryColour: primaryColour, backdropBorderRadius: '3px'}" [template]="loadingTemplate"></ngx-loading>
+
+<body class="register">
+    <div class="wrapper full-page-wrapper page-auth ">
+        <div class="inner-page">
+            <div class="login-box center-block ">
+                <div class="logo">
+                    <a routerLink='/home'><img src="../assets/images/sia_logo.png" alt="" /></a>
+
+                </div>
+                Formulario de Registro
+                <form ngNativeValidate [formGroup]="forma" (ngSubmit)="registrarUsuario()" class="form-horizontal form-material" id="loginform" action="index.html">
+                    <!-- <a href="javascript:void(0)" class="text-center db"><img src="assets/images/logo-icon.png" alt="Home" /><br/><img src="../assets/images/logo-text.png" alt="Home" /></a> -->
+                    <!-- <h3 class="box-title m-t-40 m-b-0">Registrarme Ahora</h3> -->
+                    <!-- <small>Cree su cuenta</small> -->
+                    <div class="form-group m-t-20">
+                        <div class="col-xs-3">
+                            <!-- <input formControlName="TipoIdentificacionId" name="TipoIdentificacionId" class="form-control" type="text" required placeholder="Nombre"> -->
+                            <select formControlName="TipoIdentificacionId" name="TipoIdentificacionId" class="form-control" required>
+                                    <option *ngFor="let item of tipoDoc" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                </select>
+                        </div>
+                    </div>
+                    <div class="form-group m-t-20">
+                        <div class="col-xs-3">
+                            <input formControlName="numeroDocumento" name="numeroDocumento" class="form-control" type="text" required placeholder="Número documento">
+                        </div>
+                    </div>
+                    <div class="form-group m-t-20">
+                        <div class="col-xs-3">
+                            <input formControlName="primerNombre" name="primerNombre" class="form-control" type="text" required placeholder="Nombre">
+                        </div>
+                    </div>
+                    <div class="form-group m-t-20">
+                        <div class="col-xs-3">
+                            <input formControlName="segundoNombre" name="segundoNombre" class="form-control" type="text" placeholder="Otros Nombres">
+                        </div>
+                    </div>
+                    <div class="form-group m-t-20">
+                        <div class="col-xs-3">
+                            <input formControlName="primerApellido" name="primerApellido" class="form-control" type="text" required placeholder="Apellido">
+                        </div>
+                    </div>
+
+                    <div class="form-group m-t-20">
+                        <div class="col-xs-3">
+                            <input formControlName="segundoApellido" name="segundoApellido" class="form-control" type="text" placeholder="Segundo Apellido">
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <div class="col-xs-3">
+                            <input formControlName="correo" name="correo" class="form-control" type="text" required placeholder="Correo Electrónico">
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <div class="col-xs-3">
+                            <!-- <input formControlName="password" required pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" name="password" class="form-control" type="password" required placeholder="Contraseña" title="Contraseña debe contener: Minimo 8 caracteres que contengan alfabetos y números"> -->
+                            <input formControlName="password" required pattern="(?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*" name="password" class="form-control"
+                                type="password" required placeholder="Contraseña" title="Contraseña debe contener al menos 6 caracteres: almenos, 1 carácter en mayúscula,  1 carácter en minúscula,  1 carácter numérico">
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-3">
+                            <input formControlName="password2" name="password2" class="form-control" type="password" required placeholder="Confirme Contraseña">
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="forma.errors?.sonIguales && !forma.pristine">
+                        <p class="text-danger">
+                            Las contraseñas deben de ser iguales
+                        </p>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <div class="checkbox checkbox-primary p-t-0">
+                                <input formControlName="condiciones" name="condiciones" id="checkbox-signup-condiciones" type="checkbox">
+                                <!-- <label for="checkbox-signup"> Acepto los <a href="#">Terminos</a></label>  -->
+
+
+                                <!-- <input [(ngModel)]="condiciones" name="condiciones" id="checkbox-signup-condiciones" type="checkbox"> -->
+                                <label for="checkbox-signup-condiciones"> Acepto los <a style="color: #F8F8F7; font-size: 12px;" (click)="mostrarModal()">Terminos</a></label>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group text-center m-t-20">
+                        <div class="col-xs-3">
+                            <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Regístrate</button>
+                            <a (click)="ayudaIngreso()" class="text-primary m-l-5"><b><i class="fa fa-info-circle"></i>Ayuda</b></a>
+                        </div>
+                    </div>
+                    <div class="form-group m-b-0">
+                        <div class="col-sm-12 text-center">
+                            <p>Ya tengo una cuenta? <a routerLink="/login" class="text-info m-l-5"><b>Regresar</b></a></p>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+<!-- <section id="wrapper" class="login-register login-sidebar" style="background-image:url(assets/images/background/login-register.jpg);">
+    <div class="login-box card">
+        <div class="card-body">
+            
+        </div>
+    </div>
+</section> -->
+<!-- ============================================================== -->
+<!-- End Wrapper -->
+<!-- ============================================================== -->

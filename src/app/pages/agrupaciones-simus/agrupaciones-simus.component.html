@@ -1,0 +1,322 @@
+<div class="row animated fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row float-right" *ngIf="displayListAgente">
+                    <button type="button" (click)="showPanel('C')" class="btn btn-primary m-b-0 button-tabla">Crear nueva Agrupación</button>
+                </div>
+                <br/>
+                <h4 class="card-title">Colectivos Registrados</h4>
+                <h6 class="card-subtitle">Mantenimiento de Colectivos</h6>
+                <div *ngIf="displayListAgente">
+
+                    <dx-data-grid id="gridAgrupaciones" [dataSource]="listaAgrupaciones" showBorders="true" [rowAlternationEnabled]="true" [columnHidingEnabled]="true" [columnAutoWidth]="true" keyExpr="AgrupacionId">
+                        <dxo-export [enabled]="true" fileName="Agrupaciones Registradas en el Sistema"></dxo-export>
+                        <dxo-filter-row [visible]="true"></dxo-filter-row>
+                        <dxo-header-filter [visible]="true"></dxo-header-filter>
+                        <dxo-grouping [contextMenuEnabled]="true" expandMode="rowClick"></dxo-grouping>
+                        <dxo-group-panel [visible]="true" emptyPanelText="Use el contexto de menu de los encabezados de columnas para agrupar datos"></dxo-group-panel>
+                        <dxo-search-panel [visible]="true" [width]="240" placeholder="Buscar..."></dxo-search-panel>
+                        <dxo-remote-operations [sorting]="true" [paging]="true">
+                        </dxo-remote-operations>
+                        <dxo-state-storing [enabled]="true" type="localStorageAgentes" storageKey="storage"></dxo-state-storing>
+                        <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+                        <dxi-column caption="Acciones" cellTemplate="accionCellTemplate" alignment="center"></dxi-column>
+                        <dxi-column dataField="AgrupacionId" caption="Id">
+                        </dxi-column>
+                        <dxi-column dataField="AgrupacionNombre" caption="Nombre">
+                        </dxi-column>
+                        <dxi-column dataField="AgrupacionPaginaWeb" caption="Pagina Web">
+                        </dxi-column>
+                        <dxi-column dataField="AgrupacionTelefono" caption="Telefono">
+                        </dxi-column>
+                        <dxi-column dataField="MunicipioResidenciaNombre" caption="Municipio">
+                        </dxi-column>
+                        <dxi-column dataField="AgrupacionDireccion" caption="Dirección">
+                        </dxi-column>
+
+
+                        <div *dxTemplate="let d of 'accionCellTemplate'">
+                            <!--<div>
+                               <i style="font-size:20px; cursor:pointer;" class="icofont icofont-law-document" placement="right" ngbTooltip="Seleccionar" (click)="showPanel('U', d.data.PersonaId)"></i> 
+                              <i style="font-size:20px; cursor:pointer;" class="icofont icofont-law-document" placement="right" ngbTooltip="Actualizar" (click)="showPanel('U', d.data.PersonaId)"></i>
+
+                          </div>-->
+
+                            <!-- -->
+                            <div class="internal-grid-container">
+                                <div>
+
+                                    <button type="button" matTooltip="Editar" (click)="showPanel('U', d.data.AgrupacionId)" class="btn btn-success waves-effect waves-light m-r-10">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    <!-- <button type="button" (click)="showPanel('U', d.data.AgenteId)" class="btn btn-danger m-b-0">  Borrar </button> -->
+
+                                    <!-- <button type="button" (click)="aprobarAgente(d.data.AgenteId)" class="btn btn-facebook waves-effect waves-light m-r-10">
+                                        <i class="fa fa-save"></i>
+                                    Aprobar
+                                </button> -->
+                                    <!-- <button type="button" (click)="borrarAgente(d.data.AgenteId)" class="btn btn-danger waves-effect waves-light m-r-10">
+                                        <i class="fa fa-remove"></i>
+                                    Borrar
+                                </button> -->
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <dxo-summary>
+                            <dxi-total-item column="AgrupacionId" summaryType="count" displayFormat="Cantidad: {0}">
+                            </dxi-total-item>
+                        </dxo-summary>
+                        <dxo-paging [pageSize]="10"></dxo-paging>
+                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 40]" [visible]="true" [showInfo]="true" [showNavigationButtons]="true"></dxo-pager>
+
+                    </dx-data-grid>
+                </div>
+
+
+
+                <!-- <input #input (keyup)="buscarUsuario( input.value )" type="text" class="form-control" placeholder="Buscar usuario..."> -->
+                <!-- <input #input type="text" class="form-control" placeholder="Buscar usuario..."> -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+
+            <div class="card-body">
+                <div *ngIf="displayCrearAgente">
+                        <button type="button" (click)="showPanel('V')" class="btn btn-primary waves-effect waves-light m-r-10">
+                                <i class="fa fa-backward"></i>
+                            Regresar
+                        </button>
+
+<div class="row animated fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div id="demo-wizard" class="wizard" style="width:100%">
+                <ul class="steps">
+                    <li data-target="#step1" class="active" style="width:25%"><span class="badge badge-info">1</span>Registro<span class="chevron"></span></li>
+                    <li data-target="#step2" style="width:25%"><span class="badge">2</span>Perfil<span class="chevron"></span></li>
+                    <li data-target="#step3" style="width:25%"><span class="badge">3</span>Oferta<span class="chevron"></span></li>
+                    <li data-target="#step4" style="width:25%" class="last"><span class="badge">4</span>Requisitos</li>
+                </ul>
+            </div>
+            <div class="step-content" *ngIf="registro">
+                <div class="step-pane active" id="step1">
+
+                    <div class="card-body wizard-content">
+                        <h4 class="card-title">Registro</h4>
+
+                        <form #formCc1="ngForm" ngNativeValidate (ngSubmit)="showPanel2('P')" class="tab-wizard wizard-circle">
+                            <!-- Step 1 -->
+                            <!-- <div class="row p-t-20">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputuname">Tipo de Documento
+
+                                        </label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                            <select name="TipoIdentificacionId" class="form-control" [(ngModel)]="agente.TipoIdentificacionId" required>
+                                                                                                              <option *ngFor="let item of tipoDoc" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                                                                                      </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputuname">Número Identificación</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="ti-key"></i></div>
+                                            <input name="PersonaNumeroId" type="text" class="form-control" placeholder="Numero de Identificación" [(ngModel)]="agente.AgenteNumeroIdentificacion" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            
+                            <!-- <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Número Identificación</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                        <input name="PersonaNumeroId" type="text" class="form-control" placeholder="Numero de Identificación" [(ngModel)]="agente.AgenteNumeroIdentificacion" required>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="row p-t-20">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                                <label for="exampleInputuname">Tipo de Agrupación
+
+                                                    </label>
+                                                    <div class="input-group">
+                                                            <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                                            <select name="TipoAgrupacionId" class="form-control" [(ngModel)]="agrupacion.TipoAgrupacionId" required>
+                                                                                                                              <option *ngFor="let item of tipoAgrupacion" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                                                                                                      </select>
+                                                        </div>
+                                         </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                        <div class="form-group">
+                                                <label for="exampleInputuname">Área
+
+                                                    </label>
+                                                    <div class="input-group">
+                                                            <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                                            <select name="AreaId" class="form-control" [(ngModel)]="agrupacion.AreaId" required>
+                                                                                                                              <option *ngFor="let item of areaLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                                            </select>
+                                                        </div>
+                                         </div>
+                                        </div>
+                            </div>
+
+                            <div class="row p-t-20">
+                                    <div class="col-md-6">
+                                       <div class="form-group row">
+                                        <label for="exampleInputuname">Departamento</label>
+                                        <div class="input-group">
+                                        <div class="input-group-addon"><i class="ti-location-arrow"></i></div>
+                                        <select class="form-control" required name="DepartamentoId" [(ngModel)]="agrupacion.DepartamentoId" (change)="mostrarMunicipiosDeNacimiento()">
+                                         <option value="">-- Seleccione el departamento --</option>
+                                         <option *ngFor="let item of depLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                        </select>
+                                    </div>
+                                   </div>
+                                </div>
+                                <div class="col-md-6">
+                                   <div class="form-group row">
+                                    <label for="exampleInputuname">Municipio </label>
+                                 <div class="input-group">
+                                 <div class="input-group-addon"><i class="ti-location-arrow"></i></div>
+                                   <select class="form-control" required name="MunicipioId" [(ngModel)]="agrupacion.MunicipioId">
+                                     <option value="">-- Seleccione el municipio --</option>
+                                     <option *ngFor="let item of munNacimientoLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                   </select>
+                                 </div>
+                               </div>
+                              </div>
+                              </div>
+
+                              <div class="row p-t-20">
+                                    <div class="col-md-6">
+                                       <div class="form-group">
+                                          <label for="exampleInputuname">Pagina Web</label>
+                                               <div class="input-group">
+                                                  <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <input name="AgrupacionPaginaWeb" type="text" class="form-control" placeholder="https://www.google.com.co/" [(ngModel)]="agrupacion.AgrupacionPaginaWeb">
+                                               </div>                               
+                                       </div>
+                                    </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="exampleInputuname">Teléfono Fijo</label>
+                                          <div class="input-group">
+                                              <div class="input-group-addon"><i class="ti-headphone"></i></div>
+                                                <input name="AgrupacionTelefono" type="text" class="form-control" placeholder="031-3424100 ext:0" [(ngModel)]="agrupacion.AgrupacionTelefono" required>
+                                           </div>
+                                  </div>
+                                </div>
+                               </div>
+
+                               <div class="row p-t-20">
+                                    <div class="col-md-6">
+                                       <div class="form-group">
+                                          <label for="exampleInputuname">Dirección</label>
+                                               <div class="input-group">
+                                                  <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                    <input name="AgrupacionDireccion" type="text" class="form-control" placeholder="" [(ngModel)]="agrupacion.AgrupacionDireccion">
+                                               </div>                               
+                                       </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                            <div class="form-group">
+                                               <label for="exampleInputuname">Reseña</label>
+                                                    <div class="input-group">
+                                                       <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                         <input name="AgrupacionResena" type="text" class="form-control" placeholder="" [(ngModel)]="agrupacion.AgrupacionResena">
+                                                    </div>                               
+                                            </div>
+                                         </div>
+                              
+                               </div>
+                            <section>
+
+                            </section>
+                            <!-- <div class="actions">
+                                    <button type="button" class="btn waves-effect waves-light btn-info"><i class="fa fa-arrow-left"></i>Anterior</button>
+                                    <button type="button" class="btn waves-effect waves-light btn-info"  >Siguiente <i class="fa fa-arrow-right"></i>
+                                    </button>
+                                </div> -->
+                            <div class="actions">
+
+                                <button type="submit" class="btn waves-effect waves-light btn-info">Siguiente <i class="fa fa-arrow-right"></i>
+                                            </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <!-- Step 2 -->
+            <div class="step-pane" id="step2" *ngIf="perfil">
+                Perfil
+                <div class="actions">
+                    <button type="button" class="btn waves-effect waves-light btn-info" (click)="showPanel2('R')"><i class="fa fa-arrow-left"></i>Anterior</button>
+                    <button type="button" class="btn waves-effect waves-light btn-info" (click)="showPanel2('O')">Siguiente <i class="fa fa-arrow-right"></i>
+        </button>
+                </div>
+            </div>
+            <div class="step-pane" id="step3" *ngIf="oferta">
+                Oferta
+                <div class="actions">
+                    <button type="button" class="btn waves-effect waves-light btn-info" (click)="showPanel2('P')"><i class="fa fa-arrow-left"></i>Anterior</button>
+                    <!-- <button type="button" class="btn waves-effect waves-light btn-info" (click)="showPanel2('P')">Siguiente <i class="fa fa-arrow-right"></i>
+                            </button> -->
+                </div>
+            </div>
+            <div class="step-pane" id="step4">
+                <!-- <div class="actions">
+                    <button type="button" class="btn waves-effect waves-light btn-info"><i class="fa fa-arrow-left"></i>Anterior</button>
+                    <button type="button" class="btn waves-effect waves-light btn-info" (click)="showPanel('P')">Siguiente <i class="fa fa-arrow-right"></i>
+                            </button>
+                </div> -->
+            </div>
+            <!-- <div class="actions">
+                <button type="button" class="btn waves-effect waves-light btn-info"><i class="fa fa-arrow-left"></i>Anterior</button>
+                <button type="button" class="btn waves-effect waves-light btn-info" (click)="showPanel('P')" >Siguiente <i class="fa fa-arrow-right"></i>
+                </button>
+            </div> -->
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="row float-right" *ngIf="displayListAgente">
+                    <button type="button" (click)="showPanel('C')" class="btn btn-primary m-b-0 button-tabla">Crear nuevo Agente</button>
+                </div>
+                <br/>
+                <h4 class="card-title">Agentes Registrados</h4>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+</div>
+</div>
+</div>
+</div>

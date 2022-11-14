@@ -1,0 +1,84 @@
+<!-- <mat-horizontal-stepper [linear]="isLinear" #stepper>
+<mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+    <ng-template matStepLabel>Datos básicos y ubicación</ng-template>
+    <h3 class="card-title">Datos básicos y ubicación</h3>
+    <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-card class = "tp-card">
+                    <img mat-card-image src="../assets/images/entidad_generica.jpg" alt="logo">
+                </mat-card>          
+            </div>
+            <div class="col-md-6">
+                <mat-form-field>
+                        <input matInput placeholder="Nombre" id="nombre" formControlName="firstCtrl" required>
+                </mat-form-field>       
+                <mat-form-field>
+                        <input matInput placeholder="Nit" id="nit" formControlName="firstCtrl" required>
+                </mat-form-field>      
+                <mat-form-field>
+                        <input matInput placeholder="Digito verificación" id="dgtVerificacion">
+                </mat-form-field>   
+                <br> 
+                <mat-label id="departamento" class="mat-input-element">Departamento</mat-label>
+                <div class="input-group">
+                    <select class="form-control" required name="ZON_ID_DEP" [(ngModel)]="agente.DepartamentoResidenciaId" (change)="mostrarMunicipios()">
+                        <option value="">-- Seleccione el departamento --</option>
+                        <option *ngFor="let item of depLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                    </select>
+                </div>
+                <br>
+                <mat-label id="municipio">Municipio</mat-label>
+                <div class="input-group">
+                    <select class="form-control" required name="ZON_ID" [(ngModel)]="agente.MunicipioResidenciaId">
+                        <option value="">-- Seleccione el municipio --</option>
+                        <option *ngFor="let item of munLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                    </select>
+                </div>     
+                <mat-form-field>
+                        <input matInput placeholder="Dirección" id="direccion" formControlName="firstCtrl" required>
+                </mat-form-field>  
+                <mat-form-field>
+                        <input matInput placeholder="Teléfono" id="telefono">
+                </mat-form-field>
+                <mat-form-field>
+                        <input matInput placeholder="Correo Electrónico" id="email" required>
+                        <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                </mat-form-field>    
+
+                <mat-form-field>
+                        <input matInput placeholder="Página web" id="pagina">
+                </mat-form-field>  
+                <mat-form-field>
+                <mat-label id="naturaleza">Naturaleza</mat-label>
+                <mat-select>
+                    <mat-option *ngFor="let item of lstNaturaleza" [value]="item.value">
+                    {{item.viewValue}}
+                    </mat-option>
+                </mat-select>
+                </mat-form-field>   
+                <mat-label id="tipoEntidad">Tipo entidad</mat-label>
+                <div *ngFor="let list of lstTipoEntidad">
+                        <div class="form-check">
+                            <input class="form-check-input" [checked]="list.checked" name="tipoOcupacion" type="checkbox" id="{{list.value}}" value="{{list.value}}" (change)="onCheckboxChange(list,$event)">
+                            <label class="form-check-label" for="{{list.value}}">  {{list.viewValue}}</label>
+                        </div>
+                </div>                
+                <mat-form-field class="example-full-width">
+                        <textarea matInput placeholder="Descripción" id="descripcion"></textarea>
+                </mat-form-field>                                
+            </div>
+            <div>
+                <button type="submit" id="guardar" class="btn btn-success waves-effect waves-light m-r-10">
+                        <i class="fa fa-save"></i>
+                        Guardar</button>
+                <button type="button" id="cancelar" (click)="showPanel('V')" class="btn btn-primary waves-effect waves-light m-r-10">
+                        <i class="fa fa-backward"></i>
+                    Cancelar
+                </button>                           
+            </div>
+        </div>
+    </form>
+</mat-step>
+</mat-horizontal-stepper> -->

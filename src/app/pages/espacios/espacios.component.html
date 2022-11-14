@@ -1,0 +1,513 @@
+<div class="row animated fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row float-right" *ngIf="displayListEspacios">
+                    <button type="button" (click)="showPanel('C')" class="btn btn-primary m-b-0 button-tabla">Crear nuevo Espacio</button>
+                    <button type="button" (click)="_mapsUbicacionService.mostrarModal()" class="btn btn-success m-b-0 button-tabla">Mostrar Mapa</button>
+                </div>
+                <br/>
+                <h4 class="card-title">Espacios Registrados</h4>
+                <h6 class="card-subtitle">Mantenimiento de Espacios</h6>
+                <div *ngIf="displayListEspacios">
+
+                    <dx-data-grid id="gridAgrupaciones" [dataSource]="listaEspacios" showBorders="true" [rowAlternationEnabled]="true" [columnHidingEnabled]="true" [columnAutoWidth]="true" keyExpr="EscenarioId">
+                        <dxo-export [enabled]="true" fileName="Agrupaciones Registradas en el Sistema"></dxo-export>
+                        <dxo-filter-row [visible]="true"></dxo-filter-row>
+                        <dxo-header-filter [visible]="true"></dxo-header-filter>
+                        <dxo-grouping [contextMenuEnabled]="true" expandMode="rowClick"></dxo-grouping>
+                        <dxo-group-panel [visible]="true" emptyPanelText="Use el contexto de menu de los encabezados de columnas para agrupar datos"></dxo-group-panel>
+                        <dxo-search-panel [visible]="true" [width]="240" placeholder="Buscar..."></dxo-search-panel>
+                        <dxo-remote-operations [sorting]="true" [paging]="true">
+                        </dxo-remote-operations>
+                        <dxo-state-storing [enabled]="true" type="localStorageAgentes" storageKey="storage"></dxo-state-storing>
+                        <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+                        <dxi-column caption="Acciones" cellTemplate="accionCellTemplate" alignment="center"></dxi-column>
+                        <dxi-column dataField="EscenarioId" caption="Id">
+                        </dxi-column>
+                        <dxi-column dataField="EscenarioNombre" caption="Nombre">
+                        </dxi-column>
+                        <dxi-column dataField="EscenarioDireccion" caption="Direccion">
+                        </dxi-column>
+                        <dxi-column dataField="EscenarioNombrePropietario" caption="Nombre Propietario">
+                        </dxi-column>
+                        <!-- <dxi-column dataField="MunicipioResidenciaNombre" caption="Municipio">
+                        </dxi-column>
+                        <dxi-column dataField="AgrupacionDireccion" caption="Dirección">
+                        </dxi-column> -->
+
+
+                        <div *dxTemplate="let d of 'accionCellTemplate'">
+                            <!--<div>
+                                   <i style="font-size:20px; cursor:pointer;" class="icofont icofont-law-document" placement="right" ngbTooltip="Seleccionar" (click)="showPanel('U', d.data.PersonaId)"></i> 
+                                  <i style="font-size:20px; cursor:pointer;" class="icofont icofont-law-document" placement="right" ngbTooltip="Actualizar" (click)="showPanel('U', d.data.PersonaId)"></i>
+    
+                              </div>-->
+
+                            <!-- -->
+                            <div class="internal-grid-container">
+                                <div>
+
+                                    <button type="button" matTooltip="Editar" (click)="showPanel('U', d.data.EscenarioId)" class="btn btn-success waves-effect waves-light m-r-10">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                    <button type="button" matTooltip="Aprobar" (click)="aprobarEspacio(d.data.EscenarioId)" class="btn btn-facebook waves-effect waves-light m-r-10">
+                                                    <i class="fa fa-check"></i>
+                                                
+                                            </button>
+                                    <button type="button" matTooltip="Borrar" (click)="borrarEspacio(d.data.EscenarioId)" class="btn btn-danger waves-effect waves-light m-r-10">
+                                                    <i class="fa fa-remove"></i>
+                                                </button>
+                                    <!-- <button type="button" (click)="showPanel('U', d.data.AgenteId)" class="btn btn-danger m-b-0">  Borrar </button> -->
+
+                                    <!-- <button type="button" (click)="aprobarAgrupacion(d.data.AgrupacionId)" class="btn btn-facebook waves-effect waves-light m-r-10">
+                                            <i class="fa fa-save"></i>
+                                        Aprobar
+                                    </button> -->
+                                    <!-- <button type="button" (click)="borrarAgente(d.data.AgenteId)" class="btn btn-danger waves-effect waves-light m-r-10">
+                                            <i class="fa fa-remove"></i>
+                                        Borrar
+                                    </button> -->
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <dxo-summary>
+                            <dxi-total-item column="AgrupacionId" summaryType="count" displayFormat="Cantidad: {0}">
+                            </dxi-total-item>
+                        </dxo-summary>
+                        <dxo-paging [pageSize]="10"></dxo-paging>
+                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 40]" [visible]="true" [showInfo]="true" [showNavigationButtons]="true"></dxo-pager>
+
+                    </dx-data-grid>
+                </div>
+
+
+
+                <!-- <input #input (keyup)="buscarUsuario( input.value )" type="text" class="form-control" placeholder="Buscar usuario..."> -->
+                <!-- <input #input type="text" class="form-control" placeholder="Buscar usuario..."> -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+
+            <div class="card-body">
+                <div *ngIf="displayCrearEspacio">
+
+                    <div class="card">
+                        <div id="demo-wizard" class="wizard" style="width:100%">
+                            <ul class="steps">
+                                <li data-target="#step1" [ngClass]="EstiloStep1" style="width:25%"><span class="badge badge-info">1</span>Registro<span class="chevron"></span></li>
+                                <li data-target="#step2" [ngClass]="EstiloStep2" style="width:25%"><span class="badge">2</span>Otra Información<span class="chevron"></span></li>
+                                <!-- <li data-target="#step3" [ngClass]="EstiloStep3" style="width:25%"><span class="badge">3</span>Oferta<span class="chevron"></span></li>
+                                <li data-target="#step4" [ngClass]="EstiloStep4" style="width:25%" class="last"><span class="badge">4</span>Requisitos</li> -->
+                            </ul>
+                        </div>
+                        <div class="step-content" *ngIf="registro">
+                            <div class="step-pane active" id="step1">
+
+                                <div class="card-body wizard-content">
+                                    <h4 class="card-title">Registro</h4>
+
+                                    <form ngNativeValidate #formCc="ngForm" (ngSubmit)="onSubmit(formCc.valid, 'P')" class="form p-t-20">
+                                        <div class="activity-box m-t-30">
+                                            <div class="date-devider"><span>Información Espacio</span></div>
+                                        </div>
+                                        <hr>
+
+
+
+                                        <!-- <div class="widget-container">
+                                                                        <dx-file-uploader #fileUploader uploadUrl="http://localhost:40347/ApiRest/Agente/addArchivoAgente/" [multiple]="false" accept="*" [(value)]="value" uploadMode="instantly" [allowedFileExtensions]="['.jpg', '.jpeg', '.gif', '.png']" [maxFileSize]="4000000">
+                                                                        </dx-file-uploader>
+                                                                        <span class="note">Extensiones Permitidas: <span>.jpg, .jpeg, .gif, .png</span>.</span>
+                                                                        <span class="note">Tamaño maximo: <span>4 MB</span>.</span>
+                                            
+                                            
+                                                                        <div class="content">
+                                                                            <div *ngIf="value.length > 0">
+                                                                                <h4>Selected Files</h4>
+                                                                            </div>
+                                                                            <div *ngFor="let file of value">
+                                                                                <div class="selected-item">
+                                                                                    Name:
+                                                                                    <span>{{file.name}}</span><br /> Size:
+                                                                                    <span>{{file.size}}</span>bytes<br /> Type:
+                                                                                    <span>{{file.type}}</span><br /> Last Modified Date:
+                                                                                    <span>{{file.lastModifiedDate}}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div> -->
+                                        <!-- <div class="options">
+                                                                        <div class="caption">Options</div>
+                                                                        <div class="option">
+                                                                            <span>File types</span>
+                                                                            <dx-select-box [dataSource]="[
+                                                                                    {name: 'All types', value: '*'}, 
+                                                                                    {name: 'Images', value: 'image/*'}, 
+                                                                                    {name: 'Videos', value: 'video/*'}
+                                                                                ]" valueExpr="value" displayExpr="name" [(value)]="fileUploader.accept"></dx-select-box>
+                                                                        </div>
+                                                                        <div class="option">
+                                                                            <span>Upload mode</span>
+                                                                            <dx-select-box [items]="['instantly', 'useButtons']" [(value)]="fileUploader.uploadMode"></dx-select-box>
+                                                                        </div>
+                                                                        <div class="option">
+                                                                            <dx-check-box text="Allow multiple files selection" [(value)]="fileUploader.multiple"></dx-check-box>
+                                                                        </div>
+                                                                    </div> -->
+
+                                        <div class="row p-t-20">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Nombre</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="EscenarioNombre" type="text" class="form-control" placeholder="Escenario Nombre" [(ngModel)]="escenario.EscenarioNombre" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname"> Dirección</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="EscenarioDireccion" type="text" class="form-control" placeholder="Escenario Dirección" [(ngModel)]="escenario.EscenarioDireccion" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label for="exampleInputuname">Departamento</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-location-arrow"></i></div>
+                                                        <select class="form-control" required name="DepartamentoId" [(ngModel)]="escenario.DepartamentoId" (change)="mostrarMunicipios()">
+                                                                                                              <option value="">-- Seleccione el departamento --</option>
+                                                                                                              <option *ngFor="let item of depLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                                                                                          </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label for="exampleInputuname">Municipio</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-location-arrow"></i></div>
+                                                        <select class="form-control" required name="MunicipioNacimientoId" [(ngModel)]="escenario.MunicipioId">
+                                                                                                                  <option value="">-- Seleccione el municipio --</option>
+                                                                                                                  <option *ngFor="let item of munLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                                                                                              </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Reseña Escenario</label>
+                                                    <textarea class="form-control" rows="8" name="EscenarioResenaEscenario" [(ngModel)]="escenario.EscenarioResenaEscenario" required></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Nombre Propietario</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input name="EscenarioNombrePropietario" type="text" class="form-control" placeholder="Escenario Nombre Propietario" [(ngModel)]="escenario.EscenarioNombrePropietario" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="input-group-addon"><i class="ti-agenda"></i> Naturaleza</div>
+                                                <select name="NaturalezaId" class="form-control" [(ngModel)]="escenario.NaturalezaId" required>
+                                                    <option *ngFor="let item of tipoEntidadLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Correo Electrónico  Escenario</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-email"></i></div>
+                                                        <input name="AgenteEmail" type="text" class="form-control" placeholder="micorreo@dominio.com" [(ngModel)]="escenario.EscenarioCorreoElectronico" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Redes Sociales</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="EscenarioRedesSociales" type="text" class="form-control" placeholder="Redes Sociales" [(ngModel)]="escenario.EscenarioRedesSociales">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Teléfono Contacto</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input name="EscenarioTelefonoContacto" type="text" class="form-control" placeholder="Teléfono Contacto" [(ngModel)]="escenario.EscenarioTelefonoContacto" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="input-group-addon"><i class="ti-agenda"></i>Tipo Escenario</div>
+                                                <select name="TipoEscenarioId" class="form-control" [(ngModel)]="escenario.TipoEscenarioId" required>
+                                                    <option *ngFor="let item of tipoEscenarioLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Escenario Aforo Total</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="EscenarioAforoTotal" type="number" min="1" max="9" class="form-control" placeholder="1-9" [(ngModel)]="escenario.EscenarioAforoTotal">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Escenario Área Lugar</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="EscenarioAreaLugar" type="number" min="1" max="10000" class="form-control" placeholder="1- 10000" [(ngModel)]="escenario.EscenarioAreaLugar">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Escenario Área Tarima</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="EscenarioAreaTarima" type="number" min="1" max="10000" class="form-control" placeholder="1 - 10000" [(ngModel)]="escenario.EscenarioAreaTarima">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Acceso Al Publico Entradas</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="EscenarioAccesoAlPublicoEntradas" type="number" class="form-control" min="1" max="100" placeholder="1 - 100" [(ngModel)]="escenario.EscenarioAccesoAlPublicoEntradas">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Acceso al Publico Salidas</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="EscenarioAccesoAlPublicoSalidas" type="number" class="form-control" min="1" max="100" placeholder="1 - 100" [(ngModel)]="escenario.EscenarioAccesoAlPublicoSalidas">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Baño Acceso Publico</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="EscenarioBanoAccesoPublico" type="number" class="form-control" min="1" max="100" placeholder="1 - 100" [(ngModel)]="escenario.EscenarioBanoAccesoPublico">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Camerino y vestidores con Baño</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="EscenarioCamerinoYVestidoresConBano" type="number" class="form-control" min="1" max="100" placeholder="1 - 100" [(ngModel)]="escenario.EscenarioCamerinoYVestidoresConBano">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Camerino y vestidores sin Baño</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="EscenarioCamerinoYVestidoresSinBano" type="number" class="form-control" min="1" max="100" placeholder="1 - 100" [(ngModel)]="escenario.EscenarioCamerinoYVestidoresSinBano">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Parqueaderos Públicos</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="EscenarioParqueaderosPublicos" type="number" class="form-control" min="1" max="100" placeholder="1 - 100" [(ngModel)]="escenario.EscenarioParqueaderosPublicos">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname"> Equipamiento y Dotación Iluminación</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="EscenarioEquipamientoYDotacionIluminacion" type="number" class="form-control" min="1" max="100" placeholder="1 - 100" [(ngModel)]="escenario.EscenarioEquipamientoYDotacionIluminacion">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Descripción Equipamiento y Dotación Iluminación</label>
+                                                    <textarea class="form-control" rows="8" name="EscenarioDescripcionEquipamientoYDotacionIluminacion" [(ngModel)]="escenario.EscenarioDescripcionEquipamientoYDotacionIluminacion" required></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row p-t-20">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Equipamiento y Dotación Acústica y Sonido</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="EscenarioEquipamientoYDotacionAcusticaYSonido" type="text" class="form-control" placeholder="S ó N" [(ngModel)]="escenario.EscenarioEquipamientoYDotacionAcusticaYSonido">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label> Descripción Equipamiento y Dotación Acústica y Sonido</label>
+                                                    <textarea class="form-control" rows="8" name="EscenarioDescripcionEquipamientoYDotacionAcusticaYSonido" [(ngModel)]="escenario.EscenarioDescripcionEquipamientoYDotacionAcusticaYSonido" required></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row p-t-20">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Equipamiento y Dotación Otros Servicios</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="EscenarioEquipamientoYDotacionOtrosServicios" type="text" class="form-control" placeholder="Si (S),  No (N)" [(ngModel)]="escenario.EscenarioEquipamientoYDotacionOtrosServicios">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label> Descripción Equipamiento y Dotación Otros Servicios</label>
+                                                    <textarea class="form-control" rows="8" name="EscenarioDescripcionEquipamientoYDotacionOtrosServicios" [(ngModel)]="escenario.EscenarioDescripcionEquipamientoYDotacionOtrosServicios" required></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Escenario Habilitado</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="EscenarioEscenarioHabilitado" type="text" class="form-control" placeholder="Si (S),  No (N)" [(ngModel)]="escenario.EscenarioEscenarioHabilitado">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+
+
+
+
+
+                                        <div class="row p-t-20">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Fecha de Registro</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-time"></i></div>
+                                                        <input required type="text" [(ngModel)]="escenario.EscenarioFechaRegistro" placeholder="mm/dd/aaaa" name="EscenarioFechaRegistro" ngbDatepicker #EscenarioFechaRegistro="ngbDatepicker">
+                                                        <div class="input-group-addon bg-default" (click)="EscenarioFechaRegistro.toggle()">
+                                                            <span class="ti-calendar"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <button type="submit" class="btn waves-effect waves-light btn-info">Guardar <i class="fa fa-arrow-right"></i></button>
+
+
+
+                                    </form>
+
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="step-pane" id="step2" *ngIf="perfil">
+                            Otra Información
+                            <div class="actions">
+                                <button type="button" class="btn waves-effect waves-light btn-info" (click)="showPanel2('R')"><i class="fa fa-arrow-left"></i>Anterior</button>
+                                <button type="button" class="btn waves-effect waves-light btn-info" (click)="showPanel2('O')">Siguiente <i class="fa fa-arrow-right"></i>
+                            </button>
+                            </div>
+                        </div>
+                        <!-- <div class="step-pane" id="step3" *ngIf="oferta">
+                            Oferta
+                            <div class="actions">
+                                <button type="button" class="btn waves-effect waves-light btn-info" (click)="showPanel2('P')"><i class="fa fa-arrow-left"></i>Anterior</button>
+                                
+                            </div>
+                        </div> -->
+                        <!-- <div class="step-pane" id="step4">
+
+                        </div> -->
+
+                        <button type="button" class="btn waves-effect waves-light btn-info" (click)="showPanel('V','2')"><i class="fa fa-arrow-left"></i>Regresar al Listado</button>
+
+                    </div>
+
+
+
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

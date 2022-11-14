@@ -1,0 +1,1448 @@
+<ng-template #customLoadingTemplate>
+    <div class="custom-class">
+        <h3>
+            Cargando...
+        </h3>
+    </div>
+</ng-template>
+<!-- <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading> -->
+<ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish, primaryColour: primaryColour, backdropBorderRadius: '3px'}" [template]="loadingTemplate"></ngx-loading>
+
+
+<div id="accordion">
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Análisis
+            </button>
+                <a (click)="ayudaIngreso()" class="text-primary m-l-5"><b><i class="fa fa-info-circle"></i>Ayuda</b></a>
+            </h5>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="card-body">
+                <dx-chart id="sales-chart">
+                    <dxo-size [width]="1000"></dxo-size>
+                    <dxo-common-series-settings type="bar">
+                        <dxo-label [visible]="true" [font]="{size:10}" [format]="{
+                        type: '#,##0.##',
+                        precision: '1'
+                      }">
+                        </dxo-label>
+                    </dxo-common-series-settings>
+                    <dxo-size [height]="200"></dxo-size>
+                    <dxo-adaptive-layout [width]="450"></dxo-adaptive-layout>
+                    <dxo-tooltip [enabled]="true" format="currency" [customizeTooltip]="customizeTooltip"></dxo-tooltip>
+                </dx-chart>
+                <dx-pivot-grid id="pivotgrid" [allowSorting]="true" [allowSortingBySummary]="true" [allowFiltering]="true" [showBorders]="true" [showColumnGrandTotals]="true" [showRowGrandTotals]="true" [showRowTotals]="false" [showColumnTotals]="false" [dataSource]="dataSource">
+                    <dxo-header-filter [allowSearch]="true" [showRelevantValues]="true" [width]="300" [height]="400"></dxo-header-filter>
+                    <dxo-field-chooser [enabled]="true" [allowSearch]="true" [height]="400"></dxo-field-chooser>
+                    <dxo-scrolling mode="virtual"></dxo-scrolling>
+                    <dxo-field-panel [showDataFields]="false" [showRowFields]="true" [showColumnFields]="true" [showFilterFields]="true" [allowFieldDragging]="true" [visible]="true">
+                    </dxo-field-panel>
+                    <dxo-export [enabled]="true" fileName="OfertaArtes"></dxo-export>
+
+                </dx-pivot-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="row animated fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row float-right" *ngIf="displayListAgente">
+                    <button type="button" (click)="showPanel('C')" class="btn btn-primary m-b-0 button-tabla"><i class="fa fa-plus"></i> Crear nuevo Agente</button>
+
+                </div>
+                <br/>
+                <h4 *ngIf="displayListAgente" class="card-title">Registro de Agentes</h4>
+                <!-- <h6 class="card-subtitle">Mantenimiento de agentes</h6> -->
+                <div *ngIf="displayListAgente">
+                    <dx-data-grid id="gridAgentes" [allowColumnReordering]="true" [allowColumnResizing]="true" [dataSource]="listaAgentes" showBorders="true" [rowAlternationEnabled]="true" [columnAutoWidth]="true" keyExpr="AgenteId">
+                        <dxo-export [enabled]="true" fileName="Agentes Registrados en el Sistema"></dxo-export>
+                        <dxo-filter-row [visible]="true"></dxo-filter-row>
+                        <dxo-header-filter [visible]="true"></dxo-header-filter>
+                        <dxo-grouping [contextMenuEnabled]="true" expandMode="rowClick"></dxo-grouping>
+                        <dxo-group-panel [visible]="true" emptyPanelText="Use el contexto de menu de los encabezados de columnas para agrupar datos"></dxo-group-panel>
+                        <dxo-search-panel [visible]="true" [width]="240" placeholder="Buscar..."></dxo-search-panel>
+                        <dxo-remote-operations [sorting]="true" [paging]="true">
+                        </dxo-remote-operations>
+                        <!-- <dxo-state-storing [enabled]="true" type="localStorageAgentes" storageKey="storage"></dxo-state-storing> -->
+                        <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+                        <dxi-column caption="Acciones" cellTemplate="accionCellTemplate" alignment="center"></dxi-column>
+                        <dxi-column dataField="AgenteId" caption="Id">
+                        </dxi-column>
+                        <!-- <dxi-column dataField="Sistema" caption="Sistema" cellTemplate="cellTemplate">
+                        </dxi-column>
+                        <div *dxTemplate="let d of 'cellTemplate'">
+                            <div *ngIf="d.data.Sistema === 'Simus' ">
+                                <p>Link <a [href]="cargarLink(d.data.AgenteOtoSistemaId, d.data.Sistema)" target="_blank" title="Click aqui para abrir">{{d.data.Sistema}}</a></p>
+                            </div>
+                            <div *ngIf="d.data.Sistema === 'Siartes' || d.data.Sistema === 'Sidanza' || d.data.Sistema === 'Soy Cultura'">
+                                {{d.data.Sistema}}
+                            </div>
+                        </div> -->
+                        <!-- <dxi-column dataField="TipoIdentificacionNombre" caption="Tipo TipoIdentificación">
+                        </dxi-column> -->
+
+
+                        <dxi-column dataField="AgenteNumeroIdentificacion" caption="Identificación">
+                        </dxi-column>
+                        <dxi-column dataField="DepartamentoRecidenciaNombre" caption="Departamento">
+                        </dxi-column>
+                        <dxi-column dataField="MunicipioResidenciaNombre" caption="Municipio">
+                        </dxi-column>
+                        <dxi-column dataField="AgentePrimerNombre" caption="Nombre">
+                        </dxi-column>
+                        <dxi-column dataField="AreaArtistica" caption="Área artística ">
+                        </dxi-column>
+                        <!-- <dxi-column dataField="AgenteEstadoNombre" caption="Otras Áreas artística">
+                        </dxi-column> -->
+
+
+                        <!--<dxi-column dataField="AgentePrimerApellido" caption="Primer Apellido">
+                        </dxi-column>
+                        <dxi-column dataField="AgenteSegundoApellido" caption="Segundo Apellido">
+                        </dxi-column> -->
+                        <dxi-column dataField="EstadoNombre" caption="Estado">
+                        </dxi-column>
+
+                        <dxi-column dataField="AgenteEmail" caption="Email">
+                        </dxi-column>
+                        <dxi-column dataField="PerfilTwitter" caption="Ocupacion">
+                        </dxi-column>
+                        <!-- <dxi-column dataField="CanalYoutube" caption="Ocupacion">
+                        </dxi-column> -->
+
+
+                        <!-- <dxi-column dataField="AgenteGenero" caption="Genero">
+                        </dxi-column> -->
+                        <dxi-column dataField="AgenteDireccion" caption="Direccion">
+                        </dxi-column>
+                        <dxi-column dataField="AgenteTelefonoMovil" caption="Celular">
+                        </dxi-column>
+                        <dxi-column dataField="AgenteEmail" caption="Correo">
+                        </dxi-column>
+                        <dxi-column dataField="AgenteTelefonoFijo" caption="Tel Fijo">
+                        </dxi-column>
+                        <!-- <dxi-column dataField="diasExperiencia" caption="Días Experiencia">
+                        </dxi-column>
+                        <dxi-column dataField="diasFormacion" caption="Días Formación">
+                        </dxi-column> -->
+
+
+                        <div *dxTemplate="let d of 'accionCellTemplate'">
+                            <!--<div>
+                               <i style="font-size:20px; cursor:pointer;" class="icofont icofont-law-document" placement="right" ngbTooltip="Seleccionar" (click)="showPanel('U', d.data.PersonaId)"></i> 
+                              <i style="font-size:20px; cursor:pointer;" class="icofont icofont-law-document" placement="right" ngbTooltip="Actualizar" (click)="showPanel('U', d.data.PersonaId)"></i>
+
+                          </div>-->
+
+                            <!-- -->
+                            <div class="internal-grid-container">
+                                <div>
+
+                                    <button type="button" matTooltip="Editar" (click)="showPanel('U', d.data.AgenteId, d.data.Sistema)" class="btn btn-success waves-effect waves-light m-r-10">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    <!-- <button type="button" (click)="showPanel('U', d.data.AgenteId)" class="btn btn-danger m-b-0">  Borrar </button> -->
+
+                                    <!-- <button type="button" [ngClass]="oculto" matTooltip="Aprobar" (click)="aprobarAgente(d.data.AgenteId)" class="btn btn-facebook waves-effect waves-light m-r-10">
+                                            <i class="fa fa-check"></i>
+                                        </button> -->
+
+                                    <button type="button" matTooltip="Borrar" (click)="borrarAgente(d.data.AgenteId, d.data.Sistema)" class="btn btn-danger waves-effect waves-light m-r-10">
+                                            <i class="fa fa-remove"></i>  
+                                        </button>
+
+                                    <!-- <button type="button" [ngClass]="oculto" matTooltip="Borrar" (click)="borrarAgente(d.data.AgenteId. d.data.Sistema)" class="btn btn-danger waves-effect waves-light m-r-10">
+                                            <i class="fa fa-remove"></i>  
+                                        </button> -->
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <dxo-summary>
+                            <dxi-total-item column="AgenteId" summaryType="count" displayFormat="Cantidad: {0}">
+                            </dxi-total-item>
+                        </dxo-summary>
+                        <dxo-paging [pageSize]="10"></dxo-paging>
+                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 40]" [visible]="true" [showInfo]="true" [showNavigationButtons]="true"></dxo-pager>
+
+                    </dx-data-grid>
+                </div>
+
+
+
+                <!-- <input #input (keyup)="buscarUsuario( input.value )" type="text" class="form-control" placeholder="Buscar usuario..."> -->
+                <!-- <input #input type="text" class="form-control" placeholder="Buscar usuario..."> -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+
+            <div class="card-body">
+                <div *ngIf="displayCrearAgente">
+
+                    <div class="row p-t-20">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-2">
+
+                            <button type="button" class="btn waves-effect waves-light btn-primary" (click)="showPanel('V','2')"><i class="fa fa-arrow-left"></i>Regresar al Listado</button>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2">
+                            <button type="button" (click)="showPanel('C')" class="btn btn-primary m-b-0 button-tabla"><i class="fa fa-plus"></i> Crear nuevo Agente</button>
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+                    <div class="activity-box m-t-30">
+                        <div class="date-devider"></div>
+                    </div>
+                    <div class="row p-t-20">
+
+
+                        <div class="col-md-10">
+                            <h4 class="card-title">
+                                {{agente.AgentePrimerNombre}} {{agente.AgenteSegundoNombre}} {{agente.AgentePrimerApellido}} {{agente.AgenteSegundoApellido}}
+                            </h4>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="card">
+                        <div id="demo-wizard" class="wizard" style="width:100%">
+                            <ul class="steps">
+                                <li data-target="#step1" [ngClass]="EstiloStep1" style="width:25%" (click)="showPanel2('R')"><span class="badge badge-info">1</span>Registro<span class="chevron"></span></li>
+                                <li data-target="#step2" [ngClass]="EstiloStep2" style="width:25%" (click)="showPanel2('P')"><span class="badge">2</span>Experiencia<span class="chevron"></span></li>
+                                <li data-target="#step3" [ngClass]="EstiloStep3" style="width:25%" (click)="showPanel2('O')"><span class="badge">3</span>Formación<span class="chevron"></span></li>
+                                <!-- <li data-target="#step4" [ngClass]="EstiloStep4" style="width:25%" class="last"><span class="badge">4</span>Otros</li> -->
+                            </ul>
+                        </div>
+                        <div class="step-content" *ngIf="registro">
+                            <div class="step-pane active" id="step1">
+                                <div class="card-body wizard-content">
+                                    <form ngNativeValidate #formCc="ngForm" (ngSubmit)="onSubmit(formCc.valid, 'P')" class="form p-t-20">
+                                        <div class="activity-box m-t-30">
+                                            <div class="date-devider"><span>Información Personal</span></div>
+                                        </div>
+                                        <hr>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <input name="Fotografia" type="text" class="form-control" placeholder="Imagen" [(ngModel)]="agente.Fotografia">
+
+                                                <img width="320px" height="213px" src="{{urlImagen}}" />
+                                                <!-- <button type="button" (click)="descargarArchivo()" class="btn btn-primary waves-effect waves-light m-r-10">
+                                                                            <i class="fa fa-backward"></i>
+                                                                        Descargar Imagen
+                                                                    </button> -->
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Fotografia</label>
+                                                    <div class="input-group">
+                                                        <dx-file-uploader #fileUploader uploadUrl={{url}} [multiple]="false" accept="*" [(value)]="value" uploadMode="useButtons" labelText="o arrastrar imagen" selectButtonText="Seleccionar archivo" (onValueChanged)="addIdParameter($event)" uploadButtonText="Subir Archivo"
+                                                            readyToUploadMessage="Listo para subir" uploadFailedMessage="Ocurrio un error al subir el archivo" (onUploaded)="subidaCompleta($event)" [allowedFileExtensions]="['.jpg', '.jpeg', '.gif', '.png']"
+                                                            [maxFileSize]="4000000">
+                                                        </dx-file-uploader>
+                                                        <span class="note">Extensiones Permitidas: <span>.jpg, .jpeg, .gif, .png</span>.</span>
+                                                        <span class="note">Tamaño maximo: <span>4 MB</span>.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- <div class="widget-container">
+                                                                        <dx-file-uploader #fileUploader uploadUrl="http://localhost:40347/ApiRest/Agente/addArchivoAgente/" [multiple]="false" accept="*" [(value)]="value" uploadMode="instantly" [allowedFileExtensions]="['.jpg', '.jpeg', '.gif', '.png']" [maxFileSize]="4000000">
+                                                                        </dx-file-uploader>
+                                                                        <span class="note">Extensiones Permitidas: <span>.jpg, .jpeg, .gif, .png</span>.</span>
+                                                                        <span class="note">Tamaño maximo: <span>4 MB</span>.</span>
+                                            
+                                            
+                                                                        <div class="content">
+                                                                            <div *ngIf="value.length > 0">
+                                                                                <h4>Selected Files</h4>
+                                                                            </div>
+                                                                            <div *ngFor="let file of value">
+                                                                                <div class="selected-item">
+                                                                                    Name:
+                                                                                    <span>{{file.name}}</span><br /> Size:
+                                                                                    <span>{{file.size}}</span>bytes<br /> Type:
+                                                                                    <span>{{file.type}}</span><br /> Last Modified Date:
+                                                                                    <span>{{file.lastModifiedDate}}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div> -->
+                                        <!-- <div class="options">
+                                                                        <div class="caption">Options</div>
+                                                                        <div class="option">
+                                                                            <span>File types</span>
+                                                                            <dx-select-box [dataSource]="[
+                                                                                    {name: 'All types', value: '*'}, 
+                                                                                    {name: 'Images', value: 'image/*'}, 
+                                                                                    {name: 'Videos', value: 'video/*'}
+                                                                                ]" valueExpr="value" displayExpr="name" [(value)]="fileUploader.accept"></dx-select-box>
+                                                                        </div>
+                                                                        <div class="option">
+                                                                            <span>Upload mode</span>
+                                                                            <dx-select-box [items]="['instantly', 'useButtons']" [(value)]="fileUploader.uploadMode"></dx-select-box>
+                                                                        </div>
+                                                                        <div class="option">
+                                                                            <dx-check-box text="Allow multiple files selection" [(value)]="fileUploader.multiple"></dx-check-box>
+                                                                        </div>
+                                                                    </div> -->
+
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Tipo de Documento</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                                        <select name="TipoIdentificacionId" class="form-control" [(ngModel)]="agente.TipoIdentificacionId" required>
+                                                                                                                                  <!-- <option *ngFor="let item of tipoDoc" [ngValue]="item.idValorReferencia">{{item.nombre}}</option> -->
+                                                                                                                                  <option value="">-- Seleccione el tipo de identificación --</option>
+                                                                                                                                    <option value="9">CÉDULA DE CIUDADANÍA</option>
+                                                                                                                                    <option value="12">TARJETA DE IDENTIDAD</option>
+                                                                                                                                    <option value="13">NÚMERO IDENTIFICACIÓN PERSONAL</option>
+                                                                                                                                    <option value="86">REGISTRO CIVIL DE NACIMIENTO</option>
+                                                                                                                                    <option value="11">PASAPORTE</option>
+                                                                                                                                    <option value="10">CÉDULA DE EXTRANJERÍA</option>
+                                                                                                                                    <option value="4107">PERMISO ESPECIAL DE PERMANENCIA</option>
+                                                                                                                          </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Número Identificación</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="PersonaNumeroId" (change)="consultarPorCedula(this.value)" type="text" class="form-control" placeholder="Número de Identificación" [(ngModel)]="agente.AgenteNumeroIdentificacion" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Primer Nombre</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input name="AgentePrimerNombre" type="text" class="form-control" placeholder="Primer nombre" [(ngModel)]="agente.AgentePrimerNombre" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Otros Nombres</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input name="AgenteSegundoNombre" type="text" class="form-control" placeholder="Segundo Nombre" [(ngModel)]="agente.AgenteSegundoNombre">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Primer Apellido</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input name="AgentePrimerApellido" type="text" class="form-control" placeholder="Primer Apellido" [(ngModel)]="agente.AgentePrimerApellido" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Segundo Apellido</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input name="AgenteSegundoApellido" type="text" class="form-control" placeholder="Segundo Apellido" [(ngModel)]="agente.AgenteSegundoApellido">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Nombre Artístico</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input name="AgenteAlias" type="text" class="form-control" placeholder="Nombre Artístico" [(ngModel)]="agente.AgenteAlias">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="row p-t-20">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Seguridad Social</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                                        <select name="AgenteSeguridadSocialId" class="form-control" (change)="changeSeguridadSocial()" [(ngModel)]="agente.AgenteSeguridadSocialId" required>
+                                                                                                                                  <option *ngFor="let item of seguridadSocialLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                                                                                                          </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3" *ngIf="mostrarPuntaje">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Puntaje Sisben</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input name="AgentePuntajeSisben" type="number" min="0" max="99" step="0.01" placeholder="0,00" class="form-control" [(ngModel)]="agente.AgentePuntajeSisben" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Estrato</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <!-- <input name="AgenteEstrato" type="number" min="1" max="6" class="form-control" [(ngModel)]="agente.AgenteEstrato" required> -->
+
+                                                        <select name="AgenteEstrato" class="form-control" [(ngModel)]="agente.AgenteEstrato" required>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">5</option>
+                                                            <option value="6">6</option>
+                                                            <option value="6">7</option>
+                                                          <!-- <option *ngFor="let item of areaLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option> -->
+                                                  </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Ingresos mensuales (aproximado)</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input name="AgenteIngresosMensuales" type="number" class="form-control" [(ngModel)]="agente.AgenteIngresosMensuales" required> {{agente.AgenteIngresosMensuales | currency:false:true}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row p-t-20">
+                                            <div class="col-md-3">
+                                                <div class="form-group row">
+                                                    <label for="exampleInputuname">País de nacimiento</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-location-arrow"></i></div>
+                                                        <select class="form-control" required name="PaisIdNacimiento" [(ngModel)]="agente.PaisIdNacimiento" (change)="limpiarCampos()">
+                                                                                                              <option value="">-- Seleccione el País --</option>
+                                                                                                              <option *ngFor="let item of paisesLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                                                                                          </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                            </div>
+                                            <div class="col-md-3" *ngIf="agente.PaisIdNacimiento !== 1 && agente.PaisIdNacimiento !== null">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Ciudad de nacimiento</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input name="AgenteCiudadNacimiento" type="text" class="form-control" placeholder="Ciudad de Nacimiento" [(ngModel)]="agente.AgenteCiudadNacimiento" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3" *ngIf="agente.PaisIdNacimiento === 1">
+                                                <div class="form-group row">
+                                                    <label for="exampleInputuname">Departamento de nacimiento</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-location-arrow"></i></div>
+                                                        <select class="form-control" required name="DepartamentoNacimientoId" [(ngModel)]="agente.DepartamentoNacimientoId" (change)="mostrarMunicipiosDeNacimiento()">
+                                                                                                              <option value="">-- Seleccione el departamento --</option>
+                                                                                                              <option *ngFor="let item of depLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                                                                                          </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                            </div>
+                                            <div class="col-md-3" *ngIf="agente.PaisIdNacimiento === 1">
+                                                <div class="form-group row">
+                                                    <label for="exampleInputuname">Municipio de Nacimiento</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-location-arrow"></i></div>
+                                                        <select class="form-control" required name="MunicipioNacimientoId" [(ngModel)]="agente.MunicipioNacimientoId">
+                                                                                                                  <option value="">-- Seleccione el municipio --</option>
+                                                                                                                  <option *ngFor="let item of munNacimientoLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                                                                                              </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row p-t-20">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Discapacidad</label>
+                                                    <div class="input-group">
+                                                        <input type="checkbox" id="cbox2" [(ngModel)]="agente.AgentePoseeAlgunaDiscapacidad" (click)="cambioCkedDiscapacidad()" [checked]="agente.AgentePoseeAlgunaDiscapacidad" value="{{agente.AgentePoseeAlgunaDiscapacidad}}">
+                                                        <label for="cbox2">Posee algún tipo de discapacidad </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4" *ngIf="agente.AgentePoseeAlgunaDiscapacidad">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Tipo de discapacidad</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                                        <select name="DiscapacidadId" class="form-control" [(ngModel)]="agente.DiscapacidadId" required="agente.AgentePoseeAlgunaDiscapacidad">
+                                                            <option value="">-- Seleccione  --</option>    
+                                                            <!-- <option *ngFor="let item of tipoDiscapacidad" [ngValue]="item.idValorReferencia">{{item.nombre}}</option> -->
+                                                            <!-- <option value="4144">Ninguna</option> -->
+                                                            <option value="1266">Discapacidad física</option>
+                                                            <option value="4117">Discapacidad auditiva</option>
+                                                            <option value="4118">Discapacidad visual</option>
+                                                            <option value="4119">Sordoceguera</option>
+                                                            <option value="1268">Discapacidad cognitiva (intelectual)</option>
+                                                            <option value="4120">Discapacidad mental (psicosocial)</option>
+                                                            <option value="1271">Discapacidad múltiple</option>
+                                                         </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Fecha de nacimiento</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-time"></i></div>
+                                                        <input required type="text" [(ngModel)]="agente.AgenteFechaNacimiento" placeholder="mm/dd/aaaa" [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="maxDate" name="AgenteFechaNacimiento" ngbDatepicker #AgenteFechaNacimiento="ngbDatepicker">
+                                                        <div class="input-group-addon bg-default" (click)="AgenteFechaNacimiento.toggle()">
+                                                            <span class="ti-calendar"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Identidad de genero</label>
+                                                    <!-- <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-android"></i></div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" [(ngModel)]="agente.AgenteSexoId" value="3340">
+                                                            <label class="form-check-label" for="inlineRadio1">Hombre</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" [(ngModel)]="agente.AgenteSexoId" value="3341">
+                                                            <label class="form-check-label" for="inlineRadio2">Mujer</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" [(ngModel)]="agente.AgenteSexoId" value="4108">
+                                                            <label class="form-check-label" for="inlineRadio3">Transgenero</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" [(ngModel)]="agente.AgenteSexoId" value="4110">
+                                                            <label class="form-check-label" for="inlineRadio3">No binario</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" [(ngModel)]="agente.AgenteSexoId" value="4111">
+                                                            <label class="form-check-label" for="inlineRadio3">No sabe / No responde</label>
+                                                        </div>
+                                                    </div> -->
+                                                    <div class="form-group col-md-4">
+                                                        <select name="AgenteSexoId" class="form-control" [(ngModel)]="agente.AgenteSexoId">
+                                                            <!--<option *ngFor="let item of tipoDoc" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>-->
+                                                            <option value="">-- Seleccione identidad de género --</option>
+                                                            <option value="3340">Hombre</option>
+                                                            <option value="3341">Mujer</option>
+                                                            <option value="4108">Transgenero</option>
+                                                            <option value="4110">No binario</option>
+                                                            <option value="4111">No sabe / No responde</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row p-t-20">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <i class="ti-agenda"></i> <label for="exampleInputuname">Área artística principal </label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                                        <select name="AreaId" class="form-control" (change)="cargarTiposOcupacion()" [(ngModel)]="agente.AreaId" required>
+                                                                                                                        <!-- <option value="139">Música</option>
+                                                                                                                        <option value="141">Teatro</option>
+                                                                                                                        <option value="142">Literatura</option>
+                                                                                                                        <option value="144">Artes Visuales</option>
+                                                                                                                        <option value="145">Danza</option>
+                                                                                                                        <option value="3350">Circo</option> -->
+ 
+                                                                                                                      <option *ngFor="let item of areaLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                                                                                              </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Ocupación principal</label>
+                                                    <dx-list #list [searchEnabled]="true" searchExpr="text" searchMode="contains" [dataSource]="tasks" [(selectedItems)]="selectedItemsAreaPrincipal" [selectionMode]="'multiple'" [selectAllMode]="'page'" [showSelectionControls]="true" [selectedItemKeys]="datos">
+                                                    </dx-list>
+
+                                                    <!-- <div class="col-form-label"> -->
+                                                    <!-- <select name="TipoIdentificacionId" class="form-control" [(ngModel)]="agente.TipoIdentificacionId" required>
+                                                                                                                  <option *ngFor="let item of ocupacionLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                                                                                          </select> -->
+                                                    <!-- <div *ngFor="let list of listaPublicoDir">
+                                                            <label>
+                                                                                                                <input name="publicoDirigido" type="checkbox" value="{{list.PublicoDirigidoId}}" [checked]="list.checked"
+                                                                                                                    (change)="onCheckboxChange(list,$event)">&nbsp;{{list.PublicoDirigidoNombre}}
+                                                                                                            </label>
+                                                        </div> -->
+
+                                                    <!-- <div *ngFor="let list of ocupacionLista">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" [checked]="list.checked" name="tipoOcupacion" type="checkbox" id="{{list.idValorReferencia}}" value="{{list.idValorReferencia}}" (change)="onCheckboxChange(list,$event)">
+                                                                <label class="form-check-label" for="{{list.idValorReferencia}}">  {{list.nombre}}
+                                                                                                                </label>
+                                                            </div>
+                                                        </div> -->
+
+
+                                                    <!-- <span>{{list.selectedItemKeys.join(", ")}}</span> -->
+                                                    <!-- </div> -->
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="exampleInputuname">Otras Ocupaciones</label>
+
+                                                <dx-data-grid id="gridOtrasOcupaciones" [rowAlternationEnabled]="true" title="Otras Ocupaciones" keyExpr="AgenteOcupacionId" [dataSource]="dataSourceOtrasOcupaciones" [showBorders]="true" (onEditorPreparing)="onEditorPreparingOtrasOcupaciones($event)">
+
+                                                    <dxo-editing [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true" [useIcons]="true">
+                                                    </dxo-editing>
+
+
+                                                    <dxi-column dataField="OtrasAreasId" caption="Areas" [setCellValue]="setOtrasAreasValue">
+                                                        <dxo-lookup [dataSource]="otrasAreas" valueExpr="OtrasAreasId" displayExpr="nombre">
+                                                        </dxo-lookup>
+                                                    </dxi-column>
+                                                    <dxi-column dataField="TipoOcupacionId" caption="Ocupacion">
+                                                        <dxo-lookup [dataSource]="getFilteredOcupaciones" valueExpr="TipoOcupacionId" displayExpr="nombre">
+                                                        </dxo-lookup>
+                                                    </dxi-column>
+                                                </dx-data-grid>
+
+                                            </div>
+
+
+                                        </div>
+
+
+
+
+                                        <div class="activity-box m-t-30">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <div class="input-group">
+                                                        <input type="checkbox" id="cbox3" [(ngModel)]="agente.AgenteTrabajoEnCalleRecurrentemente" (click)="cambioCkedAgenteTrabajoEnCalleRecurrentemente()" [checked]="agente.AgenteTrabajoEnCalleRecurrentemente" value="{{agente.AgenteTrabajoEnCalleRecurrentemente}}">
+                                                        <label for="cbox3">¿Realiza actividades artísticas en la calle de manera recurrente?</label>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="activity-box m-t-30">
+                                            <div class="date-devider"><span>Datos Ubicación</span></div>
+                                        </div>
+                                        <hr>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-3">
+                                                <div class="form-group row">
+                                                    <label for="exampleInputuname">País de Ubicación</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-location-arrow"></i></div>
+                                                        <select class="form-control" required name="PaisIdResidencia" [(ngModel)]="agente.PaisIdResidencia" (change)="limpiarCamposLugarResidencia()">
+                                                                                                              <option value="">-- Seleccione el País --</option>
+                                                                                                              <option *ngFor="let item of paisesResidenciaLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                                                                                          </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                            </div>
+
+                                            <div class="col-md-3" *ngIf="agente.PaisIdResidencia !== 1 && agente.PaisIdResidencia !== null">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Ciudad de ubicación</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input name="AgenteCiudadresidencia" type="text" class="form-control" placeholder="Ciudad" [(ngModel)]="agente.AgenteCiudadresidencia" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3" *ngIf="agente.PaisIdResidencia === 1">
+                                                <div class="form-group row">
+                                                    <label for="exampleInputuname">Departamento de ubicación</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-location-arrow"></i></div>
+                                                        <select class="form-control" required name="ZON_ID_DEP" [(ngModel)]="agente.DepartamentoResidenciaId" (change)="mostrarMunicipios()">
+                                                                                                              <option value="">-- Seleccione el departamento --</option>
+                                                                                                              <option *ngFor="let item of depLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                                                                                          </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-3" *ngIf="agente.PaisIdResidencia === 1">
+                                                <div class="form-group row">
+                                                    <label for="exampleInputuname">Municipio de ubicación</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-location-arrow"></i></div>
+                                                        <select class="form-control" required name="ZON_ID" [(ngModel)]="agente.MunicipioResidenciaId">
+                                                                                                                  <option value="">-- Seleccione el municipio --</option>
+                                                                                                                  <option *ngFor="let item of munLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                                                                                              </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Dirección</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-location-pin"></i></div>
+                                                        <input name="AgenteDireccion" type="text" class="form-control" placeholder="cra 8 # 8 - 42" [(ngModel)]="agente.AgenteDireccion" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Correo electrónico</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-email"></i></div>
+                                                        <input name="AgenteEmail" type="text" class="form-control" (change)="consultarPorCorreo(this.value)" placeholder="micorreo@dominio.com" [(ngModel)]="agente.AgenteEmail" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Teléfono Fijo</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-headphone"></i></div>
+                                                        <input name="AgenteTelefonoFijo" type="text" class="form-control" placeholder="031-3424100 ext:0" [(ngModel)]="agente.AgenteTelefonoFijo">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Teléfono Móvil</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-headphone"></i></div>
+                                                        <input name="AgenteTelefonoMovil" type="text" class="form-control" placeholder="30012345678" [(ngModel)]="agente.AgenteTelefonoMovil" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+
+                                        <div class="activity-box m-t-30">
+                                            <div class="date-devider"><span>Redes Sociales</span></div>
+                                        </div>
+
+
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Perfil en Facebook</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-email"></i></div>
+                                                        <input name="PefilFacebook" type="text" class="form-control" placeholder="http://www.facebook.com/pnmc.ministeriodecultura" [(ngModel)]="agente.PefilFacebook">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Perfil en Twitter</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="PerfilTwitter" type="text" class="form-control" placeholder="http://twitter.com/mincultura" [(ngModel)]="agente.PerfilTwitter">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Fotogalería en Flickr </label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-email"></i></div>
+                                                        <input name="PerfilFlickr" type="text" class="form-control" placeholder="http://www.flickr.com/photos/cancilleriacol" [(ngModel)]="agente.PerfilFlickr">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Canal de Youtube</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="CanalYoutube" type="text" class="form-control" placeholder="http://www.youtube.com/Mincultura" [(ngModel)]="agente.CanalYoutube">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Perfil en Instagram</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-email"></i></div>
+                                                        <input name="PerfilInstagram" type="text" class="form-control" placeholder="MinCultura Colombia (@mincultura)" [(ngModel)]="agente.PerfilInstagram">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputuname">Pagina Web</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                        <input name="AgenteUrl" type="text" class="form-control" placeholder="http://www.mipagina.com" [(ngModel)]="agente.AgenteUrl">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- <div class="form-group" >
+                                            <label for="exampleInputuname">Origen Información</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                                <select name="AgenteOrigenInformacionId" class="form-control" [(ngModel)]="agente.AgenteOrigenInformacionId" required>
+                                                                                                  <option *ngFor="let item of origenInfoLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                                                                          </select>
+                                            </div>
+                                        </div> -->
+
+                                        <!-- <div class="activity-box m-t-30">
+                                            <div class="date-devider"><span>Estado </span></div>
+                                        </div> -->
+
+
+                                        <div *ngIf="gestionaActores" class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <label for="exampleInputuname">Estado información</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                                    <select name="AgenteEstadoId" class="form-control" [(ngModel)]="agente.AgenteEstadoId" required>
+                                                                                                      <option *ngFor="let item of EstadoLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                                                                              </select>
+                                                </div>
+                                                <br>
+                                                <div class="col-md-2">
+                                                    <button type="button" (click)="aprobarAgente(agente.AgenteEstadoId)" class="btn waves-effect waves-light btn-info">Cambiar Estado <i class="fa fa-arrow-right"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Observaciones estado</label>
+                                                    <textarea class="form-control" rows="8" name="AgenteObservaciones" [(ngModel)]="agente.AgenteObservaciones"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div *ngIf="!gestionaActores" class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <label for="exampleInputuname"> <strong>Estado información:</strong>  {{agente.EstadoNombre}}</label>
+
+                                            </div>
+
+                                        </div>
+
+                                        <!-- 
+                                        <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                                                                                  <i class="fa fa-save"></i>
+                                                                                  Guardar</button> -->
+
+                                        <div class="row p-t-20">
+
+                                            <div class="col-md-2">
+                                                <button type="submit" class="btn waves-effect waves-light btn-success">Guardar <i class="fa fa-save"></i></button>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <button type="button" (click)="showPanel2('P')" class="btn waves-effect waves-light btn-info">Siguiente <i class="fa fa-arrow-right"></i></button>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="activity-box m-t-30">
+                                            <div class="date-devider"></div>
+                                        </div>
+
+
+                                    </form>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-pane" id="step2" *ngIf="experiencia">
+                            <br>
+                            <div class="row align-content-center" *ngIf="displayListAgenteExperiencia">
+                                <!-- <div class="col-md-10"></div> -->
+
+                                <div class="col-md-2">
+                                    <button matTooltip="Nuevo" type="button" (click)="showPanelExperiencia('C')" class="btn btn-success m-b-0 button-tabla">
+                                    <i class="fa fa-plus"></i>Agregar Experiencia
+                                </button>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="displayListAgenteExperiencia">
+                                <dx-data-grid id="gridAgentesExperiencia" [dataSource]="listaAgentesExperiencia" showBorders="true" [rowAlternationEnabled]="true" [columnHidingEnabled]="true" [columnAutoWidth]="true" keyExpr="AgenteExperienciaId">
+                                    <dxo-export [enabled]="true" fileName="Experiencia Agente"></dxo-export>
+                                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                                    <dxo-header-filter [visible]="true"></dxo-header-filter>
+                                    <dxo-grouping [contextMenuEnabled]="true" expandMode="rowClick"></dxo-grouping>
+                                    <dxo-group-panel [visible]="true" emptyPanelText="Use el contexto de menu de los encabezados de columnas para agrupar datos"></dxo-group-panel>
+                                    <dxo-search-panel [visible]="true" [width]="240" placeholder="Buscar..."></dxo-search-panel>
+                                    <dxo-remote-operations [sorting]="true" [paging]="true">
+                                    </dxo-remote-operations>
+                                    <!-- <dxo-state-storing [enabled]="true" type="localStorageAgentes" storageKey="storage"></dxo-state-storing> -->
+                                    <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+                                    <dxi-column caption="Acciones" cellTemplate="accionCellTemplate" alignment="center"></dxi-column>
+                                    <dxi-column dataField="AgenteExperienciaId" caption="Id">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteExperienciaCargo" caption="Cargo">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteExperienciaFechaInicio" caption="Fecha Inicio">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteExperienciaFechaFin" caption="Fecha Fin">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteExperienciaEntidad" caption="AgenteExperienciaEntidad">
+                                    </dxi-column>
+                                    <!-- <dxi-column dataField="AgentePrimerNombre" caption="Primer Nombre">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteSegundoNombre" caption="Segundo Nombre">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgentePrimerApellido" caption="Primer Apellido">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteSegundoApellido" caption="Segundo Apellido">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteEmail" caption="Email">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteGenero" caption="Genero">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteDireccion" caption="Direccion">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteTelefonoMovil" caption="Celular">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteEmail" caption="Correo">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteTelefonoFijo" caption="Tel Fijo">
+                                    </dxi-column> -->
+
+
+                                    <div *dxTemplate="let d of 'accionCellTemplate'">
+                                        <!--<div>
+                                        <i style="font-size:20px; cursor:pointer;" class="icofont icofont-law-document" placement="right" ngbTooltip="Seleccionar" (click)="showPanel('U', d.data.PersonaId)"></i> 
+                                        <i style="font-size:20px; cursor:pointer;" class="icofont icofont-law-document" placement="right" ngbTooltip="Actualizar" (click)="showPanel('U', d.data.PersonaId)"></i>
+            
+                                    </div>-->
+
+                                        <!-- -->
+                                        <div class="internal-grid-container">
+                                            <div>
+                                                <button type="button" matTooltip=" Nuevo" (click)="showPanelExperiencia('C')" class="btn btn-success waves-effect waves-light m-r-10">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+
+                                                <button type="button" matTooltip="Editar" (click)="showPanelExperiencia('U', d.data.AgenteExperienciaId)" class="btn btn-success waves-effect waves-light m-r-10">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                <!-- <button type="button" (click)="showPanel('U', d.data.AgenteId)" class="btn btn-danger m-b-0">  Borrar </button> -->
+
+                                                <!-- <button type="button" matTooltip="Aprobar" (click)="aprobarAgente(d.data.AgenteId)" class="btn btn-facebook waves-effect waves-light m-r-10">
+                                                    <i class="fa fa-check"></i> 
+                                                
+                                            </button>-->
+                                                <button type="button" matTooltip="Borrar" (click)="borrarAgenteExperiencia(d.data.AgenteExperienciaId)" class="btn btn-danger waves-effect waves-light m-r-10">
+                                                    <i class="fa fa-remove"></i>
+                                                
+                                            </button>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <dxo-summary>
+                                        <dxi-total-item column="AgenteId" summaryType="count" displayFormat="Cantidad: {0}">
+                                        </dxi-total-item>
+                                    </dxo-summary>
+                                    <dxo-paging [pageSize]="10"></dxo-paging>
+                                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 40]" [visible]="true" [showInfo]="true" [showNavigationButtons]="true"></dxo-pager>
+
+                                </dx-data-grid>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="card">
+
+                                    <div class="card-body">
+
+
+                                        <div *ngIf="displayCrearAgenteExperiencia">
+
+                                            <form ngNativeValidate #formCcExpe="ngForm" (ngSubmit)="onSubmitExperiencia(formCcExpe.valid, 'P')" class="form p-t-20">
+                                                <div class="activity-box m-t-30">
+                                                    <div class="date-devider"><span>Experiencia</span></div>
+                                                </div>
+                                                <hr>
+                                                <div class="row p-t-20">
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputuname">Tipo experiencia </label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                                                <select name="TipoExperienciaId" class="form-control" [(ngModel)]="agenteExperiencia.TipoExperienciaId" required>
+                                                                                                                              <option *ngFor="let item of tipoExperienciaLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                                                                                                      </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputuname">Entidad</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                                <input name="AgenteExperienciaEntidad" type="text" class="form-control" placeholder="Entidad en la que trabajo" [(ngModel)]="agenteExperiencia.AgenteExperienciaEntidad" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputuname">Cargo</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                                <input name="AgenteExperienciaCargo" type="text" class="form-control" placeholder="Nombre cargo ocupado " [(ngModel)]="agenteExperiencia.AgenteExperienciaCargo" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                                <div class="row p-t-20">
+
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputuname">Fecha de inicio</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon"><i class="ti-time"></i></div>
+                                                                <input required type="text" [(ngModel)]="agenteExperiencia.AgenteExperienciaFechaInicio" [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="maxDate" placeholder="mm/dd/aaaa" name="AgenteExperienciaFechaInicio" ngbDatepicker #AgenteExperienciaFechaInicio="ngbDatepicker">
+                                                                <div class="input-group-addon bg-default" (click)="AgenteExperienciaFechaInicio.toggle()">
+                                                                    <span class="ti-calendar"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputuname">Fecha terminación</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon"><i class="ti-time"></i></div>
+                                                                <input required type="text" (ngModelChange)="CambioFechaExperiencia($event)" [(ngModel)]="agenteExperiencia.AgenteExperienciaFechaFin" [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="maxDate" placeholder="mm/dd/aaaa" name="AgenteExperienciaFechaFin"
+                                                                    ngbDatepicker #AgenteExperienciaFechaFin="ngbDatepicker">
+                                                                <div class="input-group-addon bg-default" (click)="AgenteExperienciaFechaFin.toggle()">
+                                                                    <span class="ti-calendar"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputuname">Archivo soporte de la experiencia</label>
+                                                            <div class="input-group">
+                                                                <dx-file-uploader #fileUploaderExperiencia uploadUrl={{url}} required [multiple]="false" accept="*" [(value)]="valueExperiencia" uploadMode="useButtons" labelText="o arrastrar archivo" selectButtonText="Seleccionar archivo" (onValueChanged)="addIdParameterPdf($event)"
+                                                                    uploadButtonText="Subir Archivo" readyToUploadMessage="Listo para subir" uploadFailedMessage="Ocurrio un error al subir el archivo" (onUploaded)="subidaCompletaPdfExperiencia($event)" [allowedFileExtensions]="['.pdf']"
+                                                                    [maxFileSize]="4000000">
+                                                                </dx-file-uploader>
+                                                                <span class="note">Extensiones Permitidas: <span>.pdf</span>.</span>
+                                                                <span class="note">Tamaño maximo: <span>4 MB</span>.</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- <div class="col-md-1">
+                                                        <input name="FotografiaExperiencia" readonly=true type="text" class="form-control" placeholder="Imagen" [(ngModel)]="agenteExperiencia.Fotografia">
+                                                    </div> -->
+
+                                                    <div class="col-md-2">
+
+
+                                                        <!-- <img width="320px" height="213px" src="{{urlImagenExperiencia}}" /> -->
+                                                        <button type="button" [ngClass]="agenteExperiencia.Fotografia == '' ? ocultoExperiencia : ''" (click)="descargarArchivoExperiencia()" class="btn btn-success waves-effect waves-light m-r-10">
+                                                                                    <i class="fa fa-download"></i>
+                                                                                Descargar Archivo
+                                                                            </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label>Descripción de la experiencia</label>
+                                                            <textarea class="form-control" rows="8" name="AgenteExperienciaObservaciones" [(ngModel)]="agenteExperiencia.AgenteExperienciaObservaciones" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-4">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button type="submit" class="btn waves-effect waves-light btn-success">Guardar <i class="fa fa-save"></i></button>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <button type="button" class="btn waves-effect waves-light btn-danger" (click)="showPanelExperiencia('V','2')"><i class="fa fa-backward"></i>Cancelar</button>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                    </div>
+                                                </div>
+
+                                                <div class="activity-box m-t-30">
+                                                    <div class="date-devider"><span>Fin Experiencia</span></div>
+                                                </div>
+                                                <hr>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="actions">
+                                <div class="row p-t-20">
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn waves-effect waves-light btn-info" (click)="showPanel2('R')"><i class="fa fa-arrow-left"></i>Anterior</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn waves-effect waves-light btn-info" (click)="showPanel2('O')">Siguiente <i class="fa fa-arrow-right"></i> </button>
+                                    </div>
+                                </div>
+                                <div class="activity-box m-t-30">
+                                    <div class="date-devider"></div>
+                                </div>
+
+
+                            </div>
+                            <br>
+                        </div>
+                        <div class="step-pane" id="step3" *ngIf="formacion">
+                            <br>
+                            <div class="row" *ngIf="displayListAgenteFormacion">
+                                <div class="col-md-2">
+                                    <button matTooltip="Nuevo" type="button" (click)="showPanelFormacion('C')" class="btn btn-success m-b-0 button-tabla">
+                                    <i class="fa fa-plus"></i>Agregar Formación
+                                </button>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="displayListAgenteFormacion">
+                                <dx-data-grid id="gridAgentesFormacion" [dataSource]="listaAgentesFormacion" showBorders="true" [rowAlternationEnabled]="true" [columnHidingEnabled]="true" [columnAutoWidth]="true" keyExpr="AgenteFormacionId">
+                                    <dxo-export [enabled]="true" fileName="Formacion Agente"></dxo-export>
+                                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                                    <dxo-header-filter [visible]="true"></dxo-header-filter>
+                                    <dxo-grouping [contextMenuEnabled]="true" expandMode="rowClick"></dxo-grouping>
+                                    <dxo-group-panel [visible]="true" emptyPanelText="Use el contexto de menu de los encabezados de columnas para agrupar datos"></dxo-group-panel>
+                                    <dxo-search-panel [visible]="true" [width]="240" placeholder="Buscar..."></dxo-search-panel>
+                                    <dxo-remote-operations [sorting]="true" [paging]="true">
+                                    </dxo-remote-operations>
+                                    <!-- <dxo-state-storing [enabled]="true" type="localStorageAgentes" storageKey="storage"></dxo-state-storing> -->
+                                    <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+                                    <dxi-column caption="Acciones" cellTemplate="accionCellTemplate" alignment="center"></dxi-column>
+                                    <dxi-column dataField="AgenteFormacionId" caption="Id">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteFormacionEstudioRealizado" caption="Estudio">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteFormacionFechaInicio" caption="Fecha Inicio">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteFormacionFechaFin" caption="Fecha Fin">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteFormacionInstitucion" caption="Institución">
+                                    </dxi-column>
+                                    <!-- <dxi-column dataField="AgentePrimerNombre" caption="Primer Nombre">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteSegundoNombre" caption="Segundo Nombre">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgentePrimerApellido" caption="Primer Apellido">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteSegundoApellido" caption="Segundo Apellido">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteEmail" caption="Email">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteGenero" caption="Genero">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteDireccion" caption="Direccion">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteTelefonoMovil" caption="Celular">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteEmail" caption="Correo">
+                                    </dxi-column>
+                                    <dxi-column dataField="AgenteTelefonoFijo" caption="Tel Fijo">
+                                    </dxi-column> -->
+
+
+                                    <div *dxTemplate="let d of 'accionCellTemplate'">
+                                        <!--<div>
+                                        <i style="font-size:20px; cursor:pointer;" class="icofont icofont-law-document" placement="right" ngbTooltip="Seleccionar" (click)="showPanel('U', d.data.PersonaId)"></i> 
+                                        <i style="font-size:20px; cursor:pointer;" class="icofont icofont-law-document" placement="right" ngbTooltip="Actualizar" (click)="showPanel('U', d.data.PersonaId)"></i>
+            
+                                    </div>-->
+
+                                        <!-- -->
+                                        <div class="internal-grid-container">
+                                            <div>
+
+                                                <button type="button" matTooltip=" Nuevo" (click)="showPanelFormacion('C')" class="btn btn-success waves-effect waves-light m-r-10">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+
+                                                <button type="button" matTooltip="Editar" (click)="showPanelFormacion('U', d.data.AgenteFormacionId)" class="btn btn-success waves-effect waves-light m-r-10">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                <!-- <button type="button" (click)="showPanel('U', d.data.AgenteId)" class="btn btn-danger m-b-0">  Borrar </button> -->
+
+                                                <!-- <button type="button" matTooltip="Aprobar" (click)="aprobarAgente(d.data.AgenteId)" class="btn btn-facebook waves-effect waves-light m-r-10">
+                                                    <i class="fa fa-check"></i> 
+                                                
+                                            </button>-->
+                                                <button type="button" matTooltip="Borrar" (click)="borrarAgenteFormacion(d.data.AgenteFormacionId)" class="btn btn-danger waves-effect waves-light m-r-10">
+                                                    <i class="fa fa-remove"></i>
+                                                
+                                            </button>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <dxo-summary>
+                                        <dxi-total-item column="AgenteId" summaryType="count" displayFormat="Cantidad: {0}">
+                                        </dxi-total-item>
+                                    </dxo-summary>
+                                    <dxo-paging [pageSize]="10"></dxo-paging>
+                                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 40]" [visible]="true" [showInfo]="true" [showNavigationButtons]="true"></dxo-pager>
+
+                                </dx-data-grid>
+                            </div>
+                            <div class="col-12">
+                                <div class="card">
+
+                                    <div class="card-body">
+
+
+                                        <div *ngIf="displayCrearAgenteFormacion">
+
+                                            <form ngNativeValidate #formCcFormacion="ngForm" (ngSubmit)="onSubmitFormacion(formCcFormacion.valid, 'P')" class="form p-t-20">
+                                                <div class="activity-box m-t-30">
+                                                    <div class="date-devider"><span>Formación</span></div>
+                                                </div>
+                                                <hr>
+                                                <div class="row p-t-20">
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputuname">Nivel Formación </label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                                                <select name="NivelFormacionId" class="form-control" [(ngModel)]="agenteFormacion.NivelFormacionId" required>
+                                                                                                                              <option *ngFor="let item of nivelFormacionLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                                                                                                      </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputuname">Estudio Realizado</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                                <input name="AgenteFormacionEstudioRealizado" type="text" class="form-control" placeholder="Estudio Realizado" [(ngModel)]="agenteFormacion.AgenteFormacionEstudioRealizado" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputuname">Institución</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                                <input name="AgenteFormacionInstitucion" type="text" class="form-control" placeholder="Institución " [(ngModel)]="agenteFormacion.AgenteFormacionInstitucion" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputuname">Fecha de inicio</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon"><i class="ti-time"></i></div>
+                                                                <input required type="text" [(ngModel)]="agenteFormacion.AgenteFormacionFechaInicio" [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="maxDate" placeholder="mm/dd/aaaa" name="AgenteFormacionFechaInicio" ngbDatepicker #AgenteFormacionFechaInicio="ngbDatepicker">
+                                                                <div class="input-group-addon bg-default" (click)="AgenteFormacionFechaInicio.toggle()">
+                                                                    <span class="ti-calendar"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputuname">Fecha de terminación</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-addon"><i class="ti-time"></i></div>
+                                                                <input required type="text" (ngModelChange)="CambioFechaFormacion($event)" [(ngModel)]="agenteFormacion.AgenteFormacionFechaFin" [minDate]="{year: 1900, month: 1, day: 1}" [maxDate]="maxDate" placeholder="mm/dd/aaaa" name="AgenteFormacionFechaFin" ngbDatepicker
+                                                                    #AgenteFormacionFechaFin="ngbDatepicker">
+                                                                <div class="input-group-addon bg-default" (click)="AgenteFormacionFechaFin.toggle()">
+                                                                    <span class="ti-calendar"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputuname">Archivo soporte de la formación</label>
+                                                            <div class="input-group">
+                                                                <dx-file-uploader #fileUploaderFormacion uploadUrl={{url}} required [multiple]="false" accept="*" [(value)]="valueFormacion" uploadMode="useButtons" labelText="o arrastrar archivo" selectButtonText="Seleccionar archivo" (onValueChanged)="addIdParameterPdf($event)"
+                                                                    uploadButtonText="Subir Archivo" readyToUploadMessage="Listo para subir" uploadFailedMessage="Ocurrio un error al subir el archivo" (onUploaded)="subidaCompletaPdfFormacion($event)" [allowedFileExtensions]="['.pdf']"
+                                                                    [maxFileSize]="4000000">
+                                                                </dx-file-uploader>
+                                                                <span class="note">Extensione Permitida: <span>.pdf</span>.</span>
+                                                                <span class="note">Tamaño maximo: <span>4 MB</span>.</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- <div class="col-md-1">
+                                                        <input name="FotografiaExperiencia" readonly=true type="text" class="form-control" placeholder="Imagen" [(ngModel)]="agenteExperiencia.Fotografia">
+                                                    </div> -->
+
+                                                    <div class="col-md-2">
+
+
+                                                        <!-- <img width="320px" height="213px" src="{{urlImagenExperiencia}}" /> -->
+                                                        <button type="button" [ngClass]="agenteFormacion.Fotografia == '' ? ocultoFormacion : ''" (click)="descargarArchivoFormacion()" class="btn btn-primary waves-effect waves-light m-r-10">
+                                                                                    <i class="fa fa-file"></i>
+                                                                                Descargar Archivo
+                                                                            </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label>Descripción de la formación</label>
+                                                            <textarea class="form-control" rows="8" name="AgenteFormacionObservaciones" [(ngModel)]="agenteFormacion.AgenteFormacionObservaciones" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row p-t-20">
+                                                    <div class="col-md-4">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button type="submit" class="btn waves-effect waves-light btn-success">Guardar <i class="fa fa-save"></i></button>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <button type="button" class="btn waves-effect waves-light btn-danger" (click)="showPanelFormacion('V','2')"><i class="fa fa-backward"></i>Cancelar</button>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                    </div>
+                                                </div>
+                                                <div class="activity-box m-t-30">
+                                                    <div class="date-devider"><span>Fin Formación</span></div>
+                                                </div>
+                                                <hr>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="actions">
+                                <button type="button" class="btn waves-effect waves-light btn-info" (click)="showPanel2('P')"><i class="fa fa-arrow-left"></i>Anterior</button>
+                                <!-- <button type="button" class="btn waves-effect waves-light btn-info" (click)="showPanel2('P')">Siguiente <i class="fa fa-arrow-right"></i>
+                                                </button> -->
+                            </div>
+                            <div class="activity-box m-t-30">
+                                <div class="date-devider"></div>
+                            </div>
+
+                        </div>
+                        <!-- <div class="step-pane" id="step4">
+
+                        </div> -->
+
+                        <!-- <div class="activity-box m-t-30">
+                            <div class="date-devider"></div>
+                        </div> -->
+                        <div class="row p-t-20">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-2">
+
+                                <button type="button" class="btn waves-effect waves-light btn-primary" (click)="showPanel('V','2')"><i class="fa fa-arrow-left"></i>Regresar al Listado</button>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2">
+                                <button type="button" (click)="showPanel('C')" class="btn btn-primary m-b-0 button-tabla"><i class="fa fa-plus"></i> Crear nuevo Agente</button>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+
+                    </div>
+
+
+
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

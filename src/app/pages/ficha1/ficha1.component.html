@@ -1,0 +1,99 @@
+<form #formCc="ngForm">
+
+    <div class="row animated fadeIn">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- <h4 class="card-title">Tableros de Control Artes</h4> -->
+
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Seleccione el tipo de información</label>
+                        <div class="col-sm-4">
+                            <select [(ngModel)]="TipoFichaId" class="form-control" name="TipoFichaId" required (change)="cargarFicha()">
+                                            <option *ngFor="let item of tipoFicha" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                        </select>
+                        </div>
+                    </div>
+
+
+
+                    <dx-chart id="sales-chart">
+                        <dxo-common-series-settings type="bar"></dxo-common-series-settings>
+                        <dxo-size [height]="200"></dxo-size>
+                        <dxo-adaptive-layout [width]="450"></dxo-adaptive-layout>
+                        <dxo-tooltip [enabled]="true" format="currency" [customizeTooltip]="customizeTooltip"></dxo-tooltip>
+                    </dx-chart>
+
+                    <dx-pivot-grid id="pivotgrid" [allowSorting]="true" [allowSortingBySummary]="true" [allowFiltering]="true" [showBorders]="true" [showColumnGrandTotals]="false" [showRowGrandTotals]="true" [showRowTotals]="false" [showColumnTotals]="false" [dataSource]="dataSource">
+                        <dxo-field-chooser [enabled]="true" [height]="400"></dxo-field-chooser>
+                        <dxo-scrolling mode="virtual"></dxo-scrolling>
+                        <dxo-field-panel [showDataFields]="false" [showRowFields]="true" [showColumnFields]="true" [showFilterFields]="true" [allowFieldDragging]="true" [visible]="true">
+                        </dxo-field-panel>
+                        <dxo-export [enabled]="true" fileName="FichaArtes"></dxo-export>
+                    </dx-pivot-grid>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- <div class="row animated fadeIn">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Sabana Formación</h4>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">* Departamento:</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" required name="ZON_ID_DEP" [(ngModel)]="ZON_ID_DEP" (change)="mostrarMunicipios()">
+                                  <option value="">-- Seleccione el departamento --</option>
+                                  <option *ngFor="let item of depLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                              </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">* Municipio:</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" required name="ZON_ID" [(ngModel)]="ZON_ID" (change)="cargarDatosUrlReporte()">
+                                      <option value="">-- Seleccione el municipio --</option>
+                                      <option *ngFor="let item of munLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                  </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">* Anos:</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" required name="AnoId" [(ngModel)]="AnoId" (change)="cargarDatosUrlReporte()">
+                                      <option value="">-- Seleccione el Ano --</option>
+                                      <option *ngFor="let item of anosLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                  </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">* Area:</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" required name="AreaId" [(ngModel)]="AreaId" (change)="cargarDatosUrlReporte()">
+                                          <option value="">-- Seleccione el Area --</option>
+                                          <option *ngFor="let item of areasLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                      </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-sm-4 col-form-label">Abrir</label>
+                        <div class="col-lg-8">
+                            <div class="input-group-addon"><i class="ti-save"></i>
+                                <h4><a href={{urlRptPresProp}} target="_blank">
+                                      Sabana Formación</a></h4>
+                            </div>
+                        </div>
+                    </div>
+          
+                </div>
+            </div>
+        </div>
+    </div> -->
+</form>

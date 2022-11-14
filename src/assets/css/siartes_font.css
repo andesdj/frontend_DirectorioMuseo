@@ -1,0 +1,130 @@
+@charset "UTF-8";
+@font-face {
+    font-family: "siartes";
+    src: url("../assets/fonts/siartes.eot");
+    src: url("../assets/fonts/siartes.eot?#iefix") format("embedded-opentype"), url("../assets/fonts/siartes.woff") format("woff"), url("../assets/fonts/siartes.ttf") format("truetype"), url("../assets/fonts/siartes.svg#siartes") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+[data-icon]:before {
+    font-family: "siartes" !important;
+    content: attr(data-icon);
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    /* speak: none; */
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="si-"]:before,
+[class*=" si-"]:before {
+    font-family: "siartes" !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    /* speak: none; */
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.si-ios-body-outline:before {
+    content: "\61";
+}
+
+.si-actores:before {
+    content: "\62";
+}
+
+.si-comisiones:before {
+    content: "\63";
+}
+
+.si-concertacion-01-01:before {
+    content: "\64";
+}
+
+.si-ficha:before {
+    content: "\65";
+}
+
+.si-ofertas:before {
+    content: "\66";
+}
+
+.si-festivales:before {
+    content: "\67";
+}
+
+.si-urbano:before {
+    content: "\68";
+}
+
+.si-calendar:before {
+    content: "\69";
+}
+
+.si-donaciones:before {
+    content: "\6a";
+}
+
+.si-ies:before {
+    content: "\6b";
+}
+
+.si-notificacion:before {
+    content: "\6c";
+}
+
+.si-dash:before {
+    content: "\6d";
+}
+
+.si-organiza:before {
+    content: "\6e";
+}
+
+.si-marcador:before {
+    content: "\6f";
+}
+
+.si-revista:before {
+    content: "\70";
+}
+
+.si-porcentaje:before {
+    content: "\71";
+}
+
+.si-clasificados:before {
+    content: "\72";
+}
+
+.si-comunitaria:before {
+    content: "\73";
+}
+
+.si-alumnos:before {
+    content: "\74";
+}
+
+.si-caracterizacion:before {
+    content: "\75";
+}
+
+.si-experiencia:before {
+    content: "\76";
+}
+
+.si-representante:before {
+    content: "\77";
+}
+
+.si-celular:before {
+    content: "\78";
+}

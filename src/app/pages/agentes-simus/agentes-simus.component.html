@@ -1,0 +1,342 @@
+<mat-horizontal-stepper #stepper>
+    <mat-step>
+        <form>
+            <ng-template matStepLabel>Datos básicos</ng-template>
+            <br>
+            <mat-label>Datos básicos</mat-label>
+            <hr>
+            <h3 class="card-title">Información Básica</h3>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-card class="tp-card">
+                        <img mat-card-image src="../assets/images/agente_generico.png" alt="logo">
+                    </mat-card>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width">
+                        <textarea matInput placeholder="Reseña"></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+            <h3 class="card-title">Datos de Identificación</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field>
+                        <mat-label>Tipo de Identificación</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let tipoDoc of lstTipoDoc" [value]="tipoDoc.value">
+                                {{tipoDoc.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Nombre documento" formControlName="firstCtrl" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Primer nombre" formControlName="firstCtrl" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Segundo nombre">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Primer Apellido" formControlName="firstCtrl" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Segundo apellido">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field>
+                        <input matInput placeholder="Nombre artístico">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker" placeholder="Fecha de nacimiento" formControlName="firstCtrl" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Sexo</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let item of lstSexo" [value]="item.value">
+                                {{item.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Subir foto">
+                    </mat-form-field>
+                </div>
+            </div>
+            <h3 class="card-title">Datos de Ubicación</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-label>Departamento</mat-label>
+                    <div class="input-group">
+                        <select class="form-control" required name="ZON_ID_DEP" [(ngModel)]="agente.DepartamentoResidenciaId" (change)="mostrarMunicipios()">
+                        <option value="">-- Seleccione el departamento --</option>
+                        <option *ngFor="let item of depLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                    </select>
+                    </div>
+                    <br>
+                    <mat-label>Municipio</mat-label>
+                    <div class="input-group">
+                        <select class="form-control" required name="ZON_ID" [(ngModel)]="agente.MunicipioResidenciaId">
+                        <option value="">-- Seleccione el municipio --</option>
+                        <option *ngFor="let item of munLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                    </select>
+                    </div>
+                    <br>
+                    <mat-label>Área</mat-label>
+                    <div class="input-group">
+                        <select name="AreaId" class="form-control" [(ngModel)]="agente.AreaId" required>
+                        <option *ngFor="let item of areaLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field>
+                        <input matInput placeholder="Dirección">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Teléfono">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Correo Electrónico" [formControl]="email" required>
+                        <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Link portafolio">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div>
+                <button mat-button matStepperNext class="btn btn-success waves-effect waves-light m-r-10"><i class="fa fa-save"></i>Siguiente</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup">
+            <ng-template matStepLabel>Perfil</ng-template>
+            <br>
+            <mat-label>Estudios/Experiencia/Ocupación</mat-label>
+            <hr>
+            <h3 class="card-title">Información Perfil</h3>
+            <hr>
+            <h3 class="card-title">Datos Ocupación</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field>
+                        <input matInput placeholder="Ocupación" id="ocupacion">
+                    </mat-form-field>
+                </div>
+                <!-- <div class="col-md-6">  
+                    <button mat-raised-button (click)="ocupaciones()" aria-label="Button that displays a tooltip when focused or hovered over" >
+                            Agregar
+                    </button>                  
+            </div>                                                                                     -->
+            </div>
+            <hr>
+            <h3 class="card-title">Datos de instrumentos</h3>
+            <hr>
+            <h3 class="card-title">Datos Ocupación</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Agregar</button>
+                </div>
+            </div>
+            <br>
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                <!--- Note that these columns can be defined in any order.
+                        The actual rendered columns are set as a property on the row definition" -->
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="institucion">
+                    <th mat-header-cell *matHeaderCellDef> Institución </th>
+                    <td mat-cell *matCellDef="let element"> {{element.institucion}} </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="titulo">
+                    <th mat-header-cell *matHeaderCellDef> Título </th>
+                    <td mat-cell *matCellDef="let element"> {{element.titulo}} </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="periodoI">
+                    <th mat-header-cell *matHeaderCellDef> Periodo inicio </th>
+                    <td mat-cell *matCellDef="let element"> {{element.periodoI}} </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="periodoF">
+                    <th mat-header-cell *matHeaderCellDef> Periodo final </th>
+                    <td mat-cell *matCellDef="let element"> {{element.periodoF}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <br>
+            <h3 class="card-title">Datos de Experiencia y Trayectoria</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Agregar</button>
+                </div>
+            </div>
+            <br>
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                <!--- Note that these columns can be defined in any order.
+                            The actual rendered columns are set as a property on the row definition" -->
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="institucion">
+                    <th mat-header-cell *matHeaderCellDef> Institución </th>
+                    <td mat-cell *matCellDef="let element"> {{element.institucion}} </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="titulo">
+                    <th mat-header-cell *matHeaderCellDef> Título </th>
+                    <td mat-cell *matCellDef="let element"> {{element.titulo}} </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="periodoI">
+                    <th mat-header-cell *matHeaderCellDef> Periodo inicio </th>
+                    <td mat-cell *matCellDef="let element"> {{element.periodoI}} </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="periodoF">
+                    <th mat-header-cell *matHeaderCellDef> Periodo final </th>
+                    <td mat-cell *matCellDef="let element"> {{element.periodoF}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <hr>
+            <div>
+                <button mat-button matStepperPrevious class="btn btn-primary waves-effect waves-light m-r-10"><i class="fa fa-backward"></i>Regresar</button>
+                <button mat-button matStepperNext class="btn btn-success waves-effect waves-light m-r-10"><i class="fa fa-save"></i>Siguiente</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Oferta</ng-template>
+        <br>
+        <mat-label>Sociales</mat-label>
+        <hr>
+        <h3 class="card-title">Información Oferta</h3>
+        <hr>
+        <br>
+        <h3 class="card-title">Datos de Servicios / Productos</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <input matInput placeholder="Servicio producto" id="servicios">
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <!-- <button mat-raised-button (click)="ocupaciones()" aria-label="Button that displays a tooltip when focused or hovered over" >
+                            Agregar
+                    </button>                   -->
+            </div>
+        </div>
+        <hr>
+        <br>
+        <h3 class="card-title">Datos de Intereses</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <input matInput placeholder="Interés" id="datosInteres">
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <!-- <button mat-raised-button (click)="ocupaciones()" aria-label="Button that displays a tooltip when focused or hovered over" >
+                              Agregar
+                      </button>                   -->
+            </div>
+        </div>
+        <hr>
+        <div>
+            <button type="submit" class="btn btn-success waves-effect waves-light m-r-10"><i class="fa fa-save"></i>
+                Guardar
+            </button>
+            <!-- <button type="button" (click)="showPanel('V')" class="btn btn-primary waves-effect waves-light m-r-10"><i class="fa fa-backward"></i>
+                Cancelar
+            </button> -->
+        </div>
+    </mat-step>
+</mat-horizontal-stepper>
+
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Agregar estudios</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div></div>
+            <div class="form-group">
+                <mat-form-field>
+                    <input matInput placeholder="Institución" id="institucion">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput placeholder="Título" id="titulo">
+                </mat-form-field>
+                <div class="row">
+                    <div class="col-md-6">
+                        <mat-form-field>
+                            <mat-label>mes inicio</mat-label>
+                            <mat-select [(ngModel)]="selectedValue" name="item">
+                                <mat-option *ngFor="let item of lstMes" [value]="item.value">
+                                    {{item.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>mes final</mat-label>
+                            <mat-select [(ngModel)]="selectedValue" name="item">
+                                <mat-option *ngFor="let item of lstMes" [value]="item.value">
+                                    {{item.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field>
+                            <mat-label>año inicio</mat-label>
+                            <mat-select [(ngModel)]="selectedValue" name="item">
+                                <mat-option *ngFor="let item of lstMes" [value]="item.value">
+                                    {{item.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>año final</mat-label>
+                            <mat-select [(ngModel)]="selectedValue" name="item">
+                                <mat-option *ngFor="let item of lstMes" [value]="item.value">
+                                    {{item.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <mat-form-field class="example-full-width">
+                        <textarea matInput placeholder="Descripción" id="descripcion"></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Guardar</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancelar</button>
+    </div>
+</ng-template>

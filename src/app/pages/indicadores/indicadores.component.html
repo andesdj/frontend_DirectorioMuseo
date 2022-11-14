@@ -1,0 +1,771 @@
+<div class="row animated fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row float-right" *ngIf="displayListIndicadores">
+                    <button type="button" (click)="showPanel('C')" class="btn btn-primary m-b-0 button-tabla">Crear nuevo Indicador</button>
+                    <!-- <button type="button" (click)="_mapsUbicacionService.mostrarModal()" class="btn btn-success m-b-0 button-tabla">Mostrar Mapa</button> -->
+                </div>
+                <br/>
+                <h4 class="card-title">Indicadores Registrados</h4>
+                <h6 class="card-subtitle">Mantenimiento de Indicadores</h6>
+                <div *ngIf="displayListIndicadores">
+
+                    <dx-data-grid id="gridIndicadores" [dataSource]="listaIndicadores" showBorders="true" [rowAlternationEnabled]="true" [columnHidingEnabled]="true" [columnAutoWidth]="true" keyExpr="IndicadorId">
+                        <dxo-export [enabled]="true" fileName="indicadores Registradas en el Sistema"></dxo-export>
+                        <dxo-filter-row [visible]="true"></dxo-filter-row>
+                        <dxo-header-filter [visible]="true"></dxo-header-filter>
+                        <dxo-grouping [contextMenuEnabled]="true" expandMode="rowClick"></dxo-grouping>
+                        <dxo-group-panel [visible]="true" emptyPanelText="Use el contexto de menu de los encabezados de columnas para agrupar datos"></dxo-group-panel>
+                        <dxo-search-panel [visible]="true" [width]="240" placeholder="Buscar..."></dxo-search-panel>
+                        <dxo-remote-operations [sorting]="true" [paging]="true">
+                        </dxo-remote-operations>
+
+                        <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+                        <dxi-column caption="Acciones" cellTemplate="accionCellTemplate" alignment="center"></dxi-column>
+                        <dxi-column dataField="IndicadorId" caption="Id">
+                        </dxi-column>
+                        <dxi-column dataField="IndicadorNombre" caption="Nombre">
+                        </dxi-column>
+                        <dxi-column dataField="IndicadorUnidadMedida" caption="Unidad de Medida">
+                        </dxi-column>
+                        <dxi-column dataField="AccionNombre" caption="Acción">
+                        </dxi-column>
+                        <dxi-column dataField="PeriodicidadNombre" caption="Periodicidad">
+                        </dxi-column>
+                        <dxi-column dataField="TipoIndicadorNombre" caption="TipoIndicador">
+                        </dxi-column>
+                        <dxi-column dataField="AreaNombre" caption="Area">
+                        </dxi-column>
+
+                        <!-- <dxi-column dataField="MunicipioResidenciaNombre" caption="Municipio">
+                        </dxi-column>
+                        <dxi-column dataField="AgrupacionDireccion" caption="Dirección">
+                        </dxi-column> -->
+
+
+                        <div *dxTemplate="let d of 'accionCellTemplate'">
+                            <!--<div>
+                                   <i style="font-size:20px; cursor:pointer;" class="icofont icofont-law-document" placement="right" ngbTooltip="Seleccionar" (click)="showPanel('U', d.data.PersonaId)"></i> 
+                                  <i style="font-size:20px; cursor:pointer;" class="icofont icofont-law-document" placement="right" ngbTooltip="Actualizar" (click)="showPanel('U', d.data.PersonaId)"></i>
+    
+                              </div>-->
+
+                            <!-- -->
+                            <div class="internal-grid-container">
+                                <div>
+
+                                    <button type="button" matTooltip="Agregar" (click)="showPanel('C')" class="btn btn-primary waves-effect waves-light m-r-10">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                    <button type="button" matTooltip="Editar" (click)="showPanel('U', d.data.IndicadorId)" class="btn btn-success waves-effect waves-light m-r-10">
+                                                    <i class="fa fa-check"></i>
+                                                
+                                            </button>
+                                    <button type="button" matTooltip="Borrar" (click)="borrarIndicador(d.data.IndicadorId)" class="btn btn-danger waves-effect waves-light m-r-10">
+                                                    <i class="fa fa-remove"></i>
+                                                </button>
+                                    <!-- <button type="button" (click)="showPanel('U', d.data.AgenteId)" class="btn btn-danger m-b-0">  Borrar </button> -->
+
+                                    <!-- <button type="button" (click)="aprobarAgrupacion(d.data.AgrupacionId)" class="btn btn-facebook waves-effect waves-light m-r-10">
+                                            <i class="fa fa-save"></i>
+                                        Aprobar
+                                    </button> -->
+                                    <!-- <button type="button" (click)="borrarAgente(d.data.AgenteId)" class="btn btn-danger waves-effect waves-light m-r-10">
+                                            <i class="fa fa-remove"></i>
+                                        Borrar
+                                    </button> -->
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <dxo-summary>
+                            <dxi-total-item column="AgrupacionId" summaryType="count" displayFormat="Cantidad: {0}">
+                            </dxi-total-item>
+                        </dxo-summary>
+                        <dxo-paging [pageSize]="10"></dxo-paging>
+                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 40]" [visible]="true" [showInfo]="true" [showNavigationButtons]="true"></dxo-pager>
+
+                    </dx-data-grid>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="displayCrearIndicador">
+    <div class="row p-t-20">
+        <div class="col-md-3"></div>
+        <div class="col-md-2">
+
+            <button type="button" class="btn waves-effect waves-light btn-primary" (click)="showPanel('V','2')"><i class="fa fa-arrow-left"></i>Regresar al Listado</button>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
+            <button type="button" (click)="showPanel('C')" class="btn btn-primary m-b-0 button-tabla"><i class="fa fa-plus"></i> Crear nuevo Indicador</button>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="activity-box m-t-30">
+        <div class="date-devider"></div>
+    </div>
+    <div class="row p-t-20">
+
+
+        <div class="col-md-10">
+            <h4 class="card-title">
+                {{indicador.IndicadorNombre}}
+            </h4>
+        </div>
+    </div>
+    <div class="card">
+        <div id="demo-wizard" class="wizard" style="width:100%">
+            <ul class="steps">
+                <li data-target="#step1" [ngClass]="EstiloStep1" style="width:25%" (click)="showPanel2('R')"><span class="badge badge-info">1</span>Registro<span class="chevron"></span></li>
+                <li data-target="#step2" [ngClass]="EstiloStep2" style="width:25%" (click)="showPanel2('P')"><span class="badge">2</span>Avance Indicador<span class="chevron"></span></li>
+                <li data-target="#step3" [ngClass]="EstiloStep3" style="width:25%" (click)="showPanel2('O')"><span class="badge">3</span>Cuatrenio Indicador<span class="chevron"></span></li>
+                <!-- <li data-target="#step4" [ngClass]="EstiloStep4" style="width:25%" class="last"><span class="badge">4</span>Otros</li> -->
+            </ul>
+        </div>
+        <div class="step-content" *ngIf="registro">
+            <div class="step-pane active" id="step1">
+                <div class="card-body wizard-content">
+                    <form ngNativeValidate #formCc="ngForm" (ngSubmit)="onSubmit(formCc.valid, 'P')" class="form p-t-20">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Nombre</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                        <input name="IndicadorNombre" type="text" class="form-control" [(ngModel)]="indicador.IndicadorNombre" required>
+                                        <div style="color:red" *ngIf="indicador.IndicadorNombre ===''">
+                                            <strong>&nbsp; * </strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Unidad de Medida</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="ti-paint-bucket"></i></div>
+                                        <input name="IndicadorUnidadMedida" type="text" class="form-control" [(ngModel)]="indicador.IndicadorUnidadMedida" required>
+                                        <div style="color:red" *ngIf="indicador.IndicadorUnidadMedida ===''">
+                                            <strong>&nbsp; * </strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Indicador Línea Base</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="ti-ruler-alt-2"></i></div>
+                                        <input name="IndicadorLineaBase" type="number" pattern="[0-9]+(?:[.,][0-9]{1,2})?" step="0.01" value='0.00' placeholder='0.00' class="form-control" [(ngModel)]="indicador.IndicadorLineaBase" required>
+                                        <div style="color:red" *ngIf="indicador.IndicadorLineaBase === null">
+                                            <strong>&nbsp; * </strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-xs-12 ">
+                                <div class="form-group ">
+                                    <label for="exampleInputuname ">Reporte</label>
+                                    <div class="input-group ">
+                                        <div class="input-group-addon "><i class="ti-image "></i></div>
+                                        <select name="ReporteId " class="form-control " [(ngModel)]="indicador.ReporteId" required (change)="cargarObjetivo(indicador.ReporteId)">
+                                                                                                              <option *ngFor="let item of ReporteLista" [ngValue]="item.idValorReferencia ">{{item.nombre}}</option>
+                                                                                                      </select>
+                                        <div style="color:red " *ngIf="indicador.ReporteId===null ">
+                                            <strong>&nbsp; * </strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-12 col-xs-12 ">
+                                <div class="form-group ">
+                                    <label for="exampleInputuname ">Objetivo</label>
+                                    <div class="input-group ">
+                                        <div class="input-group-addon "><i class="ti-flag-alt "></i></div>
+                                        <select name="ObjetivoId" class="form-control " [(ngModel)]="indicador.ObjetivoId" required (change)="cargarEstrategia(indicador.ObjetivoId)">
+                                                                                                            <option value=""></option>
+                                                                                                              <option *ngFor="let item of ObjetivoLista" [ngValue]="item.idValorReferencia ">{{item.nombre}}</option>
+                                                                                                      </select>
+                                        <div style="color:red " *ngIf="indicador.ObjetivoId===null ">
+                                            <strong>&nbsp; * </strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-12 col-xs-12 ">
+                                <div class="form-group ">
+                                    <label for="exampleInputuname ">Estrategia</label>
+                                    <div class="input-group ">
+                                        <div class="input-group-addon "><i class="ti-notepad "></i></div>
+                                        <select name="EstrategiaId" class="form-control " [(ngModel)]="indicador.EstrategiaId" required (change)="cargarAccion(indicador.EstrategiaId)">
+                                                                                                            <option value=""></option>
+                                                                                                              <option *ngFor="let item of EstrategiaLista" [ngValue]="item.idValorReferencia ">{{item.nombre}}</option>
+                                                                                                      </select>
+                                        <div style="color:red " *ngIf="indicador.EstrategiaId===null ">
+                                            <strong>&nbsp; * </strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-12 col-xs-12 ">
+                                <div class="form-group ">
+                                    <label for="exampleInputuname ">Acción</label>
+                                    <div class="input-group ">
+                                        <div class="input-group-addon "><i class="ti-wand "></i></div>
+                                        <select name="AccionId " class="form-control " [(ngModel)]="indicador.AccionId" required>
+                                                                                                            <option value=""></option>
+                                                                                                              <option *ngFor="let item of AccionLista" [ngValue]="item.idValorReferencia ">{{item.nombre}}</option>
+                                                                                                      </select>
+                                        <div style="color:red " *ngIf="indicador.AccionId===null ">
+                                            <strong>&nbsp; * </strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-6 col-xs-6 ">
+                                <div class="form-group ">
+                                    <label for="exampleInputuname ">Periodicidad</label>
+                                    <div class="input-group ">
+                                        <div class="input-group-addon "><i class="ti-timer "></i></div>
+                                        <select name="PeriodicidadId " class="form-control " [(ngModel)]="indicador.PeriodicidadId " required>
+                                                                                                              <option *ngFor="let item of PeriodicidadLista " [ngValue]="item.idValorReferencia ">{{item.nombre}}</option>
+                                                                                                      </select>
+                                        <div style="color:red " *ngIf="indicador.PeriodicidadId===null ">
+                                            <strong>&nbsp; * </strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-6 col-xs-6 ">
+                                <div class="form-group ">
+                                    <label for="exampleInputuname ">Tipo Indicador</label>
+                                    <div class="input-group ">
+                                        <div class="input-group-addon "><i class="ti-menu-alt "></i></div>
+                                        <select name="TipoIndicadorId " class="form-control " [(ngModel)]="indicador.TipoIndicadorId " required>
+                                                                                                              <option *ngFor="let item of TipoIndicadorLista" [ngValue]="item.idValorReferencia ">{{item.nombre}}</option>
+                                                                                                      </select>
+                                        <div style="color:red " *ngIf="indicador.TipoIndicadorId===null ">
+                                            <strong>&nbsp; * </strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-6 col-xs-6 ">
+                                <div class="form-group ">
+                                    <label for="exampleInputuname ">Área</label>
+                                    <div class="input-group ">
+                                        <div class="input-group-addon "><i class="ti-align-left"></i></div>
+                                        <select name="AreaId" class="form-control" [(ngModel)]="indicador.AreaId" required>
+                                                                                                        <option value="139">Música</option>
+                                                                                                        <option value="141">Teatro</option>
+                                                                                                        <option value="142">Literatura</option>
+                                                                                                        <option value="144">Artes Visuales</option>
+                                                                                                        <option value="145">Danza</option>
+                                                                                                        <option value="3350">Circo</option>
+
+                                                                                                        <!-- <option *ngFor="let item of AreaLista" [ngValue]="item.idValorReferencia ">{{item.nombre}}</option> -->
+                                                                                              </select>
+                                        <div style="color:red " *ngIf="indicador.AreaId===null ">
+                                            <strong>&nbsp; * </strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-6 col-xs-6 ">
+                                <div class="form-group ">
+                                    <label for="exampleInputuname ">Estado</label>
+                                    <div class="input-group ">
+                                        <div class="input-group-addon "><i class="ti-hand-point-right "></i></div>
+                                        <select name="EstadoId" class="form-control" [(ngModel)]="indicador.EstadoId" required>
+                                            <option *ngFor="let item of EstadosLista" [ngValue]="item.idValorReferencia ">{{item.nombre}}</option>
+                                                                                              </select>
+                                        <div style="color:red " *ngIf="indicador.AreaId===null ">
+                                            <strong>&nbsp; * </strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-xs-12 ">
+                                <div class="form-group ">
+                                    <label for="exampleInputuname ">Descripción Indicador</label>
+                                    <div class="input-group ">
+                                        <textarea class="form-control" rows="8" name="IndicadorDescripcion" [(ngModel)]="indicador.IndicadorDescripcion" required></textarea>
+                                        <div style="color:red " *ngIf="indicador.IndicadorDescripcion==='' ">
+                                            <strong>&nbsp; * </strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Formula</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="ti-marker"></i></div>
+                                        <input name="IndicadorFormula" type="text" class="form-control" [(ngModel)]="indicador.IndicadorFormula" required>
+                                        <div style="color:red" *ngIf="indicador.IndicadorFormula ===''">
+                                            <strong>&nbsp; * </strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-md-4">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn waves-effect waves-light btn-success">Guardar <i class="fa fa-save"></i></button>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" (click)="showPanel2('P')" class="btn waves-effect waves-light btn-info">Siguiente <i class="fa fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="step-pane" id="step2" *ngIf="experiencia">
+            <br>
+            <div class="row align-content-center" *ngIf="displayListAgenteExperiencia">
+                <div class="col-md-2">
+                    <button matTooltip="Nuevo" type="button" (click)="showPanelExperiencia('C')" class="btn btn-success m-b-0 button-tabla">
+                    <i class="fa fa-plus"></i>Agregar Avance indicador
+                </button>
+                </div>
+            </div>
+            <div class="row" *ngIf="displayListAgenteExperiencia">
+                <dx-data-grid id="gridAgentesExperiencia" [dataSource]="listaAgentesExperiencia" showBorders="true" [rowAlternationEnabled]="true" [columnHidingEnabled]="true" [columnAutoWidth]="true" keyExpr="MetaAvanceId">
+                    <dxo-export [enabled]="true" fileName="Avance indicador"></dxo-export>
+                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                    <dxo-header-filter [visible]="true"></dxo-header-filter>
+                    <dxo-grouping [contextMenuEnabled]="true" expandMode="rowClick"></dxo-grouping>
+                    <dxo-group-panel [visible]="true" emptyPanelText="Use el contexto de menu de los encabezados de columnas para agrupar datos"></dxo-group-panel>
+                    <dxo-search-panel [visible]="true" [width]="240" placeholder="Buscar..."></dxo-search-panel>
+                    <dxo-remote-operations [sorting]="true" [paging]="true">
+                    </dxo-remote-operations>
+                    <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+                    <dxi-column caption="Acciones" cellTemplate="accionCellTemplate" alignment="center"></dxi-column>
+                    <dxi-column dataField="MetaAvanceId" caption="Id">
+                    </dxi-column>
+                    <dxi-column dataField="MetaAvanceMeta" caption="Meta Programada">
+                    </dxi-column>
+                    <dxi-column dataField="MetaAvanceFechaMeta" caption="Fecha Meta">
+                    </dxi-column>
+                    <dxi-column dataField="MetaAvanceAvanceCuantitativo" caption="Avance Cuantitativo">
+                    </dxi-column>
+                    <dxi-column dataField="MetaAvanceFechaAvance" caption="Fecha Avance">
+                    </dxi-column>
+
+
+
+                    <div *dxTemplate="let d of 'accionCellTemplate'">
+
+                        <div class="internal-grid-container">
+                            <div>
+                                <button type="button" matTooltip=" Nuevo" (click)="showPanelExperiencia('C')" class="btn btn-success waves-effect waves-light m-r-10">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+
+                                <button type="button" matTooltip="Editar" (click)="showPanelExperiencia('U', d.data.MetaAvanceId)" class="btn btn-success waves-effect waves-light m-r-10">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+
+                                <button type="button" matTooltip="Borrar" (click)="borrarAgenteExperiencia(d.data.MetaAvanceId)" class="btn btn-danger waves-effect waves-light m-r-10">
+                                    <i class="fa fa-remove"></i>
+                                
+                            </button>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <dxo-summary>
+                        <dxi-total-item column="AgenteId" summaryType="count" displayFormat="Cantidad: {0}">
+                        </dxi-total-item>
+                    </dxo-summary>
+                    <dxo-paging [pageSize]="10"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 40]" [visible]="true" [showInfo]="true" [showNavigationButtons]="true"></dxo-pager>
+
+                </dx-data-grid>
+            </div>
+
+            <div class="col-12">
+                <div class="card">
+
+                    <div class="card-body">
+
+
+                        <div *ngIf="displayCrearAgenteExperiencia">
+
+                            <form ngNativeValidate #formCcExpe="ngForm" (ngSubmit)="onSubmitExperiencia(formCcExpe.valid, 'P')" class="form p-t-20">
+                                <div class="activity-box m-t-30">
+                                    <div class="date-devider"><span>Registro Avance Indicador</span></div>
+                                </div>
+                                <hr>
+                                <div class="row p-t-20">
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputuname">Meta Programada</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                <input name="MetaAvanceMeta" type="number" pattern="[0-9]+(?:[.,][0-9]{1,2})?" step="0.01" value='0.00' placeholder='0.00' class="form-control" [(ngModel)]="metaAvanceIndicador.MetaAvanceMeta" required>
+                                                <div style="color:red " *ngIf="metaAvanceIndicador.MetaAvanceMeta=== null ">
+                                                    <strong>&nbsp; * </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputuname">Fecha Meta</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="ti-time"></i></div>
+                                                <input required type="text" [(ngModel)]="metaAvanceIndicador.MetaAvanceFechaMeta" [minDate]="{year: 1900, month: 1, day: 1}" placeholder="mm/dd/aaaa" name="MetaAvanceFechaMeta" ngbDatepicker #MetaAvanceFechaMeta="ngbDatepicker">
+                                                <div class="input-group-addon bg-default" (click)="MetaAvanceFechaMeta.toggle()">
+                                                    <span class="ti-calendar"></span>
+                                                </div>
+                                                <div style="color:red " *ngIf="metaAvanceIndicador.MetaAvanceFechaMeta==='' ">
+                                                    <strong>&nbsp; * </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputuname">Avance Cuantitativo</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                <input name="MetaAvanceAvanceCuantitativo" type="number" pattern="[0-9]+(?:[.,][0-9]{1,2})?" step="0.01" value='0.00' placeholder='0.00' class="form-control" [(ngModel)]="metaAvanceIndicador.MetaAvanceAvanceCuantitativo" required>
+                                                <div style="color:red " *ngIf="metaAvanceIndicador.MetaAvanceAvanceCuantitativo==='' ">
+                                                    <strong>&nbsp; * </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row p-t-20">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Avance Cualitativo</label>
+                                            <textarea class="form-control" rows="8" name="MetaAvanceAvanceCualitativo" [(ngModel)]="metaAvanceIndicador.MetaAvanceAvanceCualitativo" required></textarea>
+                                            <div style="color:red " *ngIf="metaAvanceIndicador.MetaAvanceAvanceCualitativo==='' ">
+                                                <strong>&nbsp; * </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row p-t-20">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputuname">Fecha Avance</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="ti-time"></i></div>
+                                                <input required type="text" [(ngModel)]="metaAvanceIndicador.MetaAvanceFechaAvance" [minDate]="{year: 1900, month: 1, day: 1}" placeholder="mm/dd/aaaa" name="MetaAvanceFechaAvance" ngbDatepicker #MetaAvanceFechaAvance="ngbDatepicker">
+                                                <div class="input-group-addon bg-default" (click)="MetaAvanceFechaAvance.toggle()">
+                                                    <span class="ti-calendar"></span>
+                                                </div>
+                                                <div style="color:red " *ngIf="metaAvanceIndicador.MetaAvanceFechaAvance==='' ">
+                                                    <strong>&nbsp; * </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row p-t-20">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Avance Observaciones</label>
+                                            <div style="color:red " *ngIf="metaAvanceIndicador.MetaAvanceObservaciones==='' ">
+                                                <strong>&nbsp; * </strong>
+                                            </div>
+                                            <textarea class="form-control" rows="8" name="MetaAvanceObservaciones" [(ngModel)]="metaAvanceIndicador.MetaAvanceObservaciones" required></textarea>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row p-t-20">
+                                    <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="submit" class="btn waves-effect waves-light btn-success">Guardar <i class="fa fa-save"></i></button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn waves-effect waves-light btn-danger" (click)="showPanelExperiencia('V','2')"><i class="fa fa-backward"></i>Cancelar</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                    </div>
+                                </div>
+                                <hr>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <div class="row p-t-20">
+                    <div class="col-md-2">
+                        <button type="button" class="btn waves-effect waves-light btn-info" (click)="showPanel2('R')"><i class="fa fa-arrow-left"></i>Anterior</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn waves-effect waves-light btn-info" (click)="showPanel2('O')">Siguiente <i class="fa fa-arrow-right"></i> </button>
+                    </div>
+                </div>
+                <div class="activity-box m-t-30">
+                    <div class="date-devider"></div>
+                </div>
+
+
+            </div>
+            <br>
+        </div>
+        <div class="step-pane" id="step3" *ngIf="formacion">
+            <br>
+            <div class="row align-content-center" *ngIf="displayListAgenteFormacion">
+                <div class="col-md-2">
+                    <button matTooltip="Nuevo" type="button" (click)="showPanelFormacion('C')" class="btn btn-success m-b-0 button-tabla">
+                    <i class="fa fa-plus"></i>Agregar 
+                </button>
+                </div>
+            </div>
+            <div class="row" *ngIf="displayListAgenteFormacion">
+                <dx-data-grid id="gridMetasCuatrenio" [dataSource]="listaAgentesFormacion" showBorders="true" [rowAlternationEnabled]="true" [columnHidingEnabled]="true" [columnAutoWidth]="true" keyExpr="MetaCuatrienioId">
+                    <dxo-export [enabled]="true" fileName="Meta Cuatrenio"></dxo-export>
+                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                    <dxo-header-filter [visible]="true"></dxo-header-filter>
+                    <dxo-grouping [contextMenuEnabled]="true" expandMode="rowClick"></dxo-grouping>
+                    <dxo-group-panel [visible]="true" emptyPanelText="Use el contexto de menu de los encabezados de columnas para agrupar datos"></dxo-group-panel>
+                    <dxo-search-panel [visible]="true" [width]="240" placeholder="Buscar..."></dxo-search-panel>
+                    <dxo-remote-operations [sorting]="true" [paging]="true">
+                    </dxo-remote-operations>
+                    <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+                    <dxi-column caption="Acciones" cellTemplate="accionCellTemplate" alignment="center"></dxi-column>
+                    <dxi-column dataField="MetaCuatrienioId" caption="Id">
+                    </dxi-column>
+                    <dxi-column dataField="MetaCuatrienioMeta" caption=" Cuatrienio">
+                    </dxi-column>
+                    <dxi-column dataField="MetaCuatrienioDescripcion" caption="Desscripción">
+                    </dxi-column>
+                    <dxi-column dataField="MetaCuatrienioFechaModificacion" caption="Fecha Modificación">
+                    </dxi-column>
+
+
+
+
+                    <div *dxTemplate="let d of 'accionCellTemplate'">
+
+                        <div class="internal-grid-container">
+                            <div>
+                                <button type="button" matTooltip=" Nuevo" (click)="showPanelFormacion('C')" class="btn btn-success waves-effect waves-light m-r-10">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+
+                                <button type="button" matTooltip="Editar" (click)="showPanelFormacion('U', d.data.MetaCuatrienioId)" class="btn btn-success waves-effect waves-light m-r-10">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+
+                                <button type="button" matTooltip="Borrar" (click)="borrarAgenteFormacion(d.data.MetaCuatrienioId)" class="btn btn-danger waves-effect waves-light m-r-10">
+                                    <i class="fa fa-remove"></i>
+                                
+                            </button>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <dxo-summary>
+                        <dxi-total-item column="MetaCuatrienioId" summaryType="count" displayFormat="Cantidad: {0}">
+                        </dxi-total-item>
+                    </dxo-summary>
+                    <dxo-paging [pageSize]="10"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 40]" [visible]="true" [showInfo]="true" [showNavigationButtons]="true"></dxo-pager>
+
+                </dx-data-grid>
+            </div>
+
+            <div class="col-12">
+                <div class="card">
+
+                    <div class="card-body">
+
+
+                        <div *ngIf="displayCrearAgenteFormacion">
+
+                            <form ngNativeValidate #formCcForm="ngForm" (ngSubmit)="onSubmitFormacion(formCcForm.valid, 'P')" class="form p-t-20">
+                                <div class="activity-box m-t-30">
+                                    <div class="date-devider"><span>Registro cuatrenio indicador</span></div>
+                                </div>
+                                <hr>
+                                <div class="row p-t-20">
+                                    <div class="form-group ">
+                                        <label for="exampleInputuname ">Año</label>
+                                        <div class="input-group ">
+                                            <div class="input-group-addon "><i class="ti-agenda "></i></div>
+                                            <select name="AnoId " class="form-control " [(ngModel)]="metaCuatrenioIndicador.AnoId" required>
+                                                                                                            <option value=""></option>
+                                                                                                            <option value="186">2024</option>
+                                                                                                            <option value="185">2023</option>
+                                                                                                            <option value="184">2022</option>
+                                                                                                            <option value="183">2021</option>
+                                                                                                            <option value="182">2020</option>
+                                                                                                            <option value="181">2019</option>
+                                                                                                            <option value="180">2018</option>
+                                                                                                            <option value="179">2017</option>
+                                                                                                            <option value="178">2016</option>
+                                                                                                            <option value="177">2015</option>
+                                                                                                            <option value="176">2014</option>
+                                                                                                            <option value="175">2013</option>
+                                                                                                            <option value="174">2012</option>
+                                                                                                            <option value="173">2011</option>
+                                                                                                            <option value="172">2010</option>
+                                                                                                              <!-- <option *ngFor="let item of AnoLista " [ngValue]="item.idValorReferencia ">{{item.nombre}}</option> -->
+                                                                                                      </select>
+                                            <div style="color:red " *ngIf="metaCuatrenioIndicador.AnoId===null ">
+                                                <strong>&nbsp; * </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- <div class="col-sm-12 col-xs-12 ">
+                                    <div class="form-group ">
+                                        <label for="exampleInputuname ">Objetivo</label>
+                                        <div class="input-group ">
+                                            <div class="input-group-addon "><i class="ti-agenda "></i></div>
+                                            <select name="ObjetivoId" class="form-control " [(ngModel)]="indicador.ObjetivoId" required (change)="cargarEstrategia()">
+                                                                                                                <option value=""></option>
+                                                                                                                  <option *ngFor="let item of ObjetivoLista" [ngValue]="item.idValorReferencia ">{{item.nombre}}</option>
+                                                                                                          </select>
+                                            <div style="color:red " *ngIf="indicador.ObjetivoId===null ">
+                                                <strong>&nbsp; * </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                </div> -->
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputuname">Meta Programada</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="ti-key"></i></div>
+                                                <input name="MetaAvanceMeta" type="text" class="form-control" [(ngModel)]="metaCuatrenioIndicador.MetaCuatrienioMeta" required>
+                                            </div>
+                                            <div style="color:red " *ngIf="metaCuatrenioIndicador.MetaCuatrienioMeta === null ">
+                                                <strong>&nbsp; * </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row p-t-20">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Descripción Meta</label>
+                                            <div style="color:red " *ngIf="metaCuatrenioIndicador.MetaCuatrienioDescripcion === '' ">
+                                                <strong>&nbsp; * </strong>
+                                            </div>
+                                            <textarea class="form-control" rows="8" name="MetaCuatrienioDescripcion" [(ngModel)]="metaCuatrenioIndicador.MetaCuatrienioDescripcion" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row p-t-20">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Observación Meta</label>
+                                            <div style="color:red " *ngIf="metaCuatrenioIndicador.MetaCuatrienioObservacion === '' ">
+                                                <strong>&nbsp; * </strong>
+                                            </div>
+                                            <textarea class="form-control" rows="8" name="MetaCuatrienioObservacion" [(ngModel)]="metaCuatrenioIndicador.MetaCuatrienioObservacion" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row p-t-20">
+                                    <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="submit" class="btn waves-effect waves-light btn-success">Guardar <i class="fa fa-save"></i></button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn waves-effect waves-light btn-danger" (click)="showPanelFormacion('V','2')"><i class="fa fa-backward"></i>Cancelar</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <div class="row p-t-20">
+                    <div class="col-md-2">
+                        <button type="button" class="btn waves-effect waves-light btn-info" (click)="showPanel2('P')"><i class="fa fa-arrow-left"></i>Anterior</button>
+                    </div>
+                    <!-- <div class="col-md-2">
+                        <button type="button" class="btn waves-effect waves-light btn-info" (click)="showPanel2('O')">Siguiente <i class="fa fa-arrow-right"></i> </button>
+                    </div> -->
+                </div>
+                <div class="activity-box m-t-30">
+                    <div class="date-devider"></div>
+                </div>
+
+
+            </div>
+            <br>
+        </div>
+    </div>
+
+    <div class="row p-t-20">
+        <div class="col-md-3"></div>
+        <div class="col-md-2">
+
+            <button type="button" class="btn waves-effect waves-light btn-primary" (click)="showPanel('V','2')"><i class="fa fa-arrow-left"></i>Regresar al Listado</button>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
+            <button type="button" (click)="showPanel('C')" class="btn btn-primary m-b-0 button-tabla"><i class="fa fa-plus"></i> Crear nuevo Indicador</button>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+
+</div>

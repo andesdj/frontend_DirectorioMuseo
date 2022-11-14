@@ -1,0 +1,78 @@
+<div class="row animated fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <button type="button" class="btn btn-primary m-b-0">Crear nueva entidad</button>
+                </div>
+                <br/>
+                <h4 class="card-title">Valores de Entidades Registradas</h4>
+                <h6 class="card-subtitle">Mantenimiento de Entidades</h6>
+
+                <dx-data-grid id="gridEntidades1" [dataSource]="listaEntidades" showBorders="true" [rowAlternationEnabled]="true" [columnAutoWidth]="true" keyExpr="EntidadId" #gridEntidades1 [allowColumnReordering]="true">
+                    <dxo-export [enabled]="true" fileName="Escenarios Teatrales y Circenses"></dxo-export>
+                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                    <dxo-header-filter [visible]="true"></dxo-header-filter>
+                    <dxo-group-panel [visible]="true"></dxo-group-panel>
+                    <dxo-search-panel [visible]="true" [width]="240" placeholder="Buscar..."></dxo-search-panel>
+                    <dxo-remote-operations [sorting]="true" [paging]="true">
+                    </dxo-remote-operations>
+                    <dxi-column caption="Acciones" cellTemplate="accionCellTemplate"></dxi-column>
+                    <dxi-column dataField="TipoEntidadNombre" caption="Tipo Entidad">
+                    </dxi-column>
+                    <dxi-column dataField="EntidadNombre" caption="Nombre">
+                    </dxi-column>
+                    <dxi-column dataField="EntidadFechaCreacion" caption="Año de creación">
+                    </dxi-column>
+                    <dxi-column dataField="EntidadNaturalezaNombre" caption="Tipo de naturaleza">
+                    </dxi-column>
+                    <dxi-column dataField="EntidadSedeNombre" caption="Sede">
+                    </dxi-column>
+
+                    <dxi-column dataField="EntidadTelefonoResponsable" caption="Teléfono de responsable">
+                    </dxi-column>
+
+                    <dxi-column dataField="EntidadEmailResponsable" caption="Correo electrónico del responsable">
+                    </dxi-column>
+
+                    <dxi-column dataField="EntidadNombreDep" caption="Departamento">
+                    </dxi-column>
+                    <dxi-column dataField="EntidadNombreMun" caption="Municipio">
+                    </dxi-column>
+                    <dxi-column dataField="EntidadDireccion" caption="Dirección">
+                    </dxi-column>
+                    <dxi-column dataField="EntidadTelefonoFijo" caption="Teléfono fijo">
+                    </dxi-column>
+                    <dxi-column dataField="EntidadTelefonoMovil" caption="Teléfono celular">
+                    </dxi-column>
+                    <dxi-column dataField="EntidadPaginaWeb" caption="Página Web">
+                    </dxi-column>
+                    <dxi-column dataField="EntidadEmail" caption="Correo electrónico">
+                    </dxi-column>
+                    <dxi-column dataField="EntidadEstadoNombre" caption="Estado">
+                    </dxi-column>
+                    <dxi-column dataField="EntidadFechaRegistro" caption="Fecha creación">
+                    </dxi-column>
+                    <dxi-column dataField="EntidadFechaEdito" caption="Fecha última modificación">
+                    </dxi-column>
+                    <dxi-column dataField="EntidadObservaciones" caption="Observaciones">
+                    </dxi-column>
+                    <dxi-column dataField="EntidadFechaAprobacion" caption="Fecha aprobación">
+                    </dxi-column>
+                    <dxo-summary>
+                        <dxi-total-item column="EntidadId" summaryType="count" displayFormat="Cantidad: {0}">
+                        </dxi-total-item>
+                    </dxo-summary>
+                    <dxo-paging [pageSize]="10"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 40]"></dxo-pager>
+                    <!-- <div *dxTemplate="let d of 'accionCellTemplate'">
+                        <div class="button-cell" style="text-align: center;">
+                            <i style="font-size:20px; cursor:pointer;" class="icofont icofont-law-document" placement="right" ngbTooltip="Seleccionar" (click)="cargarAprobarEntidad2(d.data)"></i>
+                        </div>
+                    </div> -->
+                </dx-data-grid>
+
+            </div>
+        </div>
+    </div>
+</div>

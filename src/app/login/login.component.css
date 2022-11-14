@@ -1,0 +1,431 @@
+body.login {
+    /* background: url('../../assets/images/bg_login.jpg') no-repeat center center fixed; */
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    /* background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center; */
+    height: 100%;
+    width: 100%;
+    padding: 10% 0;
+    position: fixed;
+}
+
+body.register {
+    /* background: url('../../assets/images/bg_login.jpg') no-repeat center center fixed; */
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    /* background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center; */
+    height: 100%;
+    width: 100%;
+    padding: 2% 0;
+    position: fixed;
+}
+
+a {
+    color: #3366cc;
+    font-size: 14px;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+
+.full-page-wrapper .inner-page {
+    padding-top: 5%;
+}
+
+.full-page-wrapper.wrapper {
+    min-height: 96%;
+    height: 96%;
+}
+
+.widget .widget-header {
+    padding: 0 10px;
+    height: 35px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: lightgray;
+    background-color: #282F39;
+    color: #fff;
+}
+
+.page-auth .center-block .links {
+    margin-top: 42px;
+    text-align: left;
+    line-height: 22px;
+}
+
+.control-label {
+    color: #1f1f33;
+}
+
+.logo {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.form-control::-moz-placeholder {
+    color: #fff;
+    opacity: 1;
+}
+
+.form-control:-ms-input-placeholder {
+    color: #fff;
+}
+
+.form-control::-webkit-input-placeholder {
+    color: #fff;
+}
+
+.place_blanco {
+    color: #fff;
+}
+
+.campo {
+    padding-bottom: 10px;
+}
+
+
+/*	
+   *	################################################################################
+   *	
+   *	LOGIN BLANCO
+   *	---------------------------------------------------------------------
+   *
+   *	Version		1.0
+   *	Author		Jorge Molano
+   *	NUEVOOSSS
+   *	
+   *	################################################################################
+   */
+
+hr.inner-separator {
+    border-style: dashed;
+    border-width: thin;
+}
+
+hr {
+    border-top-color: #264067;
+}
+
+.form-control2 {
+    display: block;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px 6px 6px;
+    font-size: 18px;
+    line-height: 1.42857143;
+    color: #fff !important;
+    background-color: #355080;
+    border-collapse: separate;
+    background-image: none;
+    border: none;
+    border-radius: 20px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.fancy-radio input[type="radio"]+span i {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    position: relative;
+    bottom: 1px;
+    content: "";
+    border: 3px solid color #2357A6;
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+}
+
+.space-1 {
+    padding: 10px;
+}
+
+.txt_modal {
+    color: #489dc1;
+}
+
+.txt_persona {
+    color: #2357A6;
+    font-size: 20px;
+}
+
+.fancy-radio input[type="radio"]+span {
+    display: block;
+    cursor: pointer;
+    position: relative;
+    font-size: 15px;
+    color: #fff;
+    font-weight: bolder;
+}
+
+.btn-custom-primary {
+    border: thick;
+    border-width: 5px;
+    border-style: solid;
+    border-color: white;
+    background-color: #35558d !important;
+    color: #ffffff;
+}
+
+.btn-custom-primary:hover,
+.btn-custom-primary:focus,
+.btn-custom-primary:active,
+.btn-custom-primary.active,
+.btn-custom-primary .open .dropdown-toggle.btn-warning {
+    border: thick;
+    border-width: 5px;
+    border-style: solid;
+    border-color: white;
+    background-color: #1a355b !important;
+    color: #ffffff;
+}
+
+.icon_login {
+    color: #1F90D9;
+}
+
+.input-group-addon {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 12;
+    background-color: hsla(89, 43%, 51%, 0.0);
+    border: none;
+    color: black;
+}
+
+.btn-primary {
+    background-color: #2357A6;
+    width: 100%;
+    color: #fff;
+    border: none;
+    border-radius: 4px !important;
+    height: 35px !important;
+    line-height: 10px;
+}
+
+.btn-group,
+.btn-group-vertical {
+    position: relative;
+    display: block;
+    vertical-align: middle;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 22px;
+    line-height: 1.42857143;
+    color: white!important;
+    /* color: #1f1f33 !important; */
+    background-color: #355080;
+    background-image: none;
+    border: none;
+    border-radius: 20px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    border-radius: 20px !important;
+    opacity: 0.9;
+}
+
+.input-group {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+    background-color: #398bf7;
+    border-radius: 20px;
+}
+
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.page-auth .center-block {
+    width: 30%;
+    border: none;
+    padding: 25px;
+    text-align: center;
+    background-color: #f7cd5c;
+    opacity: 0.9;
+}
+
+.page-auth .center-blocka {
+    width: 50%;
+    border: none;
+    padding: 25px;
+    text-align: center;
+    background-color: #151415;
+    opacity: 0.9;
+    margin: auto;
+}
+
+.page-auth .center-blocka2 {
+    width: 50%;
+    border: none;
+    padding: 25px;
+    text-align: center;
+    background-color: #fff;
+    opacity: 0.9;
+    margin: auto;
+}
+
+.footer {
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-bottom: 8%;
+    padding-right: 0px !important;
+    font-size: 0.9em;
+    text-align: center;
+    color: #fff;
+}
+
+.contenido {
+    width: 90%;
+    padding: 10px;
+}
+
+@media( max-width: 768px) {
+    .center-block {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .logo_mincultura {
+        padding-top: 25px;
+    }
+    .page-auth .center-block {
+        width: 90%;
+        border: none;
+        padding: 25px;
+        text-align: center;
+        background-color: #151415;
+        opacity: 0.9;
+    }
+    .page-auth .center-blocka {
+        width: 100%;
+        border: none;
+        padding: 25px;
+        text-align: center;
+        background-color: #0F155C;
+        opacity: 0.9;
+        margin: auto;
+    }
+}
+
+.oculto {
+    display: none;
+}
+
+.modal-body {
+    position: relative;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 15px;
+    background-color: steelblue;
+}
+
+
+/*
+Template Name: Admin pro Admin
+Author: Wrappixel
+Email: niravjoshi87@gmail.com
+File: scss
+*/
+
+
+/*
+Template Name: Admin Pro Admin
+Author: Wrappixel
+Email: niravjoshi87@gmail.com
+File: scss
+*/
+
+
+/*Theme Colors*/
+
+
+/*bootstrap Color*/
+
+
+/*Light colors*/
+
+
+/*Normal Color*/
+
+
+/*Extra Variable*/
+
+
+/*******************
+Login register and recover password Page
+******************/
+
+
+/* 
+.login-register {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 100%;
+    width: 100%;
+    padding: 10% 0;
+    position: fixed;
+}
+
+.login-box {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.login-box .footer {
+    width: 100%;
+    left: 0px;
+    right: 0px;
+}
+
+.login-box .social {
+    display: block;
+    margin-bottom: 30px;
+}
+
+#recoverform {
+    display: none;
+}
+
+.login-sidebar {
+    padding: 0px;
+    margin-top: 0px;
+}
+
+.login-sidebar .login-box {
+    right: 0px;
+    position: absolute;
+    height: 100%;
+} */

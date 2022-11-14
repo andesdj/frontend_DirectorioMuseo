@@ -1,0 +1,207 @@
+<div class="row animated fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row" *ngIf="displayListTiposReferencia">
+                    <button type="button" (click)="showPanel('C')" class="btn btn-primary m-b-0">Crear Nuevo Tipo Referencia</button>
+                </div>
+                <br/>
+                <h4 class="card-title">Tipos de Tablas Registrados</h4>
+                <h6 class="card-subtitle">Mantenimiento de Tipos de Tabla</h6>
+                <div *ngIf="displayListTiposReferencia">
+
+                    <dx-data-grid id="gridEntidades1" [dataSource]="listaTipoReferencia" showBorders="true" [rowAlternationEnabled]="true" [columnHidingEnabled]="true" [columnAutoWidth]="true" keyExpr="idTipoReferencia">
+                        <dxo-export [enabled]="true" fileName="Tipos de Tabla Registrados en el Sistema"></dxo-export>
+                        <dxo-filter-row [visible]="true"></dxo-filter-row>
+                        <dxo-header-filter [visible]="true"></dxo-header-filter>
+                        <dxo-grouping [contextMenuEnabled]="true" expandMode="rowClick"></dxo-grouping>
+                        <dxo-group-panel [visible]="true" emptyPanelText="Use el contexto de menu de los encabezados de columnas para agrupar datos"></dxo-group-panel>
+                        <dxo-search-panel [visible]="true" [width]="240" placeholder="Buscar..."></dxo-search-panel>
+                        <dxo-remote-operations [sorting]="true" [paging]="true">
+                        </dxo-remote-operations>
+                        <!-- <dxo-state-storing [enabled]="true" type="localStorage" storageKey="storage"></dxo-state-storing> -->
+                        <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+                        <dxi-column caption="Acciones" cellTemplate="accionCellTemplate" alignment="center"></dxi-column>
+                        <dxi-column dataField="idTipoReferencia" caption="ID">
+                        </dxi-column>
+                        <dxi-column dataField="nombre" caption="Nombre">
+                        </dxi-column>
+                        <dxi-column dataField="descripcion" caption="Descripción">
+                        </dxi-column>
+                        <dxi-column dataField="nombreCampo" caption="Nombre Etiqueta">
+                        </dxi-column>
+                        <dxi-column dataField="longitudValor" caption="Longitud Valor">
+                        </dxi-column>
+                        <dxi-column dataField="tipoDatos" caption="Tipo Datos">
+                        </dxi-column>
+                        <dxi-column dataField="estado" caption="Estado">
+                        </dxi-column>
+                        <dxi-column dataField="usuarioCreacion" caption="usuario Creacion">
+                        </dxi-column>
+                        <dxi-column dataField="fechaIniVigencia" caption="Vigencia Inicial">
+                        </dxi-column>
+                        <dxi-column dataField="fechaFinVigencia" caption="Vigencia Final">
+                        </dxi-column>
+                        <dxi-column dataField="fechaCreacion" caption="Fecha Creación">
+                        </dxi-column>
+                        <dxi-column dataField="fechaModificacion" caption="Fecha Modificación">
+                        </dxi-column>
+
+
+
+
+                        <div *dxTemplate="let d of 'accionCellTemplate'">
+                            <!--<div>
+                             <i style="font-size:20px; cursor:pointer;" class="icofont icofont-law-document" placement="right" ngbTooltip="Seleccionar" (click)="showPanel('U', d.data.PersonaId)"></i> 
+                            <i style="font-size:20px; cursor:pointer;" class="icofont icofont-law-document" placement="right" ngbTooltip="Actualizar" (click)="showPanel('U', d.data.PersonaId)"></i>
+
+                        </div>-->
+
+                            <!-- -->
+                            <div class="internal-grid-container">
+                                <div>
+                                    <!-- <h1><i ngbTooltip="Seleccionar" (click)="showPanel('U', d.data.PersonaId)"></i></h1> -->
+                                    <button type="button" (click)="showPanel('U', d.data.idTipoReferencia)" class="btn btn-success m-b-0">Actualizar</button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <dxo-summary>
+                            <dxi-total-item column="idTipoReferencia" summaryType="count" displayFormat="Cantidad: {0}">
+                            </dxi-total-item>
+                        </dxo-summary>
+                        <dxo-paging [pageSize]="10"></dxo-paging>
+                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 40]" [visible]="true" [showInfo]="true" [showNavigationButtons]="true"></dxo-pager>
+
+                    </dx-data-grid>
+                </div>
+
+
+
+                <!-- <input #input (keyup)="buscarUsuario( input.value )" type="text" class="form-control" placeholder="Buscar usuario..."> -->
+                <!-- <input #input type="text" class="form-control" placeholder="Buscar usuario..."> -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div *ngIf="displayCrearTipoReferencia">
+                    <form ngNativeValidate #formCc="ngForm" (ngSubmit)="onSubmit(formCc.valid)" class="form p-t-20">
+                        <!-- <div class="form-group">
+                            <label for="exampleInputuname">Tipo de documento</label>
+                            <div class="input-group">
+                                <select name="TipoIdentificacionId" class="form-control" [(ngModel)]="usuario.TipoIdentificacionId" required>
+                                                      <option *ngFor="let item of tipoDoc" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                              </select>
+                            </div>
+                        </div> -->
+                        <div class="form-group">
+                            <label for="exampleInputuname">Nombre</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-key"></i></div>
+                                <input name="nombre" type="text" class="form-control" placeholder="Nombre Tipo" [(ngModel)]="tipoReferencia.nombre" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputuname">Descripcion</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-pie-chart"></i></div>
+                                <input name="descripcion" type="text" class="form-control" placeholder="Descripcion" [(ngModel)]="tipoReferencia.descripcion" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputuname">Nombre Etiqueta</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-user"></i></div>
+                                <input name="nombreCampo" type="text" class="form-control" placeholder="Nombre Etiqueta" [(ngModel)]="tipoReferencia.nombreCampo" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputuname">Longitud Valor</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-user"></i></div>
+                                <input name="longitudValor" type="text" class="form-control" placeholder="Longitud Valor" [(ngModel)]="tipoReferencia.longitudValor" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputuname">Tipo de Dato</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-user"></i></div>
+                                <input name="tipoDatos" type="text" class="form-control" placeholder="Tipo Datos" [(ngModel)]="tipoReferencia.tipoDatos" required>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label for="exampleInputuname">Estado</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-user"></i></div>
+                                <!-- <input name="estado" type="text" class="form-control" placeholder="Estado" [(ngModel)]="tipoReferencia.estado" required> -->
+
+                                <select class="form-control" required name="estado" #EntidadTipoPublicacion [(ngModel)]="tipoReferencia.estado">
+                                                                <option value="">-- Seleccione Estado--</option>
+                                                                <option *ngFor="let item of listaTpub" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                                            </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputuname">Fecha Inicial Vigencia</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-user"></i></div>
+                                <!-- <input name="fechaIniVigencia" type="text" class="form-control" placeholder="Fecha Inicial Vigencia" [(ngModel)]="tipoReferencia.fechaIniVigencia" required> -->
+                                <!-- <dx-date-box [(ngModel)]="tipoReferencia.fechaIniVigencia" displayFormat="dd/MM/yyyy" name="fechaIniVigencia"></dx-date-box> -->
+
+                                <input required type="text" [(ngModel)]="tipoReferencia.fechaIniVigencia" placeholder="mm/dd/aaaa" name="fechaIniVigencia" ngbDatepicker #fechaIniVigencia="ngbDatepicker">
+
+                                <div class="input-group-addon bg-default" (click)="fechaIniVigencia.toggle()">
+                                    <span class="icofont icofont-ui-calendar"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputuname">Fecha Fin Vigencia</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-user"></i></div>
+                                <!-- <input name="fechaFinVigencia" type="text" class="form-control" placeholder="Fecha Fin Vigencia" [(ngModel)]="tipoReferencia.fechaFinVigencia" required> -->
+
+                                <input required type="text" [(ngModel)]="tipoReferencia.fechaFinVigencia" placeholder="mm/dd/aaaa" name="fechaFinVigencia" ngbDatepicker #fechaFinVigencia="ngbDatepicker">
+
+                                <div class="input-group-addon bg-default" (click)="fechaFinVigencia.toggle()">
+                                    <span class="ti-calendar"></span>
+                                </div>
+                                <!-- <dx-date-box [(ngModel)]="tipoReferencia.fechaFinVigencia" type="date" displayFormat="yyyy/MM/dd" name="fechaFinVigencia"></dx-date-box> -->
+
+                            </div>
+                        </div>
+
+
+
+
+
+                        <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                                      <i class="fa fa-save"></i>
+                                      Guardar</button>
+                        <button type="button" (click)="showPanel('V')" class="btn btn-primary waves-effect waves-light m-r-10">
+                              <i class="fa fa-backward"></i>
+                          Cancelar
+                      </button>
+
+
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

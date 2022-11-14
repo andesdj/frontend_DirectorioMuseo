@@ -1,0 +1,221 @@
+<div class="row animated fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row" *ngIf="displayListUsuario">
+                    <button type="button" (click)="showPanel('C')" class="btn btn-primary m-b-0">Crear nuevo Usuario</button>
+                </div>
+                <br/>
+                <h4 class="card-title">Usuarios Registrados</h4>
+                <h6 class="card-subtitle">Mantenimiento de usuarios</h6>
+                <div *ngIf="displayListUsuario">
+
+                    <dx-data-grid id="gridEntidades1" [dataSource]="listaUsuarios" showBorders="true" [rowAlternationEnabled]="true" [columnHidingEnabled]="true" [columnAutoWidth]="true" keyExpr="PersonaId">
+                        <dxo-export [enabled]="true" fileName="Usuarios Registrados en el Sistema"></dxo-export>
+                        <dxo-filter-row [visible]="true"></dxo-filter-row>
+                        <dxo-header-filter [visible]="true"></dxo-header-filter>
+                        <dxo-grouping [contextMenuEnabled]="true" expandMode="rowClick"></dxo-grouping>
+                        <dxo-group-panel [visible]="true" emptyPanelText="Use el contexto de menu de los encabezados de columnas para agrupar datos"></dxo-group-panel>
+                        <dxo-search-panel [visible]="true" [width]="240" placeholder="Buscar..."></dxo-search-panel>
+                        <dxo-remote-operations [sorting]="true" [paging]="true">
+                        </dxo-remote-operations>
+                        <dxo-state-storing [enabled]="true" type="localStorage" storageKey="storage"></dxo-state-storing>
+                        <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+                        <dxi-column caption="Acciones" cellTemplate="accionCellTemplate" alignment="center"></dxi-column>
+                        <dxi-column dataField="PersonaId" caption="PersonaId">
+                        </dxi-column>
+                        <dxi-column dataField="TipoIdentificacionId" caption="Tipo TipoIdentificacionId">
+                        </dxi-column>
+                        <dxi-column dataField="PersonaPrimerNombre" caption="PersonaPrimerNombre">
+                        </dxi-column>
+                        <dxi-column dataField="PersonaSegundoNombre" caption="PersonaSegundoNombre">
+                        </dxi-column>
+                        <dxi-column dataField="PersonaPrimerApellido" caption="PersonaPrimerApellido">
+                        </dxi-column>
+                        <dxi-column dataField="PersonaSegundoApellido" caption="PersonaSegundoApellido">
+                        </dxi-column>
+                        <dxi-column dataField="PersonaEmail" caption="PersonaEmail">
+                        </dxi-column>
+                        <dxi-column dataField="CuentaUsuarioHabilitada" caption="CuentaUsuarioHabilitada">
+                        </dxi-column>
+                        <dxi-column dataField="PerfilNombre" caption="Perfil">
+                        </dxi-column>
+
+                        <div *dxTemplate="let d of 'accionCellTemplate'">
+                            <!--<div>
+                                 <i style="font-size:20px; cursor:pointer;" class="icofont icofont-law-document" placement="right" ngbTooltip="Seleccionar" (click)="showPanel('U', d.data.PersonaId)"></i> 
+                                <i style="font-size:20px; cursor:pointer;" class="icofont icofont-law-document" placement="right" ngbTooltip="Actualizar" (click)="showPanel('U', d.data.PersonaId)"></i>
+
+                            </div>-->
+
+                            <!-- -->
+                            <div class="internal-grid-container">
+                                <div>
+                                    <!-- <h1><i ngbTooltip="Seleccionar" (click)="showPanel('U', d.data.PersonaId)"></i></h1> -->
+                                    <button type="button" (click)="showPanel('U', d.data.PersonaId)" class="btn btn-success m-b-0">Actualizar</button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <dxo-summary>
+                            <dxi-total-item column="TipoIdentificacionId" summaryType="count" displayFormat="Cantidad: {0}">
+                            </dxi-total-item>
+                        </dxo-summary>
+                        <dxo-paging [pageSize]="10"></dxo-paging>
+                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 40]" [visible]="true" [showInfo]="true" [showNavigationButtons]="true"></dxo-pager>
+
+                    </dx-data-grid>
+                </div>
+
+
+
+                <!-- <input #input (keyup)="buscarUsuario( input.value )" type="text" class="form-control" placeholder="Buscar usuario..."> -->
+                <!-- <input #input type="text" class="form-control" placeholder="Buscar usuario..."> -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div *ngIf="displayCrearUsuario">
+                    <form ngNativeValidate #formCc="ngForm" (ngSubmit)="onSubmit(formCc.valid)" class="form p-t-20">
+                        <div class="form-group">
+                            <label for="exampleInputuname">Tipo de documento</label>
+                            <div class="input-group">
+                                <select name="TipoIdentificacionId" #TipoIdentificacionId="ngModel" class="form-control" [(ngModel)]="usuario.TipoIdentificacionId" required>
+                                                        <option *ngFor="let item of tipoDoc" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                                </select>
+                                <small [hidden]="TipoIdentificacionId.valid || (TipoIdentificacionId.pristine && !TipoIdentificacionId.submitted)">
+                                                    Tipo de documento es requerido.
+                                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputuname">Numero Identificacion</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-key"></i></div>
+                                <input name="PersonaNumeroId" type="text" class="form-control" placeholder="Numero de Identificación" [(ngModel)]="usuario.PersonaNumeroId" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputuname">Primer Nombre</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-pie-chart"></i></div>
+                                <input name="PersonaPrimerNombre" type="text" class="form-control" placeholder="Primer nombre" [(ngModel)]="usuario.PersonaPrimerNombre" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputuname">Segundo Nombre</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-user"></i></div>
+                                <input name="PersonaSegundoNombre" type="text" class="form-control" placeholder="Segundo Nombre" [(ngModel)]="usuario.PersonaSegundoNombre">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputuname">Primer Apellido</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-user"></i></div>
+                                <input name="PersonaPrimerApellido" type="text" class="form-control" placeholder="Primer Apellido" [(ngModel)]="usuario.PersonaPrimerApellido" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputuname">Segundo Apellido</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-user"></i></div>
+                                <input name="PersonaSegundoApellido" type="text" class="form-control" placeholder="Segundo Apellido" [(ngModel)]="usuario.PersonaSegundoApellido">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group ">
+                            <div class="col-xs-12">
+                                <input name="PersonaEmail" class="form-control" [(ngModel)]="usuario.PersonaEmail" type="text" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" #PersonaEmail="ngModel" required placeholder="Correo Electrónico">
+                                <small [hidden]="PersonaEmail.valid || (PersonaEmail.pristine && !formCc.submitted)">
+                                    Correo Electrónico es requerido o no cumple el formato <i>nombre@dominio.com</i>.
+                                </small>
+                            </div>
+                        </div>
+                        <!-- <pre>Form values: {{ formCc.form.value | json }}</pre>
+                        
+                        <pre>Valid form? {{ formCc.form.valid | json }}</pre>
+                        
+                        <pre>Name: {{ PersonaEmail.value }}</pre>
+                        
+                        <pre>Email: {{ PersonaEmail.value }}</pre>
+                        
+                        <pre>PersonaEmail value: {{ PersonaEmail.value }}</pre>
+                        <pre>PersonaEmail valid?: {{ PersonaEmail.valid }}</pre>
+                        <pre>PersonaEmail pristine?: {{ PersonaEmail.pristine }}</pre>
+                        <pre>PersonaEmail touched?: {{ PersonaEmail.touched }}</pre>
+                        <pre>formCc.submitted: {{ !formCc.submitted }}</pre> -->
+
+
+                        <div class="form-group ">
+                            <div class="col-xs-12">
+                                <input name="CuentaUsuarioClave" #CuentaUsuarioClave="ngModel" validateEqual="CuentaUsuarioConfClave" class="form-control" type="password" [(ngModel)]="usuario.CuentaUsuarioClave" required placeholder="Contraseña">
+                                <small [hidden]="CuentaUsuarioClave.valid || (CuentaUsuarioClave.pristine && !formCc.submitted)">
+                                    Contraseña es requerida
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <input name="CuentaUsuarioConfClave" #CuentaUsuarioConfClave="ngModel" validateEqual="CuentaUsuarioClave" class="form-control" type="password" [(ngModel)]="usuario.CuentaUsuarioConfClave" required placeholder="Confirme Contraseña">
+                            </div>
+                        </div>
+                        <small [hidden]="CuentaUsuarioConfClave.valid ||  (CuentaUsuarioConfClave.pristine && !formCc.submitted)">
+                            Las contraseñas deben de se iguales
+                        </small>
+                        <!-- <div class="form-group" *ngIf="usuario.CuentaUsuarioClave === usuario.CuentaUsuarioConfClave && !ngForm.pristine">
+                            <p class="text-danger">
+                                Las contraseñas deben de se iguales
+                            </p>
+                        </div> -->
+
+
+                        <div class="col-md-12">
+                            <div class="checkbox checkbox-primary p-t-0">
+                                <input [(ngModel)]="usuario.CuentaUsuarioHabilitada" name="CuentaUsuarioHabilitada" id="checkbox-signup-condiciones" type="checkbox">
+                                <label for="checkbox-signup-condiciones">Cuenta usuario habilitada</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputuname">Perfil</label>
+                            <div class="input-group">
+                                <select name="PerfilId" class="form-control" [(ngModel)]="usuario.PerfilId" required>
+                                                            <option *ngFor="let item of tipoPerfil" [ngValue]="item.PerfilId">{{item.PerfilNombre}}</option>
+                                                    </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                                        <i class="fa fa-save"></i>
+                                        Guardar</button>
+                        <button type="button" (click)="showPanel('V')" class="btn btn-primary waves-effect waves-light m-r-10">
+                                <i class="fa fa-backward"></i>
+                            Cancelar
+                        </button>
+
+
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- <div class="row animated fadeIn" *ngIf="!cargando"> -->

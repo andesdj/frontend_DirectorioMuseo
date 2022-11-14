@@ -1,0 +1,95 @@
+<div class="row animated fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Concertación</h4>
+                <!-- <div class="form-group row">
+                  <label class="col-2 col-form-label">Departamento:</label>
+                  <div class="col-2">
+                      <select class="form-control" required name="ZON_ID_DEP" [(ngModel)]="ZON_ID_DEP" (change)="cargarComisiones()">
+                                              <option value="0">-- TODOS --</option>
+                                              <option *ngFor="let item of depLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                          </select>
+                  </div>
+                  <label class="col-2 col-form-label">Municipio</label>
+                  <div class="col-2">
+                      <select class="form-control" required name="MunicipioId" [(ngModel)]="MunicipioId" (change)="cargarComisiones()">
+                          <option value="0">-- TODOS --</option>
+                                                <option *ngFor="let item of munLista" [ngValue]="item.Id">{{item.Nombre}}</option>
+                                            </select>
+                  </div>
+                  <label class="col-1 col-form-label">Area</label>
+                  <div class="col-3">
+                      <select class="form-control" required name="AreaId" [(ngModel)]="AreaId" (change)="cargarComisiones()">
+                                      <option value="0">-- TODOS --</option>
+                                      <option *ngFor="let item of areasLista" [ngValue]="item.DependenciaId">{{item.DependenciaNombre}}</option>
+                                  </select>
+                  </div>
+              </div> -->
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label for="exampleFormControlSelect2">Año</label>
+                        <select class="form-control" name="AnoId" [(ngModel)]="AnoId" (change)="cargarInformacion()">
+                    
+                           <!-- <option value="0">TODOS</option> -->
+                           <option value="44">2020</option>
+                           <option value="43">2019</option>
+                           <option value="42">2018</option>
+                           <option value="41">2017</option>
+                           <option value="40">2016</option>
+
+                          <!-- <option *ngFor="let item of AnosLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option> -->
+                      </select>
+                    </div>
+                </div>
+
+                <dx-chart id="sales-chart">
+                    <dxo-common-series-settings type="bar"></dxo-common-series-settings>
+                    <dxo-size [height]="200"></dxo-size>
+                    <dxo-adaptive-layout [width]="450"></dxo-adaptive-layout>
+                    <dxo-tooltip [enabled]="true" format="currency" [customizeTooltip]="customizeTooltip"></dxo-tooltip>
+                </dx-chart>
+
+                <dx-pivot-grid id="pivotgrid" [allowSorting]="true" [allowSortingBySummary]="true" [allowFiltering]="true" [showBorders]="true" [showColumnGrandTotals]="true" [showRowGrandTotals]="true" [showRowTotals]="false" [showColumnTotals]="false" [dataSource]="dataSource">
+                    <dxo-header-filter [allowSearch]="true" [showRelevantValues]="true" [width]="300" [height]="400"></dxo-header-filter>
+
+                    <dxo-field-chooser [enabled]="true" [allowSearch]="true" [height]="400"></dxo-field-chooser>
+                    <dxo-scrolling mode="virtual"></dxo-scrolling>
+                    <dxo-field-panel [showDataFields]="false" [showRowFields]="true" [showColumnFields]="true" [showFilterFields]="true" [allowFieldDragging]="true" [visible]="true">
+                    </dxo-field-panel>
+                    <dxo-export [enabled]="true" fileName="ReporteConcertacion"></dxo-export>
+                    <dxo-state-storing [enabled]="true" type="localStorage" storageKey="dx-widget-gallery-pivotgrid-storing-Gastos-Comisiones">
+                    </dxo-state-storing>
+                </dx-pivot-grid>
+
+                <button type="button" matTooltip="Editar" (click)="cargardatosMapa()" class="btn btn-success waves-effect waves-light m-r-10">
+                    Cargar información en Mapa<i class="fa fa-map-marker"></i> 
+                </button>
+                <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+
+                    <!-- <agm-marker-cluster imagePath="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"> -->
+                    <agm-marker-cluster imagePath="../../../assets/Icons/name">
+                        <div *ngFor="let marker of appointmentsMapaData">
+                            <agm-marker [iconUrl]="'../../../assets/Icons/CONCERTACION.png'" (mouseOver)="window.open()" (mouseOut)="window.close()" [latitude]="marker.Latitud" [longitude]="marker.Longitud">
+                                <agm-info-window #window>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            {{marker.Proyecto}}
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">Entidad: {{marker.Entidad_Proponente}}</li>
+                                            <li class="list-group-item">Área: {{marker.Area}}</li>
+                                            <li class="list-group-item">Sector: {{marker.Sector}}</li>
+                                            <li class="list-group-item">Valor Aprobado: {{marker.Valor_Aprobado | currency}}</li>
+                                        </ul>
+                                    </div>
+                                </agm-info-window>
+                            </agm-marker>
+
+                        </div>
+                    </agm-marker-cluster>
+                </agm-map>
+            </div>
+        </div>
+    </div>
+</div>

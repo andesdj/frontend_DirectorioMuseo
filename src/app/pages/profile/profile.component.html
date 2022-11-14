@@ -1,0 +1,55 @@
+<div class="row animated fadeIn">
+    <div class="col-lg-7">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Perfil del usuario</h4>
+                <h6 class="card-subtitle">Nombre Usuario</h6>
+                <form ngNativeValidate #f="ngForm" (ngSubmit)="guardar(f.value)" class="form p-t-20">
+                    <div class="form-group">
+                        <label for="exampleInputuname">User Name</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                            <input [ngModel]="this.usuario.USU_NOMBRE" name="nombre" type="text" class="form-control" placeholder="Nombre de Usuario" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-email"></i></div>
+                            <input [ngModel]="this.usuario.USU_CORREO_ELECTRONICO" name="email" type="email" class="form-control" placeholder="Correo del Usuario" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                        <i class="fa fa-save"></i>
+                        Guardar
+                    </button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Foto del usuario</h4>
+                <h6 class="card-subtitle">Nombre Usuario</h6>
+
+                <img src="">
+
+                <input type="file">
+
+                <br>
+                <br>
+
+                <button type="button" class="btn btn-success waves-effect waves-light m-r-10">
+                            <i class="fa fa-save"></i>
+                            Actualizar foto
+                            
+                            
+                        </button>
+
+            </div>
+        </div>
+    </div>
+</div>>

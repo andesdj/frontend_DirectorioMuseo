@@ -1,0 +1,1144 @@
+<div class="col-2">
+    <label for="exampleFormControlSelect2">Año</label>
+    <select class="form-control" name="AnoId" [(ngModel)]="AnoId" [value]="183" (change)="getAllCompromisos()">
+        
+               <option value="183">2021</option>
+               <option value="184">2022</option>
+               
+
+              <!-- <option *ngFor="let item of AnosLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option> -->
+          </select>
+</div>
+<div class="row animated fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row align-content-center">
+                    <div class="col-md-2">
+                        <button matTooltip="Nuevo" type="button" (click)="showAccionCompromiso(null, 'C')" class="btn btn-facebook m-b-0 button-tabla">
+                            <i class="fa fa-plus"></i> 
+                            Nueva Programación de Actividad
+                        </button>
+                    </div>
+                </div>
+                <dx-data-grid id="gridProgramas" [allowColumnReordering]="true" [allowColumnResizing]="true" [dataSource]="compromisos" showBorders="true" [rowAlternationEnabled]="true" [columnAutoWidth]="true" keyExpr="CompromisoId">
+                    <dxo-export [enabled]="true" fileName="Actividades Registradas en el Sistema"></dxo-export>
+                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                    <dxo-header-filter [visible]="true"></dxo-header-filter>
+                    <dxo-grouping [contextMenuEnabled]="true" expandMode="rowClick"></dxo-grouping>
+                    <dxo-group-panel [visible]="true" emptyPanelText="Use el contexto de menu de los encabezados de columnas para agrupar datos"></dxo-group-panel>
+                    <dxo-search-panel [visible]="true" [width]="240" placeholder="Buscar..."></dxo-search-panel>
+                    <dxo-remote-operations [sorting]="true" [paging]="true">
+                    </dxo-remote-operations>
+                    <!-- <dxo-editing mode="batch" [allowUpdating]="true" [allowAdding]="true" [allowDeleting]="true" [selectTextOnEditStart]="selectTextOnEditStart" [startEditAction]="startEditAction">
+                    </dxo-editing> -->
+                    <!-- <dxo-state-storing [enabled]="true" type="localStorageAgentes" storageKey="storage"></dxo-state-storing> -->
+                    <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+
+                    <dxi-column caption="Acciones" cellTemplate="accionCellTemplate" alignment="center" [width]="240"></dxi-column>
+                    <div *dxTemplate="let d of 'accionCellTemplate'">
+
+                        <div class="internal-grid-container">
+                            <div>
+                                <!-- <button type="button" matTooltip=" Nuevo" (click)="showAccionCompromiso(d.data.CompromisoId, 'C')" class="btn btn-facebook waves-effect waves-light m-r-10">
+                                    <i class="fa fa-plus"></i>
+                                
+                                </button> -->
+
+                                <button type="button" matTooltip="Editar Actividad" (click)="showAccionCompromiso(d.data.CompromisoId, 'U')" class="btn btn-success waves-effect waves-light m-r-10">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button type="button" matTooltip="Borrar Actividad" (click)="borrarCompromiso(d.data.CompromisoId)" class="btn btn-danger waves-effect waves-light m-r-10">
+                                    <i class="fa fa-remove"></i>
+                                </button>
+                                <br>
+                                <br>
+                                <button type="button" matTooltip="Nuevo Asistente" (click)="showAccionCompromisoAvance(d.data.CompromisoId, 'C')" class="btn btn-warning waves-effect waves-light m-r-10">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+
+
+
+
+                                <button type="button" matTooltip="Consultar Asistentes" (click)="CargarCompromisosAvances(d.data.CompromisoId)" class="btn btn-warning waves-effect waves-light m-r-10">
+                                        <i class="fa fa-upload"></i>
+                                </button>
+
+                                <br>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <dxi-column dataField="tipoCompromiso" caption="Tipo" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="Temas" caption="Nombre de la Actividad" [width]="200">
+                    </dxi-column>
+                    <!-- <dxi-column dataField="CompromisoId" caption="Id" [width]="30">
+                    </dxi-column> -->
+                    <dxi-column dataField="FechaCompromiso" caption="Fecha Actividad" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="FechaLimite" caption="Fecha Limite Cargue Información" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="diasRestantes" caption="Días Restantes" [width]="110">
+                    </dxi-column>
+                    <dxi-column caption="Días Restantes" dataField="diasRestantes" cellTemplate="discountCellTemplate" dataType="number" alignment="right" [allowGrouping]="false" cssClass="bullet">
+
+                    </dxi-column>
+
+                    <div *dxTemplate="let d of 'discountCellTemplate'">
+                        <div class="chart-cell">
+                            <dx-bullet [showTarget]="false" [showZeroLevel]="true" [color]="'#ebdd8f'" [startScaleValue]="0" [endScaleValue]="30" [value]="d.value">
+                                <dxo-size [width]="150" [height]="35"></dxo-size>
+                                <dxo-tooltip [enabled]="true" [paddingTopBottom]="2" [customizeTooltip]="customizeTooltip">
+                                    <dxo-font [size]="18"></dxo-font>
+                                </dxo-tooltip>
+                                <dxo-margin [top]="5" [bottom]="0" [left]="5"></dxo-margin>
+                            </dx-bullet>
+                        </div>
+                    </div>
+
+
+                    <!-- <dxi-column caption="Porcentaje Avance" dataField="sumAvancesCuantitativos" format="percent" cellTemplate="sumAvancesCuantitativosCellTemplate" dataType="number" alignment="right" [allowGrouping]="false" cssClass="bullet">
+
+                    </dxi-column>
+
+                    <div *dxTemplate="let d of 'sumAvancesCuantitativosCellTemplate'">
+                        <div class="chart-cell">
+                            <dx-bullet [showTarget]="true" [showZeroLevel]="true" [color]="'#e8c267'" [startScaleValue]="0" [endScaleValue]="100" [value]="d.value" [target]="100">
+                                <dxo-size [width]="150" [height]="35"></dxo-size>
+                                <dxo-tooltip [enabled]="true" [paddingTopBottom]="2" [customizeTooltip]="customizeTooltipPorcentaje">
+                                    <dxo-font [size]="18"></dxo-font>
+                                </dxo-tooltip>
+                                <dxo-margin [top]="5" [bottom]="0" [left]="5"></dxo-margin>
+                            </dx-bullet>
+                        </div>
+                    </div> -->
+
+
+                    <dxi-column dataField="Ano" caption="Años" [width]="80">
+                    </dxi-column>
+                    <dxi-column dataField="UsuarioResponsableReporte" caption="Responsable Actividad" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="Area" caption="Área" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="Dependencia" caption="Dependencia" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="JefeDependenciaNombre" caption="Jefe Dependencia" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="Importancia" caption="Importancia" [width]="110">
+                    </dxi-column>
+                    <dxi-column dataField="Descripcion" caption="Descripción" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="Departamento" caption="Departamento" [width]="110">
+                    </dxi-column>
+                    <dxi-column dataField="Municipio" caption="Municipio" [width]="110">
+                    </dxi-column>
+                    <!-- <dxi-column dataField="TipoReporte" caption="Tipo Reporte" [width]="110">
+                    </dxi-column> -->
+                    <dxi-column dataField="EstadoNombre" caption="Estado" [width]="110">
+                    </dxi-column>
+
+
+                    <dxi-column dataField="Observaciones" caption="Observaciones" [width]="110">
+                    </dxi-column>
+                    <dxo-summary>
+                        <dxi-total-item column="CompromisoId" summaryType="count" displayFormat="Cantidad: {0}">
+                        </dxi-total-item>
+                    </dxo-summary>
+                    <dxo-paging [pageSize]="10"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 40]" [visible]="true" [showInfo]="true" [showNavigationButtons]="true"></dxo-pager>
+
+                </dx-data-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<dx-popup width="90%" height="90%" [showTitle]="true" title="Information" [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="popupCompromisos">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Formulario Programación Actividades</h4>
+                    <form ngNativeValidate #formCcCompromiso="ngForm" (ngSubmit)="onSubmitCompromiso(formCcCompromiso.valid)" class="form p-t-20">
+                        <div class="row p-t-20">
+                            <div class="col-md-6">
+                                <label for="exampleFormControlSelect2">Año</label>
+                                <select class="form-control" name="AnoId" [(ngModel)]="compromiso.AnoId" [value]="183">
+                                    
+                                    <!-- parametrizar hasta el 2030 -->
+                                          <option value="0">-Seleccione-</option>
+                                          <option value="184">2022</option>
+                                           <option value="183">2021</option>
+                                           
+        
+                                          <!-- <option *ngFor="let item of AnosLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option> -->
+                                      </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Tipo Acción</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-agenda"></i>
+                                        </div>
+                                        <select name="tipoCompromisoId" class="form-control" [(ngModel)]="compromiso.tipoCompromisoId" #tipoCompromisoId="ngModel" required>
+                                                <option *ngFor="let item of listaCompromisoTipo"
+                                                    [ngValue]="item.idValorReferencia">
+                                                    {{ item.nombre }}
+                                                </option>
+                                            </select>
+                                        <ng-container *ngIf="!tipoCompromisoId.valid && tipoCompromisoId.touched">
+                                            <div style="color: red" *ngIf="tipoCompromisoId.errors.required" class="error-message">
+                                                <strong>&nbsp; * </strong>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-6">
+                                <label for="exampleFormControlSelect2">Dirección</label>
+                                <select class="form-control" name="DireccionId" [(ngModel)]="compromiso.AreaId" (change)="getAreas()">
+                                           <!-- <option value="144">Artes Visuales</option> -->
+                                           
+                                           <option value="0">-Seleccione-</option>
+                                          <option *ngFor="let item of direccionesLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                      </select>
+                            </div>
+
+                            <div class="col-6">
+                                <label for="exampleFormControlSelect2">Dependencia</label>
+                                <select class="form-control" name="AreaId" [(ngModel)]="compromiso.DependenciaResponsable">
+                                               <!-- <option value="144">Artes Visuales</option> -->
+                                               
+                                               <option value="0">TODOS</option>
+                                              <option *ngFor="let item of areasLista" [ngValue]="item.idValorReferencia">{{item.nombre}}</option>
+                                          </select>
+                            </div>
+                        </div>
+
+                        <div class="row p-t-20">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Departamento</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-location-arrow"></i>
+                                        </div>
+                                        <select class="form-control" required name="DepartamentoId" [(ngModel)]="compromiso.DepartamentoId" (change)="mostrarMunicipios()" #SalaDptoControl="ngModel">
+                                            <option value="">
+                                                -- Seleccione el departamento --
+                                            </option>
+                                            <option *ngFor="let item of depLista"
+                                                [ngValue]="item.Id">
+                                                {{ item.Nombre }}
+                                            </option>
+                                        </select>
+                                        <ng-container *ngIf="!SalaDptoControl.valid && SalaDptoControl.touched">
+                                            <div style="color: red" *ngIf="SalaDptoControl.errors.required" class="error-message">
+                                                <strong>&nbsp; * </strong>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Municipio</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-location-arrow"></i>
+                                        </div>
+                                        <select name="MunicipioId" class="form-control" [(ngModel)]="compromiso.MunicipioId" required #SalaMunicipioControl="ngModel">
+                                            <option value="">-- Seleccione --</option>
+                                            <option *ngFor="let item of munLista"
+                                                [ngValue]="item.Id">
+                                                {{ item.Nombre }}
+                                            </option>
+                                        </select>
+                                        <ng-container *ngIf="!SalaMunicipioControl.valid && SalaMunicipioControl.touched">
+                                            <div style="color: red" *ngIf="SalaMunicipioControl.errors.required" class="error-message">
+                                                <strong>&nbsp; * </strong>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row p-t-20">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Importancia</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-agenda"></i>
+                                        </div>
+                                        <select name="ImportanciaId" class="form-control" [(ngModel)]="compromiso.ImportanciaId" #ImportanciaId="ngModel" required>
+                                            <option *ngFor="let item of listaImportancia"
+                                                [ngValue]="item.idValorReferencia">
+                                                {{ item.nombre }}
+                                            </option>
+                                        </select>
+                                        <ng-container *ngIf="!ImportanciaId.valid && ImportanciaId.touched">
+                                            <div style="color: red" *ngIf="ImportanciaId.errors.required" class="error-message">
+                                                <strong>&nbsp; * </strong>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Jefe Dependencia</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-agenda"></i>
+                                        </div>
+                                        <select name="JefeDependencia" class="form-control" [(ngModel)]="compromiso.JefeDependencia" #JefeDependencia="ngModel" required>
+                                            <option *ngFor="let item of listaJefesDependencia"
+                                                [ngValue]="item.idValorReferencia">
+                                                {{ item.nombre }}
+                                            </option>
+                                        </select>
+                                        <ng-container *ngIf="!JefeDependencia.valid && JefeDependencia.touched">
+                                            <div style="color: red" *ngIf="JefeDependencia.errors.required" class="error-message">
+                                                <strong>&nbsp; * </strong>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row p-t-20">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nombre de la Actividad</label>
+                                    <textarea class="form-control" rows="5" name="Tema" maxlength="2000" [(ngModel)]="compromiso.Temas" #ObservacionesRevisionControl="ngModel" required>
+                                                                            </textarea>
+                                    <ng-container *ngIf="!ObservacionesRevisionControl.valid && ObservacionesRevisionControl.touched">
+                                        <div style="color: red; font-size: 14px" *ngIf="ObservacionesRevisionControl.errors.required" class="error-message">
+                                            <p size="6">* Este campo es requerido</p>
+                                        </div>
+                                    </ng-container>
+
+                                    <div style="color: red; font-size: 14px;" *ngIf="compromiso.Temas.length >= 2000" class="error-message">
+                                        <p>* Caracteres Exceden Máximo permitido {{ compromiso.Temas.length }} por favor no exceder los 2000 Caracteres
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row p-t-20">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Descripción</label>
+                                    <textarea class="form-control" rows="5" name="Tema" maxlength="2000" [(ngModel)]="compromiso.Descripcion" #Descripcion="ngModel" required>
+                                                                            </textarea>
+                                    <ng-container *ngIf="!Descripcion.valid && Descripcion.touched">
+                                        <div style="color: red; font-size: 14px" *ngIf="Descripcion.errors.required" class="error-message">
+                                            <p size="6">* Este campo es requerido</p>
+                                        </div>
+                                    </ng-container>
+
+                                    <div style="color: red; font-size: 14px;" *ngIf="compromiso.Descripcion.length >= 2000" class="error-message">
+                                        <p>* Caracteres Exceden Máximo permitido {{ compromiso.Descripcion.length }} por favor no exceder los 2000 Caracteres
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row p-t-20">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Usuario Reponsable Actividad</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-agenda"></i>
+                                        </div>
+                                        <select name="UsuarioResponsableReporteId" class="form-control" [(ngModel)]="compromiso.UsuarioResponsableReporteId" #UsuarioResponsableReporteId="ngModel" required>
+                                            <option *ngFor="let item of listaUsuarios"
+                                                [ngValue]="item.USU_ID">
+                                                {{ item.USU_NOMBRE }}
+                                            </option>
+                                        </select>
+                                        <ng-container *ngIf="!UsuarioResponsableReporteId.valid && UsuarioResponsableReporteId.touched">
+                                            <div style="color: red" *ngIf="UsuarioResponsableReporteId.errors.required" class="error-message">
+                                                <strong>&nbsp; * </strong>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Tipo Reporte</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-agenda"></i>
+                                        </div>
+                                        <select name="TipoReporteId" class="form-control" [(ngModel)]="compromiso.TipoReporteId" #TipoReporteId="ngModel" required>
+                                            <option *ngFor="let item of listaTipoReporte"
+                                                [ngValue]="item.idValorReferencia">
+                                                {{ item.nombre }}
+                                            </option>
+                                        </select>
+                                        <ng-container *ngIf="!TipoReporteId.valid && TipoReporteId.touched">
+                                            <div style="color: red" *ngIf="TipoReporteId.errors.required" class="error-message">
+                                                <strong>&nbsp; * </strong>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Estado</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-agenda"></i>
+                                        </div>
+                                        <select name="Estado" class="form-control" [(ngModel)]="compromiso.Estado" #Estado="ngModel" required>
+                                            <option *ngFor="let item of listaEstado"
+                                                [ngValue]="item.idValorReferencia">
+                                                {{ item.nombre }}
+                                            </option>
+                                        </select>
+                                        <ng-container *ngIf="!Estado.valid && Estado.touched">
+                                            <div style="color: red" *ngIf="Estado.errors.required" class="error-message">
+                                                <strong>&nbsp; * </strong>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div lass="row p-t-20">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Fecha Actividad</label>
+                                    <div class="input-group flex-wrap">
+                                        <div class="input-group-addon">
+                                            <i class="ti-time"></i>
+                                        </div>
+                                        <input required type="text" [(ngModel)]="compromiso.FechaCompromiso" [minDate]="{ year: 1900, month: 1, day: 1 }" [maxDate]="maxDate" placeholder="mm/dd/aaaa" name="SalaFechaInicioProgramacion" ngbDatepicker #SalaFechaInicioProgramacion="ngbDatepicker"
+                                        />
+                                        <div class="input-group-addon bg-default" (click)="SalaFechaInicioProgramacion.toggle()">
+                                            <span class="ti-calendar"></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Fecha Limite Cargue Información</label>
+                                    <div class="input-group flex-wrap">
+                                        <div class="input-group-addon">
+                                            <i class="ti-time"></i>
+                                        </div>
+                                        <input required type="text" [(ngModel)]="compromiso.FechaLimite" [minDate]="{ year: 1900, month: 1, day: 1 }" [maxDate]="maxDate" placeholder="mm/dd/aaaa" name="FechaLimite" ngbDatepicker #FechaLimite="ngbDatepicker" />
+                                        <div class="input-group-addon bg-default" (click)="FechaLimite.toggle()">
+                                            <span class="ti-calendar"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Observaciones</label>
+                                    <textarea class="form-control" rows="5" name="Observaciones" maxlength="2000" [(ngModel)]="compromiso.Observaciones" #Observaciones="ngModel" required>
+                                                                            </textarea>
+                                    <ng-container *ngIf="!Observaciones.valid && Observaciones.touched">
+                                        <div style="color: red; font-size: 14px" *ngIf="Observaciones.errors.required" class="error-message">
+                                            <p size="6">* Este campo es requerido</p>
+                                        </div>
+                                    </ng-container>
+
+                                    <div style="color: red; font-size: 14px;" *ngIf="compromiso.Observaciones.length >= 2000" class="error-message">
+                                        <p>* Caracteres Exceden Máximo permitido {{ compromiso.Observaciones.length }} por favor no exceder los 2000 Caracteres
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row p-t-20">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn waves-effect waves-light btn-success">
+                                    Guardar
+                                    <i class="fa fa-save"></i>
+                                </button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <button type="button" class="btn waves-effect waves-light btn-danger" (click)="showVolver()">
+                                    <i class="fa fa-backward"></i>
+                                    Cancelar
+                                </button>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </dx-scroll-view>
+
+
+
+
+    </div>
+</dx-popup>
+
+<div class="row animated fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+                <dx-data-grid id="gridCompromisosAvances" [allowColumnReordering]="true" [allowColumnResizing]="true" [dataSource]="compromisosAvances" showBorders="true" [rowAlternationEnabled]="true" [columnAutoWidth]="true" keyExpr="ReporteAvanceId">
+                    <dxo-export [enabled]="true" fileName="Avances Compromisos Registrados en el Sistema"></dxo-export>
+                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                    <dxo-header-filter [visible]="true"></dxo-header-filter>
+                    <dxo-grouping [contextMenuEnabled]="true" expandMode="rowClick"></dxo-grouping>
+                    <dxo-group-panel [visible]="true" emptyPanelText="Use el contexto de menu de los encabezados de columnas para agrupar datos"></dxo-group-panel>
+                    <dxo-search-panel [visible]="true" [width]="240" placeholder="Buscar..."></dxo-search-panel>
+                    <dxo-remote-operations [sorting]="true" [paging]="true">
+                    </dxo-remote-operations>
+
+                    <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+                    <dxi-column caption="Acciones" cellTemplate="accionCellTemplate" alignment="center" [width]="200"></dxi-column>
+                    <div *dxTemplate="let d of 'accionCellTemplate'">
+
+                        <div class="internal-grid-container">
+                            <div>
+
+
+                                <button type="button" matTooltip="Editar" (click)="showAccionCompromisoAvance(d.data.ReporteAvanceId, 'U')" class="btn btn-success waves-effect waves-light m-r-10">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+
+                                <button type="button" matTooltip="Borrar" (click)="borrarAvanceCompromiso(d.data.ReporteAvanceId, d.data.CompromisoId )" class="btn btn-danger waves-effect waves-light m-r-10">
+                                    <i class="fa fa-remove"></i>
+                                </button>
+                                <br>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <dxi-column dataField="ReporteAvanceId" caption="Id" [width]="100">
+                    </dxi-column>
+                    <dxi-column dataField="AvanceCualitativo" caption="Nombre Asistente" [width]="170">
+                    </dxi-column>
+                    <dxi-column dataField="AvanceCuantitativo" caption="Número Identificación" [width]="170">
+                    </dxi-column>
+
+
+                    <dxo-summary>
+                        <dxi-total-item column="ReporteAvanceId" summaryType="count" displayFormat="Cantidad: {0}">
+                        </dxi-total-item>
+                    </dxo-summary>
+                    <dxo-paging [pageSize]="10"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 40]" [visible]="true" [showInfo]="true" [showNavigationButtons]="true"></dxo-pager>
+
+                </dx-data-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<dx-popup width="90%" height="90%" [showTitle]="true" title="Formulario Lista Asistencia" [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="popupCompromisosAvances">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Asistencia</h4>
+                    <form ngNativeValidate #formCcCompromisoAvance="ngForm" (ngSubmit)="onSubmitCompromisoAvance(formCcCompromisoAvance.valid)" class="form p-t-20">
+                        <div class="activity-box m-t-30">
+                            <div class="date-devider">
+                                <span>Datos Basicos</span>
+                            </div>
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <!-- <p class="text-muted m-b-30 font-13">
+                                        Seleccione una opción
+                                    </p> -->
+                                    <label for="exampleInputuname">Tipo Actor</label>
+                                    <div class="input-group">
+
+                                        <!-- <div class="input-group-addon"><i class="ti-android"></i></div> -->
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" [(ngModel)]="tipoActor" name="inlineRadioOptions011" id="inlineRadio11" [value]="0">
+                                            <label class="form-check-label" for="inlineRadio11">Persona Natural</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" [(ngModel)]="tipoActor" name="inlineRadioOptions021" id="inlineRadio21" [value]="1">
+                                            <label class="form-check-label" for="inlineRadio21">Persona Jurídica</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" [(ngModel)]="tipoActor" name="inlineRadioOptions031" id="inlineRadio31" [value]="2">
+                                            <label class="form-check-label" for="inlineRadio31">Grupo/Colectivo</label>
+                                        </div>
+
+                                        <!-- <div style="color: red" *ngIf="entidad.TipoPersona === ''">
+                                            <strong> * Campo Obligatorio </strong>
+                                        </div> -->
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Cargo /rol /perfil</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-user"></i>
+                                        </div>
+                                        <input name="cargoRolPerfil" type="text" class="form-control" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row p-t-20">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Tipo de Documento</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                        <select name="TipoIdentificacionId" class="form-control">
+                                                                                                                  <!-- <option *ngFor="let item of tipoDoc" [ngValue]="item.idValorReferencia">{{item.nombre}}</option> -->
+                                                                                                                  <option value="">-- Seleccione el tipo de identificación --</option>
+                                                                                                                    <option value="9">CÉDULA DE CIUDADANÍA</option>
+                                                                                                                    <option value="12">TARJETA DE IDENTIDAD</option>
+                                                                                                                    <option value="13">NÚMERO IDENTIFICACIÓN PERSONAL</option>
+                                                                                                                    <option value="86">REGISTRO CIVIL DE NACIMIENTO</option>
+                                                                                                                    <option value="11">PASAPORTE</option>
+                                                                                                                    <option value="10">CÉDULA DE EXTRANJERÍA</option>
+                                                                                                                    <option value="4107">PERMISO ESPECIAL DE PERMANENCIA</option>
+                                                                                                          </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Número Identificación</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="ti-key"></i></div>
+                                        <input name="PersonaNumeroId" type="text" class="form-control" placeholder="Número de Identificación">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row p-t-20">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Nombre Completo</label>
+                                    <textarea class="form-control" rows="1" name="Tema" maxlength="3000" [(ngModel)]="compromisosAvance.AvanceCualitativo" #AvanceCualitativo="ngModel" required>
+                                                                            </textarea>
+                                    <ng-container *ngIf="!AvanceCualitativo.valid && AvanceCualitativo.touched">
+                                        <div style="color: red; font-size: 14px" *ngIf="AvanceCualitativo.errors.required" class="error-message">
+                                            <p size="6">* Este campo es requerido</p>
+                                        </div>
+                                    </ng-container>
+
+                                    <div style="color: red; font-size: 14px;" *ngIf="compromisosAvance.AvanceCualitativo.length >= 3000" class="error-message">
+                                        <p>* Caracteres Exceden Máximo permitido {{ compromiso.Descripcion.length }} por favor no exceder los 3000 Caracteres
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Ocupación</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                        <select name="TipoIdentificacionId3" class="form-control">
+                                                                                                                  <!-- <option *ngFor="let item of tipoDoc" [ngValue]="item.idValorReferencia">{{item.nombre}}</option> -->
+                                                                                                                  <option value="">-- Seleccione--</option>
+                                                                                                                    <option value="1">Estudiante</option>
+                                                                                                                    <option value="1">Empleado</option>
+                                                                                                                    <option value="2">Independiente</option>
+                                                                                                                    <option value="12">Pensionado</option>
+                                                                                                                    <option value="13">Desempleado</option>
+                                                                                                                    <option value="15">pertenecen a comunidades religiosas</option>
+                                                                                                                    <option value="86">Otro</option>
+                                                                                                          </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Nivel de Escolaridad: </label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                        <select name="TipoIdentificacionId2" class="form-control">
+                                                                                                                  <!-- <option *ngFor="let item of tipoDoc" [ngValue]="item.idValorReferencia">{{item.nombre}}</option> -->
+                                                                                                                  <option value="">-- Seleccione--</option>
+                                                                                                                    <option value="1">No Aplica</option>
+                                                                                                                    <option value="2">Básica Primaria</option>
+                                                                                                                    <option value="2">Básica Secundaria</option>
+                                                                                                                    <option value="2">Secundaria Completa</option>
+                                                                                                                    <option value="12">Pregrado</option>
+                                                                                                                    <option value="12">Posgrado</option>
+                                                                                                                    <option value="13">Técnico</option>
+                                                                                                                    <option value="13">Tecnólogo</option>
+                                                                                                          </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-md-4">
+                                <div class="form-group">
+
+                                    <!-- <p class="text-muted m-b-30 font-13">
+                                        Seleccione una opción
+                                    </p> -->
+                                    <label for="exampleInputuname">Víctima Conflicto Armado</label>
+                                    <div class="input-group">
+
+                                        <!-- <div class="input-group-addon"><i class="ti-android"></i></div> -->
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions1" [(ngModel)]="victimaConlficto" id="inlineRadio01" [value]="1">
+                                            <label class="form-check-label" for="inlineRadio01">Si</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions2" [(ngModel)]="victimaConlficto" id="inlineRadio02" [value]="0">
+                                            <label class="form-check-label" for="inlineRadio02">No</label>
+                                        </div>
+
+                                        <!-- <div style="color: red" *ngIf="entidad.TipoPersona === ''">
+                                            <strong> * Campo Obligatorio </strong>
+                                        </div> -->
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div *ngIf="victimaConlficto">
+
+                                        <label for="exampleInputuname">Actor que generó el Hecho: </label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                            <select name="TipoIdentificacionId2" class="form-control">
+                                                                                                                      <!-- <option *ngFor="let item of tipoDoc" [ngValue]="item.idValorReferencia">{{item.nombre}}</option> -->
+                                                                                                                      <option value="">-- Seleccione--</option>
+                                                                                                                        <option value="1">Fuerzas Armadas</option>
+                                                                                                                        <option value="2">Policía Nacional</option>
+                                                                                                                        <option value="2">FARC</option>
+                                                                                                                        <option value="2">ELN</option>
+                                                                                                                        <option value="12">AUC</option>
+                                                                                                                        <option value="12">Grupo Disidente / cual?</option>
+                                                                                                              </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div *ngIf="victimaConlficto">
+
+                                        <label for="exampleInputuname">Tipo de Hecho Victimizante </label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                            <select name="TipoIdentificacionId2" class="form-control">
+                                                                                                                      <!-- <option *ngFor="let item of tipoDoc" [ngValue]="item.idValorReferencia">{{item.nombre}}</option> -->
+                                                                                                                      <option value="">-- Seleccione--</option>
+                                                                                                                        <option value="1">Homicidio </option>
+                                                                                                                        <option value="2">Desaparición Forzada</option>
+                                                                                                                            <option value="13">Delitos contra la libertad sexual</option>
+                                                                                                                                <option value="14">tortura</option>
+                                                                                                                                    <option value="15">tratos crueles o degradantes</option>
+                                                                                                                        <option value="16">Secuestro</option>
+                                                                                                                        <option value="17">Acto Terrorista - Atentado - Hostigamiento - Combates</option>
+                                                                                                                        <option value="18">lesiones que causaron incapacidad y reclutamiento ilegal de menores</option>
+                                                                                                              </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Edad</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-user"></i>
+                                        </div>
+                                        <input name="edad" type="text" class="form-control" maxlength="3" onkeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Lengua Materna</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                        <select name="TipoIdentificacionId3" class="form-control">
+                                                                                                                  <!-- <option *ngFor="let item of tipoDoc" [ngValue]="item.idValorReferencia">{{item.nombre}}</option> -->
+                                                                                                                  <option value="">-- Seleccione--</option>
+                                                                                                                    <option value="1">Achagua</option>
+                                                                                                                    <option value="2">Andoque</option>
+                                                                                                                    <option value="12">Awapit</option>
+                                                                                                                    <option value="13">Bará</option>
+                                                                                                                    <option value="86">Barasano</option>
+                                                                                                                    
+                                                                                                          </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-t-20">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Número Documento Acompañante</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-user"></i>
+                                        </div>
+                                        <input name="edad" type="text" class="form-control" maxlength="12" onkeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" />
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Nombre Acompañante</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-user"></i>
+                                        </div>
+                                        <input name="nombreAcompanante" [attr.disabled]="true" type="text" class="form-control" placeholder="Nombre Acompañante" />
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row p-t-20">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Grupo Etáreo</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                        <select name="TipoIdentificacionId3" class="form-control">
+                                                                                                                  <!-- <option *ngFor="let item of tipoDoc" [ngValue]="item.idValorReferencia">{{item.nombre}}</option> -->
+                                                                                                                  <option value="">-- Seleccione--</option>
+                                                                                                                    <option value="1">Primera Infancia (0-5 años)</option>
+                                                                                                                    <option value="2">Infancia (6-11 años)</option>
+                                                                                                                    <option value="12">Adolescencia (12-18 años)</option>
+                                                                                                                    <option value="13">Juventud (18-26 años)</option>
+                                                                                                                    <option value="86">Adultez (27-59 años)</option>
+                                                                                                                    <option value="11">Persona Mayor (60 años o mas)</option>
+                                                                                                          </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Identidad de Género</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                        <select name="TipoIdentificacionId2" class="form-control">
+                                                                                                                  <!-- <option *ngFor="let item of tipoDoc" [ngValue]="item.idValorReferencia">{{item.nombre}}</option> -->
+                                                                                                                  <option value="">-- Seleccione--</option>
+                                                                                                                    <option value="1">Femenino</option>
+                                                                                                                    <option value="2">Masculino</option>
+                                                                                                                    <option value="12">Transgenero</option>
+                                                                                                                    <option value="12">No responde</option>
+                                                                                                                    <option value="13">Otro</option>
+                                                                                                                    
+                                                                                                          </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Identidad Étnica</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                        <select name="TipoIdentificacionId3" class="form-control">
+                                                                                                                  <!-- <option *ngFor="let item of tipoDoc" [ngValue]="item.idValorReferencia">{{item.nombre}}</option> -->
+                                                                                                                  <option value="">-- Seleccione--</option>
+                                                                                                                    <option value="1">Indigena</option>
+                                                                                                                    <option value="2">Afrocolombiana</option>
+                                                                                                                    <option value="12">Raizal</option>
+                                                                                                                    <option value="13">Rrom o gitana</option>
+                                                                                                                    <option value="19">Otro</option>
+                                                                                                          </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+
+                                    <!-- <p class="text-muted m-b-30 font-13">
+                                        Seleccione una opción
+                                    </p> -->
+                                    <label for="exampleInputuname">Disca-pacidad</label>
+                                    <div class="input-group">
+
+                                        <!-- <div class="input-group-addon"><i class="ti-android"></i></div> -->
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" [(ngModel)]="flag" id="inlineRadio1" [value]="1">
+                                            <label class="form-check-label" for="inlineRadio1">Si</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" [(ngModel)]="flag" id="inlineRadio2" [value]="0">
+                                            <label class="form-check-label" for="inlineRadio2">No</label>
+                                        </div>
+
+                                        <!-- <div style="color: red" *ngIf="entidad.TipoPersona === ''">
+                                            <strong> * Campo Obligatorio </strong>
+                                        </div> -->
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div *ngIf="flag">
+                                        <div class="form-group">
+                                            <label for="exampleInputuname">Tipo Disca-pacidad</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                                <select name="TipoIdentificacionId3" class="form-control">
+                                                                                                                          <!-- <option *ngFor="let item of tipoDoc" [ngValue]="item.idValorReferencia">{{item.nombre}}</option> -->
+                                                                                                                          <option value="">-- Seleccione--</option>
+                                                                                                                            <option value="1">Visual</option>
+                                                                                                                            <option value="2">Auditiva</option>
+                                                                                                                            <option value="12">Física</option>
+                                                                                                                            <option value="13">Cognitiva</option>
+                                                                                                                            <option value="13">Psíquica</option>
+                                                                                                                            <option value="13">Sensorial</option>
+                                                                                                                  </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-t-20">
+
+                            <div class="col-md-4">
+
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Correo Electronico</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-user"></i>
+                                        </div>
+                                        <input name="correoElectronico" type="text" class="form-control" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">¿ Recibio publicación ?</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="ti-agenda"></i></div>
+                                        <select name="TipoIdentificacionId3" class="form-control">
+                                                                                                                  <!-- <option *ngFor="let item of tipoDoc" [ngValue]="item.idValorReferencia">{{item.nombre}}</option> -->
+                                                                                                                  <option value="">-- Seleccione--</option>
+                                                                                                                    <option value="1">Si</option>
+                                                                                                                    <option value="2">No</option>
+                                                                                                                    
+                                                                                                          </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row p-t-20">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Nombre de la Publicación</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-user"></i>
+                                        </div>
+                                        <input name="NombrePublicacion" type="text" class="form-control" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Enlace /liderazgo / coordinación</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-user"></i>
+                                        </div>
+                                        <input name="EnlaceLiderazgoCoordinacion" type="text" class="form-control" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="exampleInputuname">Que hacer del actor</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-user"></i>
+                                        </div>
+                                        <textarea class="form-control" rows="4" name="QueHacerActor">
+                                        </textarea>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="activity-box m-t-30">
+                            <div class="date-devider">
+                                <span>Datos Ubicación</span>
+                            </div>
+                        </div>
+                        <div class="row p-t-20">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="PaisFuncion">País de procedencia</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-location-arrow"></i>
+                                        </div>
+                                        <select name="PaisFuncion" class="form-control">
+                                            <!-- <option
+                                                *ngFor="let item of paisesListaFuncion"
+                                                [ngValue]="item.Id">
+                                                {{ item.Nombre }}
+                                            </option> -->
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="DepartamentoFuncion">Departamento de procedencia</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-location-arrow"></i>
+                                        </div>
+                                        <select name="DepartamentoFuncion" class="form-control">
+                                           
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="MunicipioFuncion">Municipio de procedencia</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-location-arrow"></i>
+                                        </div>
+                                        <select name="MunicipioFuncion" class="form-control">
+                                            <!-- <option
+                                                *ngFor="let item of munListaFuncion"
+                                                [ngValue]="item.Id">
+                                                {{ item.Nombre }}
+                                            </option> -->
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="row p-t-20">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="FuncionNombre">
+                                        Avance Cuantitativo
+                                    </label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="ti-user"></i>
+                                        </div>
+                                        <input name="AvanceCuantitativo" id="AvanceCuantitativo" type="text" class="form-control" minlength="1" onkeypress="if (event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;" [(ngModel)]="compromisosAvance.AvanceCuantitativo" #AvanceCuantitativo="ngModel"
+                                            required />
+                                        <ng-container *ngIf="!AvanceCuantitativo.valid && AvanceCuantitativo.touched">
+                                            <div style="color: red" *ngIf="AvanceCuantitativo.errors.required" class="error-message">
+                                                <strong>&nbsp; *
+                                                </strong>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div> -->
+
+
+
+                        <div class="row p-t-20">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn waves-effect waves-light btn-success">
+                                    Guardar
+                                    <i class="fa fa-save"></i>
+                                </button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <button type="button" class="btn waves-effect waves-light btn-danger" (click)="showVolverAvance()">
+                                    <i class="fa fa-backward"></i>
+                                    Cancelar
+                                </button>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </dx-scroll-view>
+
+
+
+
+    </div>
+</dx-popup>

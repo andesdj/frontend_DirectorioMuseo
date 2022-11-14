@@ -1,0 +1,61 @@
+<div class="row animated fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <dx-data-grid id="gridPermisos" [dataSource]="listaPermisos" showBorders="true" [rowAlternationEnabled]="true" [columnHidingEnabled]="true" [columnAutoWidth]="true" keyExpr="OpcionesPerfilId" (onRowInserting)="adicionarPermiso($event)" (onRowUpdated)="actualizarPermiso($event)"
+                        (onRowRemoving)="eliminarPerfil($event)">
+                        <dxo-export [enabled]="true" fileName="Permisos Registrados en el Sistema"></dxo-export>
+                        <dxo-filter-row [visible]="true"></dxo-filter-row>
+                        <dxo-header-filter [visible]="true"></dxo-header-filter>
+                        <dxo-grouping [contextMenuEnabled]="true" expandMode="rowClick"></dxo-grouping>
+                        <dxo-group-panel [visible]="true" emptyPanelText="Use el contexto de menu de los encabezados de columnas para agrupar datos"></dxo-group-panel>
+                        <dxo-search-panel [visible]="true" [width]="240" placeholder="Buscar..."></dxo-search-panel>
+                        <dxo-remote-operations [sorting]="true" [paging]="true">
+                        </dxo-remote-operations>
+                        <!-- <dxo-state-storing [enabled]="true" type="localStorage" storageKey="storage"></dxo-state-storing> -->
+                        <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+                        <dxo-editing mode="form" [allowAdding]="true" [allowDeleting]="true" [allowUpdating]="true">
+                        </dxo-editing>
+                        <dxi-column dataField="OpcionesPerfilId" [allowEditing]="false" caption="ID">
+                        </dxi-column>
+                        <!-- <dxi-column dataField="PerfilNombre" caption="Perfil">
+                        </dxi-column> -->
+                        <dxi-column dataField="PerfilId" caption="Perfil">
+                            <dxo-lookup [dataSource]="perfilesLista" displayExpr="PerfilNombre" valueExpr="PerfilId"></dxo-lookup>
+                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                        </dxi-column>
+
+                        <!-- <dxi-column dataField="OpcionTitulo" caption="Opción Sistema">
+                        </dxi-column> -->
+
+                        <dxi-column dataField="OpcionId" caption="Opción Sistema">
+                            <dxo-lookup [dataSource]="opcionesLista" displayExpr="OpcionTitulo" valueExpr="OpcionId"></dxo-lookup>
+                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                        </dxi-column>
+
+                        <div *dxTemplate="let d of 'accionCellTemplate'">
+
+                            <div class="internal-grid-container">
+                                <div>
+                                    <!-- <h1><i ngbTooltip="Seleccionar" (click)="showPanel('U', d.data.PersonaId)"></i></h1> -->
+                                    <!-- <button type="button" (click)="showPanel('U', d.data.idTipoReferencia)" class="btn btn-success m-b-0">Actualizar</button> -->
+                                </div>
+                            </div>
+
+                        </div>
+                        <dxo-summary>
+                            <dxi-total-item column="OpcionesPerfilId" summaryType="count" displayFormat="Cantidad: {0}">
+                            </dxi-total-item>
+                        </dxo-summary>
+
+                        <dxo-paging [pageSize]="10"></dxo-paging>
+                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 40]" [visible]="true" [showInfo]="true" [showNavigationButtons]="true"></dxo-pager>
+
+                    </dx-data-grid>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

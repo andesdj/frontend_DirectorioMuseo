@@ -525,19 +525,11 @@ export class ActividadesComponent implements OnInit {
         if (result.value) {
             this.procesosActividades =  this.procesosActividades.filter(d=>d.procesosActividadId!==id);
             let resultado = true
-            if(resultado)
-            {
-            Swal.fire('Borrado!', 'Este registro fue borrado.', 'success');
-            }
-
-          }
-          else
-            {
-            Swal.fire('Atención!', 'No se eliminó el proceso', 'info');
-            }
+            if(resultado)  { Swal.fire('Borrado!', 'Este registro fue borrado.', 'success');}
+        }
+       else  { Swal.fire('Atención!', 'No se eliminó el proceso', 'info');   }
         }
       );
-
     }
 
 

@@ -515,7 +515,7 @@ export class ActividadesComponent implements OnInit {
        Swal.fire({
         title: 'Borrar Proceso?',
         text: 'Ese proceso no se podra revertir!',
-        // type: 'warning',
+        type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
@@ -523,9 +523,15 @@ export class ActividadesComponent implements OnInit {
         cancelButtonText: 'No borrar!',
       }).then((result) => {
         if (result.value) {
-            this.procesosActividades =  this.procesosActividades.filter(d=>d.procesosActividadId!==id);
             let resultado = true
-            if(resultado)  { Swal.fire('Borrado!', 'Este registro fue borrado.', 'success');}
+            if(resultado)  { 
+              this.procesosActividades =  this.procesosActividades.filter(d=>d.procesosActividadId!==id);
+              Swal.fire('Borrado!', 'Este registro fue borrado.', 'success');
+            }
+            else{
+              this.procesosActividades =  this.procesosActividades;
+              Swal.fire('ERROR!', 'Hubo un error en el servicio, intenta de nuevo', 'error');
+            }
         }
        else  { Swal.fire('Atención!', 'No se eliminó el proceso', 'info');   }
         }

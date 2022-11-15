@@ -84,8 +84,14 @@
                                         <i class="fa fa-users"></i>
                                 </button>
 
-                                <button type="button" matTooltip="Consultar productos" (click)="CargarProcesoAvances(d.data.ActividadId)" class="btn btn-success waves-effect waves-light m-r-10">
-                                        <i class="fa fa-upload"></i>
+                                <br>
+                                <br>
+                                <button type="button" matTooltip="Consultar procesos" (click)="CargarProcesoAvances(d.data.ActividadId)" class="btn btn-info waves-effect waves-light m-r-10">
+                                    <i class="fa fa-upload"></i>
+                                </button>
+
+                                <button type="button" matTooltip="Consultar procesos" (click)="CargarProcesoAvances(d.data.ActividadId)" class="btn btn-info waves-effect waves-light m-r-10">
+                                <i class="fa fa-plus"></i>
                                 </button>
 
                                 <br>
@@ -726,7 +732,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-
+                <h4 class="card-title">Procesos</h4>
                 <dx-data-grid id="gridProcesosAvances" [allowColumnReordering]="true" [allowColumnResizing]="true" [dataSource]="procesosActividades" showBorders="true" [rowAlternationEnabled]="true" [columnAutoWidth]="true" keyExpr="procesosActividadId">
                     <dxo-export [enabled]="true" fileName="Actividades Registradas en el Sistema"></dxo-export>
                     <dxo-filter-row [visible]="true"></dxo-filter-row>
@@ -749,7 +755,7 @@
                                     <i class="fa fa-edit"></i>
                                 </button>
 
-                                <button type="button" matTooltip="Borrar" (click)="borrarAvanceCompromiso(d.data.AsistenciaActividadId, d.data.ActividadId )" class="btn btn-danger waves-effect waves-light m-r-10">
+                                <button type="button" matTooltip="Borrar" (click)="borrarProcesoActividad(d.data.procesosActividadId, d.data.ActividadId)" class="btn btn-danger waves-effect waves-light m-r-10">
                                     <i class="fa fa-remove"></i>
                                 </button>
                                 <br>
@@ -757,20 +763,18 @@
                         </div>
 
                     </div>
-                    <dxi-column dataField="procesosActividadId" caption="Id">
-                    </dxi-column>
                     <dxi-column dataField="ActividadId" caption="Id Actividad">
                     </dxi-column>
 
-                    <dxi-column dataField="fechaInicio" caption="fecha Inicio">
+                    <dxi-column dataField="fechaInicio" caption="fecha de Inicio">
                     </dxi-column>
-                    <dxi-column dataField="fechaFin" caption="fech aFin">
+                    <dxi-column dataField="fechaFin" caption="fecha fin">
                     </dxi-column>
                     <dxi-column dataField="EquipoLider" caption="Equipo Lider">
                     </dxi-column>
                     <dxi-column dataField="ArticuladoCon" caption="Articulado con">
                     </dxi-column>
-                    <dxi-column dataField="TipoProcesoASociado" caption="Tipo Proceso ASociado">
+                    <dxi-column dataField="TipoProcesoASociado" caption="Tipo de Proceso Asociado">
                     </dxi-column>
 
                    

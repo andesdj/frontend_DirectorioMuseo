@@ -85,7 +85,7 @@ export class ActividadesComponent implements OnInit {
   constructor(public _actividadService: ActividadService, public _tipoReferenciaService: TipoReferenciaService, public _usuarioService: UsuarioService) {
     this.actividad = new Actividades(null, null, null, null, null, null, '', '', null, null, '', '', '' ,'', null, null , '', '', null, null, null);
     this.asistenciaActividad = new AsistenciaActividad (null, null, '', null, null, null, '', '', null, null, '', null, '', '', null, null, null, null, null, null, '', null, null, null, null, null, '', null, '', '', '', null, null, '', null, '', '', null, '', '', '', null, null, null, null, null, '', '', '', '', '', null, null, null, '', null, null, '', '', null, '', '','','', '', null, null, null, null, null,null, null, null, '', null, '', false, null);
-    this.procesosActividad = new procesosActividad (null,null, '', '', '', null, null);
+    this.procesosActividad = new procesosActividad (null,null, '', '', '', null, '');
     this.flag = 0;
     this.victimaConlficto = 0;
     this.tipoActor = 0;
@@ -498,15 +498,49 @@ export class ActividadesComponent implements OnInit {
       //  this.procesosActividades = resp.Lista;
       // });
       let data = [
-        {"procesosActividadId":1, "ActividadId": 32,"fechaInicio": "2020 12 31", "fechaFin": "2022 12 31", "EquipoLider": "AMG",  "TipoProcesoASociado": 1, "ArticuladoCon":"LEO"},
-        {"procesosActividadId":2, "ActividadId": 32,"fechaInicio": "2020 12 31", "fechaFin": "2022 1 31", "EquipoLider": "Andres ",  "TipoProcesoASociado": 1, "ArticuladoCon":"LEO 2"},
-        {"procesosActividadId":3, "ActividadId": 2105,"fechaInicio": "2020 12 31", "fechaFin": "2022 1 31", "EquipoLider": "Andres ",  "TipoProcesoASociado": 1, "ArticuladoCon":"LEO 3"},
-        {"procesosActividadId":4, "ActividadId": 2105,"fechaInicio": "2020 12 31", "fechaFin": "2022 1 31", "EquipoLider": "Andres Montealegre ",  "TipoProcesoASociado": 1, "ArticuladoCon":"Leonardo"},
-        {"procesosActividadId":5, "ActividadId": 2105,"fechaInicio": "2020 12 31", "fechaFin": "2022 1 31", "EquipoLider": "Andres Montealegre  G",  "TipoProcesoASociado": 1, "ArticuladoCon":"Leonardo Q"},  
-      ] 
+      {"procesosActividadId":1, "ActividadId": 32,"fechaInicio": "2022/01/31", "fechaFin": "2022/12/31", "EquipoLider": "D. Acuerdos de la Verda",  "TipoProcesoASociado": "Proyecto de apropiación social", "ArticuladoCon":"Museos"},
+      {"procesosActividadId":2, "ActividadId": 32,"fechaInicio": "2022/01/31", "fechaFin": "2022/12/31", "EquipoLider": "D Construcción ",  "TipoProcesoASociado": "Asistente evento", "ArticuladoCon":"Construccion de Memoria"},
+      {"procesosActividadId":3, "ActividadId": 2105,"fechaInicio": "2022/01/31", "fechaFin": "2022/12/31", "EquipoLider": "D. Archivo y DDHH ",  "TipoProcesoASociado": "tallerista / facilitador", "ArticuladoCon":"Museos"},
+      {"procesosActividadId":4, "ActividadId": 2105,"fechaInicio": "2022/01/31", "fechaFin": "2022/12/31", "EquipoLider": "D. Museo de Memoria ",  "TipoProcesoASociado": "Asistente evento", "ArticuladoCon":"Construccion de Memoria"},
+      {"procesosActividadId":5, "ActividadId": 2105,"fechaInicio": "2022/01/31", "fechaFin": "2022/12/31", "EquipoLider": "Pedagogía",  "TipoProcesoASociado": "Proyecto de apropiación social", "ArticuladoCon":"Construccion de Memoria"},
+      {"procesosActividadId":6, "ActividadId": 1066,"fechaInicio": "2022/01/31", "fechaFin": "2022/12/31", "EquipoLider": "D. Museo de Memoria ",  "TipoProcesoASociado": "Asistente evento", "ArticuladoCon":"Construccion de Memoria"},
+      {"procesosActividadId":7, "ActividadId": 1066,"fechaInicio": "2022/01/31", "fechaFin": "2022/12/31", "EquipoLider": "Pedagogía",  "TipoProcesoASociado": "Proyecto de apropiación social", "ArticuladoCon":"Construccion de Memoria"},    
+      {"procesosActividadId":8, "ActividadId": 1066,"fechaInicio": "2022/01/31", "fechaFin": "2022/12/31", "EquipoLider": "D Construcción ",  "TipoProcesoASociado": "Asistente evento", "ArticuladoCon":"Construccion de Memoria"}
+    ] ;
         data=data.filter(d=>d.ActividadId===id)
         this.procesosActividades =data
-   
+    }
+    
+   borrarProcesoActividad(id:any){
+       console.log(id)
+
+      
+      
+
+       Swal.fire({
+        title: 'Borrar Compromiso?',
+        text: 'Ese proceso no se podra revertir!',
+        // type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Borrar Esto!',
+      }).then((result) => {
+        if (result.value) {
+          this.procesosActividades =  this.procesosActividades.filter(d=>d.procesosActividadId!==id);
+          let resultado = true
+              if(resultado)
+              {
+                Swal.fire('Borrado!', 'Este registro fue borrado.', 'success');
+              }
+              else
+              {
+                Swal.fire('ERROR!', 'Existen avances registrados, por favor borrar primero los avances', 'error');
+              }
+            }
+        }
+      );
+
     }
 
 

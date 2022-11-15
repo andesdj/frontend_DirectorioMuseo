@@ -33,7 +33,7 @@ export class procesosActividad {
         public  fechaFin: string,
         public  EquipoLider: string,
         public  ArticuladoCon: string,
-        public  TipoProcesoASociado: number){ }
+        public  TipoProcesoASociado: string){ }
 }
 
 export class AsistenciaActividad {

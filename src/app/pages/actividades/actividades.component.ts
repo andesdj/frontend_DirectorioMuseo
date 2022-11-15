@@ -512,31 +512,28 @@ export class ActividadesComponent implements OnInit {
     }
     
    borrarProcesoActividad(id:any){
-       console.log(id)
-
-      
-      
-
        Swal.fire({
-        title: 'Borrar Compromiso?',
+        title: 'Borrar Proceso?',
         text: 'Ese proceso no se podra revertir!',
         // type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si, Borrar Esto!',
+        cancelButtonText: 'No borrar!',
       }).then((result) => {
         if (result.value) {
-          this.procesosActividades =  this.procesosActividades.filter(d=>d.procesosActividadId!==id);
-          let resultado = true
-              if(resultado)
-              {
-                Swal.fire('Borrado!', 'Este registro fue borrado.', 'success');
-              }
-              else
-              {
-                Swal.fire('ERROR!', 'Existen avances registrados, por favor borrar primero los avances', 'error');
-              }
+            this.procesosActividades =  this.procesosActividades.filter(d=>d.procesosActividadId!==id);
+            let resultado = true
+            if(resultado)
+            {
+            Swal.fire('Borrado!', 'Este registro fue borrado.', 'success');
+            }
+
+          }
+          else
+            {
+            Swal.fire('Atención!', 'No se eliminó el proceso', 'info');
             }
         }
       );

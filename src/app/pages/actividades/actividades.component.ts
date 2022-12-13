@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActividadService, TipoReferenciaService, UsuarioService } from 'src/app/services/service.index';
-import { Actividades, AsistenciaActividad, procesosActividad } from '../../models/actividades.model';
+import { Actividades, AsistenciaActividad, procesosActividad ,ProcesoEnt, AportanteProceso} from '../../models/actividades.model';
 import { List } from '../oferta-administracion/oferta-administracion.component';
 import { IOption } from 'ng-select';
 import Swal from 'sweetalert2';
@@ -64,9 +64,16 @@ export class ActividadesComponent implements OnInit {
   actividades: Actividades[];
   actividad: Actividades;
   asistenciaActividades: AsistenciaActividad[];
+  asistenciaActividad: AsistenciaActividad;
   procesosActividades: procesosActividad[];
   procesosActividad: procesosActividad;
-  asistenciaActividad: AsistenciaActividad;
+
+  public procesos: ProcesoEnt[];
+  public proceso: ProcesoEnt;
+
+  aportantesProceso:AportanteProceso[];
+  aportanteProceso:AportanteProceso;
+
   AnoId: string;
   startEditAction: string = 'click';
   selectTextOnEditStart: boolean = true;
@@ -83,9 +90,11 @@ export class ActividadesComponent implements OnInit {
     now: Date = new Date();
 
   constructor(public _actividadService: ActividadService, public _tipoReferenciaService: TipoReferenciaService, public _usuarioService: UsuarioService) {
-    this.actividad = new Actividades(null, null, null, null, null, null, '', '', null, null, '', '', '' ,'', null, null , '', '', null, null, null);
+    this.actividad = new Actividades(null, null, null, null, null, null, '', '', null, null, '', '', '' ,'', null, null , '', '', null, null, null,null);
     this.asistenciaActividad = new AsistenciaActividad (null, null, '', null, null, null, '', '', null, null, '', null, '', '', null, null, null, null, null, null, '', null, null, null, null, null, '', null, '', '', '', null, null, '', null, '', '', null, '', '', '', null, null, null, null, null, '', '', '', '', '', null, null, null, '', null, null, '', '', null, '', '','','', '', null, null, null, null, null,null, null, null, '', null, '', false, null);
     this.procesosActividad = new procesosActividad (null,null, '', '', '', null, '');
+    this.procesos = new ProcesoEnt(null,'','','','','',null,'', '',null);
+    this.aportantesProceso = new AportanteProceso( null,null,null,"","")
     this.flag = 0;
     this.victimaConlficto = 0;
     this.tipoActor = 0;
@@ -135,6 +144,8 @@ export class ActividadesComponent implements OnInit {
     this.getAnos();
     this.cargarListaVias();
     this.cargarClasificacion();
+
+    this.cargarProcesos();
      
     
     }
@@ -466,30 +477,88 @@ export class ActividadesComponent implements OnInit {
       );
     }
 
+    getRandomId(){
+      let shuffled =this.procesos.sort(() => Math.random() - 0.5);
+      return shuffled[1];
+    }
+
+    cargarProcesos(){
+      this.procesos = this.getProcess()
+    }
+
+    getProcess(){
+       let process = [
+      {"procesoId": 1,"NombreProceso": "Semana de la memoria","FechaInicio": "1/12/2022","FechaFinEstimada": "15/12/2022","FechaFinalizacionReal": "7/12/2022","PresupuestoEstimado": "150.000.000","AreaResponsableId": 1,"AreaResponsable": "Dirección Museo de la Memoria ","EquipoLider": "Curaduría ","EquipoLiderId": 1},
+      {"procesoId": 2,"NombreProceso": "Mesa nacional de participación","FechaInicio": "1/5/2022","FechaFinEstimada": "30/7/2022","FechaFinalizacionReal": "30/7/2022","PresupuestoEstimado": "125.000.000","AreaResponsableId": 1,"AreaResponsable": "Dirección Museo de la Memoria ","EquipoLider": "Curaduría ","EquipoLiderId": 1},
+      {"procesoId": 3,"NombreProceso": "Exposiciónes Itinerantes","FechaInicio": "15/2/2022","FechaFinEstimada": "27/9/2022","FechaFinalizacionReal": "30/11/2022","PresupuestoEstimado": "250.000.000","AreaResponsableId": 1,"AreaResponsable": "Dirección Museo de la Memoria ","EquipoLider": "Exposiciones","EquipoLiderId": 2},
+      {"procesoId": 4,"NombreProceso": "Feria del Libro Bogotá ","FechaInicio": "15/7/2022","FechaFinEstimada": "30/7/2022","FechaFinalizacionReal": "20/7/2022","PresupuestoEstimado": "52.000.000","AreaResponsableId": 2,"AreaResponsable": "Dirección de Acuerdos de la Verdad ","EquipoLider": "Comunicaciones ","EquipoLiderId": 3}
+    ];
+    return process
+  } 
+
+  getActividades(id:any){
+    console.log(id,"ID___AC")
+    this._actividadService.getAllActividades(this.AnoId)
+      .subscribe((resp: any) => {
+          
+        this.actividades = resp.Lista;
+        this.actividades.map(actividad=>actividad.procesoId=this.getRandomId().procesoId)
+        this.actividades = this.actividades.filter(d=>d.procesoId===id)
+        },
+        error => {
+            console.log(<any>error);
+        }
+      );
+  
+      this.asistenciaActividades = [];
+
+  }
+
     getAllCompromisos(){
-      this._actividadService.getAllActividades(this.AnoId)
+
+   // SE CMENTA TEMPORALMENTE
+    /*
+    this._actividadService.getAllActividades(this.AnoId)
       .subscribe((resp: any) => {
           this.actividades = resp.Lista;
-          
+          this.actividades.map(actividad=>actividad.procesoId=this.getRandomId().procesoId)
+         
           },
           error => {
-              // this.error = error;
-              // if (error.statusText === 'Unauthorized') {
-              //     this.servicePNotify.error('TYC', 'Se perdio la sesión, por favor loguearse de nuevo', '');
-              //     this.authenticationService.logout().subscribe(response => { });
-              //     this.storageService.logout();
-              // }
               console.log(<any>error);
           }
       );
   
       this.asistenciaActividades = [];
+    */
+   this.actividades=[]
+  
     }
 
     CargarCompromisosAvances( id: any) {
       this._actividadService.getAllAsistenciaActividades(id).subscribe((resp: any) => {
         this.asistenciaActividades = resp.Lista;
       });
+    }
+
+    cargarAportantes(id:any){
+      let data = [
+        { "AportanteProcesoId": 1, "AportanteId": 1,"procesoId": 1,"PresupuestoAportante": "30.000.000", "NombreAportante": "PNUD"},
+        { "AportanteProcesoId": 2, "AportanteId": 2,"procesoId": 1,"PresupuestoAportante": "50.000.000", "NombreAportante": "OIM"},
+        { "AportanteProcesoId": 3, "AportanteId": 3,"procesoId": 1,"PresupuestoAportante": "20.000.000", "NombreAportante": "UARIV"},
+        { "AportanteProcesoId": 4, "AportanteId": 4,"procesoId": 1,"PresupuestoAportante": "50.000.000", "NombreAportante": "CNMH"},
+        { "AportanteProcesoId": 5, "AportanteId": 5,"procesoId": 3,"PresupuestoAportante": "53.500.000", "NombreAportante": "ACNUR"},
+        { "AportanteProcesoId": 6, "AportanteId": 6,"procesoId": 3,"PresupuestoAportante": "30.000.000", "NombreAportante": "USAID"},
+        { "AportanteProcesoId": 7, "AportanteId": 4,"procesoId": 3,"PresupuestoAportante": "32.000.000", "NombreAportante": "CNMH"},
+        { "AportanteProcesoId": 8, "AportanteId": 4,"procesoId": 2,"PresupuestoAportante": "125.000.000", "NombreAportante": "CNMH"},
+        { "AportanteProcesoId": 9, "AportanteId": 6,"procesoId": 4,"PresupuestoAportante": "10.000.000", "NombreAportante": "USAID"},
+        { "AportanteProcesoId": 10, "AportanteId":4,"procesoId": 4,"PresupuestoAportante": "20.000.000", "NombreAportante": "CNMH"},
+        { "AportanteProcesoId": 11, "AportanteId":7,"procesoId": 4,"PresupuestoAportante": "22.000.000", "NombreAportante": "DPS"}
+        ]
+      data=data.filter(d=>d.procesoId===id)
+      this.aportantesProceso = data
+      console.log("Aportantes", this.aportantesProceso)
+
     }
 
     CargarProcesoAvances(id:any){
@@ -512,15 +581,14 @@ export class ActividadesComponent implements OnInit {
     }
     
    borrarProcesoActividad(id:any){
-       Swal.fire({
-        title: 'Borrar Proceso?',
-        text: 'Ese proceso no se podra revertir!',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, Borrar Esto!',
-        cancelButtonText: 'No borrar!',
+    Swal.fire({
+      title: 'Borrar Producto?',
+      text: 'Ese proceso no se podra revertir!',
+      // type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Borrar Esto!',
       }).then((result) => {
         if (result.value) {
             let resultado = true
@@ -692,6 +760,7 @@ export class ActividadesComponent implements OnInit {
         DepartamentoId: null,
         tipoActividadId: null,
         NumeroAsistentes: null,
+        procesoId:null
       };
     }
   

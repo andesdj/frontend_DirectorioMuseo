@@ -20,8 +20,24 @@ export class Actividades {
         public FechaActualizada: string,
         public DepartamentoId: number,
         public tipoActividadId: number,
-        public NumeroAsistentes: number
+        public NumeroAsistentes: number,
+        public procesoId: number,
     ) { }
+}
+
+export class ProcesoEnt {
+    constructor(
+        public  procesoId: number,
+        public  NombreProceso: string,
+        public  FechaInicio: string,
+        public  FechaFinEstimada: string,
+        public  FechaFinalizacionReal: string,
+        public  PresupuestoEstimado: string,
+        public  AreaResponsableId: number,
+        public  AreaResponsable: string,
+        public  EquipoLider: string,
+        public  EquipoLiderId: number
+        ){ }
 }
 
 
@@ -34,6 +50,16 @@ export class procesosActividad {
         public  EquipoLider: string,
         public  ArticuladoCon: string,
         public  TipoProcesoASociado: string){ }
+}
+
+export class AportanteProceso {
+    constructor(
+        public AportanteId: number,
+        public procesoId: number,
+        public AportanteProcesoId: number,
+        public PresupuestoAportante: string,
+        public NombreAportante: string,
+     ){ }
 }
 
 export class AsistenciaActividad {

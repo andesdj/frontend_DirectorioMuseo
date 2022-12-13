@@ -70,7 +70,7 @@ const pagesRoutes: Routes = [
       { path: 'espacios', component: EspaciosComponent, data: { titulo: 'Espacios' } },
       { path: 'poligonos', component: PoligonosComponent, data: { titulo: 'Poligonos' } },
       { path: 'indicadores', component: IndicadoresComponent, data: { titulo: 'Indicadores' } },
-      { path: 'actividades', component: ActividadesComponent, data: { titulo: 'Actividades' } },
+      { path: 'actividades', component: ActividadesComponent, data: { titulo: 'Participación ciudadana' } },
       { path: 'objetos-admin', component: ObjetosAdminComponent, data: { titulo: 'Objetos' } },
       // Mantenimientos
       {

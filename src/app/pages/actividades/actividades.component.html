@@ -1,4 +1,5 @@
 <div class="col-2">
+
     <label for="exampleFormControlSelect2">Año</label>
     <select class="form-control" name="AnoId" [(ngModel)]="AnoId" [value]="183" (change)="getAllCompromisos()">
         
@@ -9,9 +10,98 @@
           </select>
 </div>
 <div class="row animated fadeIn">
+
+
+
+
+<!-- AMG procesos -->
+
+<div class="row animated fadeIn">
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
+                <h4 class="card-title">Procesos</h4>
+                <dx-data-grid id="gridProductosAvances" [allowColumnReordering]="true" [allowColumnResizing]="true" [dataSource]="procesos" showBorders="true" [rowAlternationEnabled]="true" [columnAutoWidth]="true" keyExpr="procesoId">
+                    <dxo-export [enabled]="true" fileName="Actividades Registradas en el Sistema"></dxo-export>
+                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                    <dxo-header-filter [visible]="true"></dxo-header-filter>
+                    <dxo-grouping [contextMenuEnabled]="true" expandMode="rowClick"></dxo-grouping>
+                    <dxo-group-panel [visible]="true" emptyPanelText="Use el contexto de menu de los encabezados de columnas para agrupar datos"></dxo-group-panel>
+                    <dxo-search-panel [visible]="true" [width]="240" placeholder="Buscar..."></dxo-search-panel>
+                    <dxo-remote-operations [sorting]="true" [paging]="true">
+                    </dxo-remote-operations>
+
+                    <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+                    <dxi-column caption="Acciones" cellTemplate="accionCellTemplate" alignment="center" [width]="200"></dxi-column>
+                    <div *dxTemplate="let d of 'accionCellTemplate'">
+
+                        <div class="internal-grid-container">
+                            <div>
+
+
+                                <button type="button" matTooltip="Consultar Actividades" (click)="getActividades(d.data.procesoId)" class="btn btn-success waves-effect waves-light m-r-10">
+                                    <i class="fa fa-list"></i>
+                            </button>
+
+                            <button type="button" matTooltip="Consultar Aportantes" (click)="cargarAportantes(d.data.procesoId)" class="btn btn-success waves-effect waves-light m-r-10">
+                                <i class="fa fa-handshake-o"></i>
+                        </button>
+
+                                <button type="button" matTooltip="Borrar" (click)="borrarProcesoActividad(d.data.procesoId, d.data.procesoId)" class="btn btn-danger waves-effect waves-light m-r-10">
+                                    <i class="fa fa-remove"></i>
+                                </button>
+                                <br>
+                            </div>
+                        </div>
+
+                    </div>
+                    <dxi-column dataField="NombreProceso" caption="Nombre del proceso">
+                    </dxi-column>
+                    <dxi-column dataField="FechaInicio" caption="Nombre del proceso">
+                    </dxi-column>
+                    <dxi-column dataField="FechaFinEstimada" caption="Nombre del proceso">
+                    </dxi-column>
+                    <dxi-column dataField="FechaFinalizacionReal" caption="Nombre del proceso">
+                    </dxi-column>
+                    <dxi-column dataField="PresupuestoEstimado" caption="Nombre del proceso">
+                    </dxi-column>
+                    <dxi-column dataField="AreaResponsable" caption="Nombre del proceso">
+                    </dxi-column>
+                    <dxi-column dataField="EquipoLider" caption="Nombre del proceso">
+                    </dxi-column>
+                 
+
+                    
+
+                    <dxo-summary>
+                        <dxi-group-item
+      column="procesoId"
+      summaryType="count"
+      displayFormat="{0} procesos"
+    >
+</dxi-group-item>
+                        <dxi-total-item column="AsistenciaActividadId" summaryType="count" displayFormat="Cantidad: {0}">
+                        </dxi-total-item>
+                    </dxo-summary>
+                    <dxo-paging [pageSize]="10"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 40]" [visible]="true" [showInfo]="true" [showNavigationButtons]="true"></dxo-pager>
+
+                </dx-data-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- END AMG -->
+
+
+
+
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+               
                 <div class="row align-content-center">
                     <div class="col-md-2">
                         <button matTooltip="Nuevo" type="button" (click)="showAccionCompromiso(null, 'C')" class="btn btn-facebook m-b-0 button-tabla">
@@ -21,7 +111,7 @@
 
                     </div>
                     <div class="col-md-2">
-
+                       
                     </div>
                     <div class="col-md-2">
                         <a (click)="ayudaCrearActividad()" class="text-black"><b>
@@ -40,7 +130,7 @@
 
                     </div> -->
                 </div>
-
+                <h4 class="card-title">Actividades</h4>
                 <dx-data-grid id="gridProgramas" [allowColumnReordering]="true" [allowColumnResizing]="true" [dataSource]="actividades" showBorders="true" [rowAlternationEnabled]="true" [columnAutoWidth]="true" keyExpr="ActividadId">
                     <dxo-export [enabled]="true" fileName="Actividades Registradas en el Sistema"></dxo-export>
                     <dxo-filter-row [visible]="true"></dxo-filter-row>
@@ -76,10 +166,6 @@
                                 <button type="button" matTooltip="Nuevo Asistente" (click)="showAccionCompromisoAvance(d.data.ActividadId, 'C')" class="btn btn-success waves-effect waves-light m-r-10">
                                     <i class="fa fa-plus"></i>
                                 </button>
-
-
-
-
                                 <button type="button" matTooltip="Consultar Asistentes" (click)="CargarCompromisosAvances(d.data.ActividadId)" class="btn btn-success waves-effect waves-light m-r-10">
                                         <i class="fa fa-users"></i>
                                 </button>
@@ -100,6 +186,8 @@
 
 
                     </div>
+                    <dxi-column dataField="ActividadId" caption="ID" [width]="90">
+                    </dxi-column>
                     <dxi-column dataField="tipoActividad" caption="Tipo" [width]="170">
                     </dxi-column>
                     <dxi-column dataField="Temas" caption="Nombre de la Actividad" [width]="200">
@@ -612,7 +700,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-
+                <h4 class="card-title">Participantes</h4>
                 <dx-data-grid id="gridCompromisosAvances" [allowColumnReordering]="true" [allowColumnResizing]="true" [dataSource]="asistenciaActividades" showBorders="true" [rowAlternationEnabled]="true" [columnAutoWidth]="true" keyExpr="AsistenciaActividadId">
                     <dxo-export [enabled]="true" fileName="Actividades Registradas en el Sistema"></dxo-export>
                     <dxo-filter-row [visible]="true"></dxo-filter-row>
@@ -732,8 +820,8 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Procesos</h4>
-                <dx-data-grid id="gridProcesosAvances" [allowColumnReordering]="true" [allowColumnResizing]="true" [dataSource]="procesosActividades" showBorders="true" [rowAlternationEnabled]="true" [columnAutoWidth]="true" keyExpr="procesosActividadId">
+                <h4 class="card-title">Productos</h4>
+                <dx-data-grid id="gridProductosAvances" [allowColumnReordering]="true" [allowColumnResizing]="true" [dataSource]="procesosActividades" showBorders="true" [rowAlternationEnabled]="true" [columnAutoWidth]="true" keyExpr="procesosActividadId">
                     <dxo-export [enabled]="true" fileName="Actividades Registradas en el Sistema"></dxo-export>
                     <dxo-filter-row [visible]="true"></dxo-filter-row>
                     <dxo-header-filter [visible]="true"></dxo-header-filter>
@@ -782,6 +870,71 @@
       column="procesosActividadId"
       summaryType="count"
       displayFormat="{0} procesos"
+    >
+</dxi-group-item>
+                        <dxi-total-item column="AsistenciaActividadId" summaryType="count" displayFormat="Cantidad: {0}">
+                        </dxi-total-item>
+                    </dxo-summary>
+                    <dxo-paging [pageSize]="10"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 40]" [visible]="true" [showInfo]="true" [showNavigationButtons]="true"></dxo-pager>
+
+                </dx-data-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- END AMG -->
+
+<!-- AMG -->
+
+<div class="row animated fadeIn">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Aportantes</h4>
+                <dx-data-grid id="gridProductosAvances" [allowColumnReordering]="true" [allowColumnResizing]="true" [dataSource]="aportantesProceso" showBorders="true" [rowAlternationEnabled]="true" [columnAutoWidth]="true" keyExpr="AportanteProcesoId">
+                    <dxo-export [enabled]="true" fileName="Actividades Registradas en el Sistema"></dxo-export>
+                    <dxo-filter-row [visible]="true"></dxo-filter-row>
+                    <dxo-header-filter [visible]="true"></dxo-header-filter>
+                    <dxo-grouping [contextMenuEnabled]="true" expandMode="rowClick"></dxo-grouping>
+                    <dxo-group-panel [visible]="true" emptyPanelText="Use el contexto de menu de los encabezados de columnas para agrupar datos"></dxo-group-panel>
+                    <dxo-search-panel [visible]="true" [width]="240" placeholder="Buscar..."></dxo-search-panel>
+                    <dxo-remote-operations [sorting]="true" [paging]="true">
+                    </dxo-remote-operations>
+
+                    <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+                    <dxi-column caption="Acciones" cellTemplate="accionCellTemplate" alignment="center" [width]="200"></dxi-column>
+                    <div *dxTemplate="let d of 'accionCellTemplate'">
+
+                        <div class="internal-grid-container">
+                            <div>
+
+
+                                <button type="button" matTooltip="Editar" (click)="showAccionCompromisoAvance(d.data.procesoId, 'U')" class="btn btn-success waves-effect waves-light m-r-10">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+
+                                <button type="button" matTooltip="Borrar" (click)="borrarProcesoActividad(d.data.procesoId.data.AportanteId)" class="btn btn-danger waves-effect waves-light m-r-10">
+                                    <i class="fa fa-remove"></i>
+                                </button>
+                                <br>
+                            </div>
+                        </div>
+
+                    </div>
+                   
+                    <dxi-column dataField="NombreAportante" caption="NombreAportante">
+                    </dxi-column>
+                    <dxi-column dataField="PresupuestoAportante" caption="PresupuestoAportante">
+                    </dxi-column>
+                    <dxi-column dataField="AportanteProcesoId" caption="AportanteId">
+                    </dxi-column>
+                    <dxo-summary>
+                        <dxi-group-item
+      column="AportanteProcesoId"
+      summaryType="count"
+      displayFormat="{0} Aportes"
     >
 </dxi-group-item>
                         <dxi-total-item column="AsistenciaActividadId" summaryType="count" displayFormat="Cantidad: {0}">

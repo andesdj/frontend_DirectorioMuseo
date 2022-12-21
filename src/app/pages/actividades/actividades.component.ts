@@ -92,7 +92,7 @@ export class ActividadesComponent implements OnInit {
   constructor(public _actividadService: ActividadService, public _tipoReferenciaService: TipoReferenciaService, public _usuarioService: UsuarioService) {
     this.actividad = new Actividades(null, null, null, null, null, null, '', '', null, null, '', '', '' ,'', null, null , '', '', null, null, null,null);
     this.asistenciaActividad = new AsistenciaActividad (null, null, '', null, null, null, '', '', null, null, '', null, '', '', null, null, null, null, null, null, '', null, null, null, null, null, '', null, '', '', '', null, null, '', null, '', '', null, '', '', '', null, null, null, null, null, '', '', '', '', '', null, null, null, '', null, null, '', '', null, '', '','','', '', null, null, null, null, null,null, null, null, '', null, '', false, null);
-    this.procesosActividad = new procesosActividad (null,null, '', '', '', null, '');
+    this.procesosActividad = new procesosActividad (null,null, '', '');
     this.procesos = new ProcesoEnt(null,'','','','','',null,'', '',null);
     this.aportantesProceso = new AportanteProceso( null,null,null,"","")
     this.flag = 0;
@@ -566,16 +566,32 @@ export class ActividadesComponent implements OnInit {
         //this._actividadService.getAllProcesosServices(id).subscribe((resp: any) => {
       //  this.procesosActividades = resp.Lista;
       // });
+
       let data = [
-      {"procesosActividadId":1, "ActividadId": 32,"fechaInicio": "2022/01/31", "fechaFin": "2022/12/31", "EquipoLider": "D. Acuerdos de la Verda",  "TipoProcesoASociado": "Proyecto de apropiación social", "ArticuladoCon":"Museos"},
-      {"procesosActividadId":2, "ActividadId": 32,"fechaInicio": "2022/01/31", "fechaFin": "2022/12/31", "EquipoLider": "D Construcción ",  "TipoProcesoASociado": "Asistente evento", "ArticuladoCon":"Construccion de Memoria"},
-      {"procesosActividadId":3, "ActividadId": 2105,"fechaInicio": "2022/01/31", "fechaFin": "2022/12/31", "EquipoLider": "D. Archivo y DDHH ",  "TipoProcesoASociado": "tallerista / facilitador", "ArticuladoCon":"Museos"},
-      {"procesosActividadId":4, "ActividadId": 2105,"fechaInicio": "2022/01/31", "fechaFin": "2022/12/31", "EquipoLider": "D. Museo de Memoria ",  "TipoProcesoASociado": "Asistente evento", "ArticuladoCon":"Construccion de Memoria"},
-      {"procesosActividadId":5, "ActividadId": 2105,"fechaInicio": "2022/01/31", "fechaFin": "2022/12/31", "EquipoLider": "Pedagogía",  "TipoProcesoASociado": "Proyecto de apropiación social", "ArticuladoCon":"Construccion de Memoria"},
-      {"procesosActividadId":6, "ActividadId": 1066,"fechaInicio": "2022/01/31", "fechaFin": "2022/12/31", "EquipoLider": "D. Museo de Memoria ",  "TipoProcesoASociado": "Asistente evento", "ArticuladoCon":"Construccion de Memoria"},
-      {"procesosActividadId":7, "ActividadId": 1066,"fechaInicio": "2022/01/31", "fechaFin": "2022/12/31", "EquipoLider": "Pedagogía",  "TipoProcesoASociado": "Proyecto de apropiación social", "ArticuladoCon":"Construccion de Memoria"},    
-      {"procesosActividadId":8, "ActividadId": 1066,"fechaInicio": "2022/01/31", "fechaFin": "2022/12/31", "EquipoLider": "D Construcción ",  "TipoProcesoASociado": "Asistente evento", "ArticuladoCon":"Construccion de Memoria"}
-    ] ;
+
+        {"productoActividadId":1, "ActividadId":32,"NombreProducto":"Mural", "Descripcion":"Pintura conmemorativa de la mesa"},
+        {"productoActividadId":2, "ActividadId":32,"NombreProducto":"Documento", "Descripcion":"Memorias del encuentro de víctimas"},
+        {"productoActividadId":3, "ActividadId":1065,"NombreProducto":"Tapiz", "Descripcion":"Colcha de retazos elaborado por mujeres"},
+        {"productoActividadId":4, "ActividadId":34,"NombreProducto":"Mural", "Descripcion":"Pintura conmemorativa de la mesa"},
+        {"productoActividadId":5, "ActividadId":34,"NombreProducto":"Documento", "Descripcion":"Memorias del encuentro de víctimas"},
+        {"productoActividadId":6, "ActividadId":2105,"NombreProducto":"Tapiz", "Descripcion":"Colcha de retazos elaborado por mujeres"},
+        {"productoActividadId":7, "ActividadId":33,"NombreProducto":"Mural", "Descripcion":"Pintura conmemorativa de la mesa"},
+        {"productoActividadId":8, "ActividadId":35,"NombreProducto":"Documento", "Descripcion":"Memorias del encuentro de víctimas"},
+        {"productoActividadId":9, "ActividadId":1065,"NombreProducto":"Mural", "Descripcion":"Pintura conmemorativa de la mesa"},
+        {"productoActividadId":10, "ActividadId":1065,"NombreProducto":"Documento", "Descripcion":"Memorias del encuentro de víctimas"},
+        {"productoActividadId":11, "ActividadId":1065,"NombreProducto":"Tapiz", "Descripcion":"Colcha de retazos elaborado por mujeres"},
+        {"productoActividadId":12, "ActividadId":36,"NombreProducto":"Mural", "Descripcion":"Pintura conmemorativa de la mesa"},
+        {"productoActividadId":13, "ActividadId":36,"NombreProducto":"Documento", "Descripcion":"Memorias del encuentro de víctimas"},
+        {"productoActividadId":14, "ActividadId":36,"NombreProducto":"Tapiz", "Descripcion":"Colcha de retazos elaborado por mujeres"},
+        {"productoActividadId":15, "ActividadId":37,"NombreProducto":"Documento", "Descripcion":"Memorias del encuentro de víctimas"},
+        {"productoActividadId":16, "ActividadId":38,"NombreProducto":"Mural", "Descripcion":"Pintura conmemorativa de la mesa"},
+        {"productoActividadId":17, "ActividadId":1058,"NombreProducto":"Documento", "Descripcion":"Memorias del encuentro de víctimas"},
+        {"productoActividadId":18, "ActividadId":1058,"NombreProducto":"Tapiz", "Descripcion":"Colcha de retazos elaborado por mujeres"},
+        {"productoActividadId":19, "ActividadId":1063,"NombreProducto":"Mural", "Descripcion":"Pintura conmemorativa de la mesa"},
+        {"productoActividadId":20, "ActividadId":1063,"NombreProducto":"Documento", "Descripcion":"Memorias del encuentro de víctimas"},
+        {"productoActividadId":21, "ActividadId":1067,"NombreProducto":"Tapiz", "Descripcion":"Colcha de retazos elaborado por mujeres"},
+        {"productoActividadId":22, "ActividadId":1071,"NombreProducto":"Tapiz", "Descripcion":"Colcha de retazos elaborado por mujeres"}
+      ];
         data=data.filter(d=>d.ActividadId===id)
         this.procesosActividades =data
     }
@@ -593,7 +609,7 @@ export class ActividadesComponent implements OnInit {
         if (result.value) {
             let resultado = true
             if(resultado)  { 
-              this.procesosActividades =  this.procesosActividades.filter(d=>d.procesosActividadId!==id);
+              this.procesosActividades =  this.procesosActividades.filter(d=>d.productoActividadId!==id);
               Swal.fire('Borrado!', 'Este registro fue borrado.', 'success');
             }
             else{

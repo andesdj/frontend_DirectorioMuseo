@@ -43,13 +43,11 @@ export class ProcesoEnt {
 
 export class procesosActividad {
     constructor(
-        public procesosActividadId: number,
-        public ActividadId: number,
-        public  fechaInicio: string,
-        public  fechaFin: string,
-        public  EquipoLider: string,
-        public  ArticuladoCon: string,
-        public  TipoProcesoASociado: string){ }
+        public  productoActividadId: number,
+        public  ActividadId: number,
+        public  Descripcion: string,
+        public  NombreProducto: string ){ }
+     
 }
 
 export class AportanteProceso {

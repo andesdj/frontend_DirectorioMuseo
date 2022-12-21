@@ -561,7 +561,7 @@ export class ActividadesComponent implements OnInit {
 
     }
 
-    CargarProcesoAvances(id:any){
+    CargarProductosAvances(id:any){
        // this._actividadService.getAllProcesosServices(id).((resp: any) => {
         //this._actividadService.getAllProcesosServices(id).subscribe((resp: any) => {
       //  this.procesosActividades = resp.Lista;
